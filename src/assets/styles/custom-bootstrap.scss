@@ -1,0 +1,38 @@
+
+$theme-colors: (
+  primary:       #ff00ff,
+secondary:     #000000ff 
+// $success:       $green ,
+// $info:          $cyan ,
+// $warning:       $yellow ,
+// $danger:        $red ,
+// $light:         $gray-100, 
+// $dark:          $gray-800 
+);
+
+h5 {
+  background: #fff;
+  color: #3498db;
+  font-size: 36px;
+  line-height: 100px;
+  margin: 10px;
+  padding: 2%;
+  position: relative;
+  text-align: center;
+}
+
+.slick-active {
+  opacity: 0.3;
+}
+
+.slick-slide {
+  opacity: 0.3;
+}
+
+.slick-current {
+  opacity: 1;
+}
+
+.modal-header {
+  display: block;
+}
