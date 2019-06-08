@@ -1,14 +1,14 @@
-
 $theme-colors: (
-  primary:       #ff00ff,
-secondary:     #000000ff 
-// $success:       $green ,
-// $info:          $cyan ,
-// $warning:       $yellow ,
-// $danger:        $red ,
-// $light:         $gray-100, 
-// $dark:          $gray-800 
+  primary: #ff00ff,
+  secondary: #000000ff // $success:       $green ,
+    // $info:          $cyan ,
+    // $warning:       $yellow ,
+    // $danger:        $red ,
+    // $light:         $gray-100,
+    // $dark:          $gray-800
 );
+
+$body-bg: rgb(196, 202, 209);
 
 h5 {
   background: #fff;

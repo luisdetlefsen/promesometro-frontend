@@ -8,7 +8,7 @@
         <form>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
-              <div class="slickcarrousel">
+              <slick :options="slickOptions">
                 <div>
                   <h5>UNE</h5>
                 </div>
@@ -30,13 +30,13 @@
                 <div>
                   <h5>FRG</h5>
                 </div>
-              </div>
+              </slick>
             </div>
           </div>
 
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
-              <div class="slickcarrousel">
+              <slick :options="slickOptions">
                 <div>
                   <h5>SANDRA</h5>
                 </div>
@@ -58,41 +58,9 @@
                 <div>
                   <h5>MICHAEL</h5>
                 </div>
-              </div>
+              </slick>
             </div>
           </div>
-
-          <!-- <div class="form-row">
-              <div class="col-12 col-md-12 mb-2 mb-md-0">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Partido</label>
-                  </div>
-                  <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>Elegir un partido</option>
-                    <option value="1">UNE</option>
-                    <option value="2">CREO</option>
-                    <option value="3">VAMOS</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="col-12 col-md-12 mb-2 mb-md-0">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect02">Candidato</label>
-                  </div>
-                  <select class="custom-select" id="inputGroupSelect02">
-                    <option selected>Elegir un candidato</option>
-                    <option value="1">Sandra Towers</option>
-                    <option value="2">Zury Rivers</option>
-                    <option value="3">Thelma Aldana</option>
-                  </select>
-                </div>
-              </div>
-          </div>-->
 
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
@@ -108,7 +76,7 @@
         </form>
         <div id="dropzone" class="form-row">
           <div class="col-12 col-md-12 mb-2 mb-md-0">
-            <form action="/file-upload" class="dropzone" id="my-awesome-dropzone"></form>
+            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
           </div>
         </div>
 
@@ -124,50 +92,65 @@
 </template>
 
 <script>
+import $ from 'jquery'
+import vue2Dropzone from 'vue2-dropzone'
+import Slick from 'vue-slick'
+// import `node_modules/slick-carousel/slick/slick.css`;
+// import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+
 export default {
   name: 'Promise',
   props: {},
+  components: {
+    vueDropzone: vue2Dropzone,
+    Slick
+  },
+  methods: {
+    showSuccess (file) {
+      this.$toaster.success(File + ' : File uploaded')
+    }
+
+  },
+  data: function () {
+    return {
+      dropzoneOptions: {
+        url: 'https://httpbin.org/post',
+        thumbnailWidth: 150,
+        maxFilesize: 0.5,
+        addRemoveLinks: true,
+        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Sube fotos, videos, grabaciones, o archivos",
+        headers: { 'My-Awesome-Header': 'header value' }
+      },
+      slickOptions: {
+        centerMode: true,
+        centerPadding: '60px',
+        slidesToShow: 3,
+        responsive: [
+          {
+            breakpoint: 768,
+            settings: {
+              arrows: false,
+              centerMode: true,
+              centerPadding: '40px',
+              slidesToShow: 3
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              arrows: false,
+              centerMode: true,
+              centerPadding: '40px',
+              slidesToShow: 1
+            }
+          }
+        ]
+      }
+    }
+  },
 
   mounted () {
     console.log('mounted')
-    Dropzone.options.myAwesomeDropzone = {
-      paramName: 'file', // The name that will be used to transfer the file
-      maxFilesize: 2, // MB
-      dictDefaultMessage: 'Sube fotos, grabaciones, videos, o documentos ',
-      accept: function (file, done) {
-        if (file.name == 'justinbieber.jpg') {
-          done("Naha, you don't.")
-        } else {
-          done()
-        }
-      }
-    }
-
-    $('.slickcarrousel').slick({
-      centerMode: true,
-      centerPadding: '60px',
-      slidesToShow: 3,
-      responsive: [
-        {
-          breakpoint: 768,
-          settings: {
-            arrows: false,
-            centerMode: true,
-            centerPadding: '40px',
-            slidesToShow: 3
-          }
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            arrows: false,
-            centerMode: true,
-            centerPadding: '40px',
-            slidesToShow: 1
-          }
-        }
-      ]
-    })
   }
 }
 </script>
@@ -208,10 +191,9 @@ h5 {
   width: 6rem;
 }
 
-.dropzone {
-
-  border-style: dashed;
-}
+// .dropzone {
+//   border-style: dashed;
+// }
 
 .login {
   margin-right: 1rem;

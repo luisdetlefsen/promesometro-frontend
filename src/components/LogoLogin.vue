@@ -1,8 +1,9 @@
 <template>
-    <nav class="navbar navbar-light static-top">
+    <nav class="navbar navbar-light">
             <div class="container">
-                <!-- <a class="navbar-brand" href="#"> <img
-          src="http://guatemalavisible.net/sites/default/files/logo-gv.png" /></a> -->
+                <a class="navbar-brand-text" href="#">Promesometro
+                  <!-- <img class="navbar-brand" src="../assets/gt.png" /> -->
+                  </a>
                 <!-- <p class="text-right">Inicia sesión si eres parte de un partido</p> -->
                 <!-- <a v-on:click.stop="login" class="btn btn-primary login" href="#">Iniciar sesión</a> -->
                 <a class="btn btn-primary login" href="#">Iniciar sesión</a>
@@ -18,3 +19,25 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+
+.login{
+  margin-left: auto;
+  margin-right: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.navbar-brand{
+  max-width: 64px;
+  max-height: 64px;
+}
+
+.navbar-brand-text{
+  font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+</style>
