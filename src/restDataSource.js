@@ -33,7 +33,7 @@ export class RestDataSource {
         data: party
       })
     } catch (err) {
-        swal('Error', 'No se pudo agregar el partido ' + party.name, 'error')
+      swal('Error', err.message, 'error')
       throw err
     }
   }

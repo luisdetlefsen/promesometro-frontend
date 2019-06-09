@@ -28,48 +28,48 @@
 </template>
 
 <script>
-import Vue from "vue";
+import Vue from 'vue'
 
 export default {
   // name: "CandidatesAdminList",
   props: {},
-  data: function() {
+  data: function () {
     return {
       parties: []
-    };
+    }
   },
   methods: {
-    createParty() {
-      this.eventBus.$emit("createParty");
+    createParty () {
+      this.eventBus.$emit('createParty')
     },
-    editParty(party) {
-      this.eventBus.$emit("editParty", party);
+    editParty (party) {
+      this.eventBus.$emit('editParty', party)
     },
-    async deleteParty(party) {
-      await this.restDataSource.deleteParty(party);
-      let index = this.parties.findIndex(p => p.id === party.id);
-      this.parties.splice(index, 1);
+    async deleteParty (party) {
+      await this.restDataSource.deleteParty(party)
+      let index = this.parties.findIndex(p => p.id === party.id)
+      this.parties.splice(index, 1)
     },
-    getAllParties(newParties) {
-      this.parties.splice(0);
-      this.parties.push(...newParties);
+    getAllParties (newParties) {
+      this.parties.splice(0)
+      this.parties.push(...newParties)
     },
-    async processCompleteParty(party) {
-      let index = this.parties.findIndex(p => p.id === party.id);
+    async processCompleteParty (party) {
+      let index = this.parties.findIndex(p => p.id === party.id)
       if (index === -1) {
-        await this.restDataSource.saveParty(party);
-        this.parties.push(party);
+        await this.restDataSource.saveParty(party)
+        this.parties.push(party)
       } else {
-        await this.restDataSource.updateParty(party);
-        Vue.set(this.parties, index, party);
+        await this.restDataSource.updateParty(party)
+        Vue.set(this.parties, index, party)
       }
       this.$swal('Partido agregado', party.name, 'success')
     }
   },
-  inject: ["eventBus", "restDataSource"],
-  async created() {
-    this.getAllParties(await this.restDataSource.getParties());
-    this.eventBus.$on("completeParty", this.processCompleteParty);
+  inject: ['eventBus', 'restDataSource'],
+  async created () {
+    this.getAllParties(await this.restDataSource.getParties())
+    this.eventBus.$on('completeParty', this.processCompleteParty)
   }
-};
+}
 </script>
