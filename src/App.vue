@@ -7,6 +7,8 @@
     <promise-candidate candidateName="PEDRO Torres" party="TODOS"/>
     <promise-candidate candidateName="JUAN Torres" party="PODEMOS"/>
     <promise-candidate candidateName="LUIS Torres" party="WINAQ"/>
+    <parties-admin-list/>
+    <party-admin-editor/>
     <Footer/>
   </div>
 </template>
@@ -17,7 +19,8 @@ import LogoLogin from './components/LogoLogin.vue'
 import Promise from './components/Promise.vue'
 import Footer from './components/Footer.vue'
 import PromiseCandidate from './components/PromiseCandidate.vue'
-
+import PartiesAdminList from './components/admin/PartiesAdminList.vue'
+import PartyAdminEditor from './components/admin/PartyAdminEditor.vue'
 export default {
   name: 'app',
   components: {
@@ -25,7 +28,9 @@ export default {
     LogoLogin,
     Promise,
     PromiseCandidate,
-    Footer
+    Footer,
+    PartiesAdminList,
+    PartyAdminEditor
   }
 }
 </script>

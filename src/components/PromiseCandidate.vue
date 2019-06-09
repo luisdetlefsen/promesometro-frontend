@@ -1,6 +1,6 @@
 <template>
 
-  <div class="container">      
+  <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-8 mx-auto">
         <div class="card flex-row flex-wrap">

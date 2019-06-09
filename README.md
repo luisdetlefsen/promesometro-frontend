@@ -25,5 +25,10 @@ npm run test
 npm run lint
 ```
 
+### To test REST API in dev
+```
+npm run json
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
