@@ -92,10 +92,10 @@
 </template>
 
 <script>
-import $ from 'jquery'
+// import $ from 'jquery'
 import vue2Dropzone from 'vue2-dropzone'
 import Slick from 'vue-slick'
-// import `node_modules/slick-carousel/slick/slick.css`;
+
 // import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
@@ -156,6 +156,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 h5 {
   background: #fff;
   color: #3498db;
