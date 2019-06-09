@@ -46,9 +46,22 @@ export default {
       this.eventBus.$emit('editParty', party)
     },
     async deleteParty (party) {
-      await this.restDataSource.deleteParty(party)
-      let index = this.parties.findIndex(p => p.id === party.id)
-      this.parties.splice(index, 1)
+      this.$swal({
+        title: 'Eliminar partido',
+        text: 'Seguro que deseas eliminar el partido ' + party.name,
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete) {
+          this.restDataSource.deleteParty(party)
+          let index = this.parties.findIndex(p => p.id === party.id)
+          this.parties.splice(index, 1)
+          this.$swal('Partido eliminiado: ' + party.name, {
+            icon: 'success'
+          })
+        }
+      })
     },
     getAllParties (newParties) {
       this.parties.splice(0)
@@ -59,11 +72,12 @@ export default {
       if (index === -1) {
         await this.restDataSource.saveParty(party)
         this.parties.push(party)
+        this.$swal('Partido agregado', party.name, 'success')
       } else {
         await this.restDataSource.updateParty(party)
         Vue.set(this.parties, index, party)
+        this.$swal('Partido actualizado', party.name, 'success')
       }
-      this.$swal('Partido agregado', party.name, 'success')
     }
   },
   inject: ['eventBus', 'restDataSource'],
@@ -73,3 +87,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.btn {
+  margin-left: 1rem;
+}
+</style>

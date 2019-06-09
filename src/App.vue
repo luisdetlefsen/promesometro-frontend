@@ -9,6 +9,8 @@
     <promise-candidate candidateName="LUIS Torres" party="WINAQ"/>
     <parties-admin-list/>
     <party-admin-editor/>
+    <candidates-admin-list/>
+    <candidate-admin-editor/>
     <Footer/>
   </div>
 </template>
@@ -21,6 +23,9 @@ import Footer from './components/Footer.vue'
 import PromiseCandidate from './components/PromiseCandidate.vue'
 import PartiesAdminList from './components/admin/PartiesAdminList.vue'
 import PartyAdminEditor from './components/admin/PartyAdminEditor.vue'
+import CandidatesAdminList from './components/admin/CandidatesAdminList.vue'
+import CandidateAdminEditor from './components/admin/CandidateAdminEditor.vue'
+
 export default {
   name: 'app',
   components: {
@@ -30,7 +35,9 @@ export default {
     PromiseCandidate,
     Footer,
     PartiesAdminList,
-    PartyAdminEditor
+    PartyAdminEditor,
+    CandidatesAdminList,
+    CandidateAdminEditor
   }
 }
 </script>
