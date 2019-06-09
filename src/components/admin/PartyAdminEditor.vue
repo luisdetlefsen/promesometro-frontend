@@ -1,17 +1,27 @@
 <template>
   <div class="container">
     <div class="card">
-      <div class="form-group">
-        <label>ID</label>
-        <input class="form-control" v-model="party.id" >
+      <div class="card-header">
+        <p>Partido</p>
+      </div>
+      <div class="card-body">
+     <div class="form-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Id</span>
+          <input class="form-control" v-model="party.id">
+        </div>
       </div>
       <div class="form-group">
-        <label>Nombre partido</label>
-        <input class="form-control" v-model="party.name">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Nombre partido</span>
+          <input class="form-control" v-model="party.name">
+        </div>
       </div>
       <div class="form-group">
-        <label>Url logo partido</label>
-        <input class="form-control" v-model="party.imgUrl">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Url logo partido</span>
+          <input class="form-control" v-model="party.imgUrl">
+        </div>
       </div>
 
       <div class="text-center">
@@ -21,6 +31,9 @@
         >{{ editing ? "Guardar cambios" : "Crear" }}</button>
         <button class="btn btn-secondary" v-on:click="cancel">Cancelar</button>
       </div>
+
+      </div>
+
     </div>
   </div>
 </template>
@@ -64,4 +77,7 @@ export default {
 </script>
 
 <style scoped>
+.input-group-text {
+  width: 10rem;
+}
 </style>
