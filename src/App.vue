@@ -31,6 +31,7 @@ export default {
 @import './assets/styles/custom-bootstrap.scss';
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 @import './assets/styles/custom-slick.scss';
+@import './assets/styles/custom-blockquote.scss';
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
