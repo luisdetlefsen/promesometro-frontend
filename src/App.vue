@@ -3,7 +3,7 @@
     <LogoLogin/>
     <HelloWorld msg="Welcome to Your Vue.js App"/>
     <Promise/>
-    <promise-candidate/>
+    <promise-candidate candidateName="Sandra Torres" party="WINAQ"/>
     <Footer/>
   </div>
 </template>
