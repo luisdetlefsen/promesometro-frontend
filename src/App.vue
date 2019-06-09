@@ -4,6 +4,9 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/>
     <Promise/>
     <promise-candidate candidateName="Sandra Torres" party="WINAQ"/>
+    <promise-candidate candidateName="PEDRO Torres" party="TODOS"/>
+    <promise-candidate candidateName="JUAN Torres" party="PODEMOS"/>
+    <promise-candidate candidateName="LUIS Torres" party="WINAQ"/>
     <Footer/>
   </div>
 </template>
