@@ -1,57 +1,105 @@
 
-blockquote {
-    position: relative;
-    display: inline-block;
-    background: #ccc;
-    padding: 40px 30px 30px 60px;
-    border-radius: 10px;
-    font-family: "Bitter", serif;
-    color: #333;
-    text-align: left;
+// blockquote {
+//     position: relative;
+//     display: inline-block;
+//     background: #ccc;
+//     padding: 40px 30px 30px 60px;
+//     border-radius: 10px;
+//     font-family: "Bitter", serif;
+//     color: #333;
+//     text-align: left;
   
-    box-shadow: 1px 1px 1px #999, 2px 2px 1px #999, 3px 3px 1px #999;
-    transition-duration: 0.3s;
+//     box-shadow: 1px 1px 1px #999, 2px 2px 1px #999, 3px 3px 1px #999;
+//     transition-duration: 0.3s;
   
-    span.author {
-      position: relative;
-      display: block;
-      text-align: right;
-      margin-top: 5px;
-      color: #999;
+//     span.author {
+//       position: relative;
+//       display: block;
+//       text-align: right;
+//       margin-top: 5px;
+//       color: #999;
   
-      i {
-        position: relative;
-        background: #eee;
-        padding-left: 5px;
-        font-style: italic;
-        z-index: 5;
-      }
+//       i {
+//         position: relative;
+//         background: #eee;
+//         padding-left: 5px;
+//         font-style: italic;
+//         z-index: 5;
+//       }
   
-      &::before {
-        display: block;
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background: #ccc;
-        z-index: 1;
-      }
-    }
+//       &::before {
+//         display: block;
+//         content: "";
+//         position: absolute;
+//         top: 50%;
+//         left: 0;
+//         width: 100%;
+//         height: 1px;
+//         background: #ccc;
+//         z-index: 1;
+//       }
+//     }
   
-    &:hover {
-      box-shadow: 1px 1px 5px #999, 2px 2px 6px #999, 3px 3px 7px #999;
-    }
+//     &:hover {
+//       box-shadow: 1px 1px 5px #999, 2px 2px 6px #999, 3px 3px 7px #999;
+//     }
   
-    &::before {
-      display: block;
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      content: '"';
-      font-family: "Bitter", serif;
-      font-size: 120px;
-      color: #999;
-    }
-  }
+//     &::before {
+//       display: block;
+//       position: absolute;
+//       top: 10px;
+//       left: 10px;
+//       content: '"';
+//       font-family: "Bitter", serif;
+//       font-size: 120px;
+//       color: #999;
+//     }
+//   }
+
+// @import "bourbon";
+
+$transition: all .4s;
+
+$thick-border: 2px solid;
+$thin-border: 1px solid;
+
+$ava-size: 80px;
+
+$brand-color: hsla(194, 85%, 56%, 1);
+$text-color: hsla(0, 0%, 7%, 1);
+$accent-color: hsla(0, 0%, 73%, 1);
+
+// Center & setup
+
+// html {
+//   display: table;
+//   height: 100%;
+//   margin: auto;
+// }
+
+// body {
+//   display: table-cell;
+//   vertical-align: middle;
+//   background-color: hsla(0, 0%, 92%, 1);
+//   // font-family: $helvetica;
+//   color: $text-color;
+// }
+
+// * {
+//   box-sizing: border-box;
+// }
+
+// The rest
+
+// .container {
+//   position: relative;
+//   border: $thick-border $accent-color;
+//   padding: 25px 25px 25px 60px;
+//   width: 660px;
+//   background-color: white;
+//   cursor: pointer;
+//   transition: $transition;
+//   &:hover {
+//     border: $thick-border $brand-color;
+//   }
+// }

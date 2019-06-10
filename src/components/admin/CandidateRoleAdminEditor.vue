@@ -16,7 +16,7 @@
             <span class="input-group-text">Tipo candidato</span>
             <input type="text" class="form-control" v-model="candidateRole.name">
           </div>
-        </div>        
+        </div>
       </div>
       <div class="card-footer">
           <div class="text-center">
