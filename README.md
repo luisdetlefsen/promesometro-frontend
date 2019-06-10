@@ -1,5 +1,21 @@
 # promesometro
 
+## User pool creation with AWS Amplify
+First you need to install amplify-cli and configure it.
+You can install it with:
+```
+npm install -g amplify-cli
+```
+Configure it with:
+```
+amplify configure
+```
+After amplify-cli configuration you can create the user pool in your AWS account
+with:
+```
+amplify push
+```
+
 ## Project setup
 ```
 npm install
