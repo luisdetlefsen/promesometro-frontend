@@ -21,10 +21,12 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Partido</span>
             <select v-model="candidate.partyId" class="form-control">
-              <option v-for="p in parties" v-bind:key="p" :value="p.id">{{p.name}}</option>
+              <option v-for="p in parties" v-bind:key="p.id" :value="p.id">{{p.name}}</option>
             </select>
           </div>
         </div>
+      </div>
+      <div class="card-footer">
         <div class="text-center">
           <button class="btn btn-primary" v-on:click="save">{{editing?"Guardar cambios": "Crear"}}</button>
           <button class="btn btn-secondary" v-on:click="cancel">Cancelar</button>

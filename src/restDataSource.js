@@ -3,6 +3,7 @@ import Axios from 'axios'
 const baseUrl = 'http://localhost:3500/'
 const partiesUrl = baseUrl + 'parties/'
 const candidatesUrl = baseUrl + 'candidates/'
+const candidateRolesUrl = baseUrl + 'candidateRoles/'
 
 export class RestDataSource {
   constructor (bus) {
@@ -41,6 +42,21 @@ export class RestDataSource {
     await this.sendRequest('POST', candidatesUrl, candidate)
   }
 
+  async getAllCandidateRoles () {
+    return (await this.sendRequest('GET', candidateRolesUrl)).data
+  }
+
+  async deleteCandidateRole (candidateRole) {
+    await this.sendRequest('DELETE', `${candidateRolesUrl}${candidateRole.id}`, candidateRole)
+  }
+
+  async updateCandidateRole (candidateRole) {
+    await this.sendRequest('PUT', `${candidateRolesUrl}${candidateRole.id}`, candidateRole)
+  }
+
+  async saveCandidateRole (candidateRole) {
+    await this.sendRequest('POST', candidateRolesUrl, candidateRole)
+  }
   async sendRequest (httpMethod, url, party) {
     console.log('Sending request to ' + baseUrl + ' , data: ' + party)
     try {

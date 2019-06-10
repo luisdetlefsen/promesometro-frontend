@@ -11,6 +11,8 @@
     <party-admin-editor/>
     <candidates-admin-list/>
     <candidate-admin-editor/>
+    <candidate-roles-admin-list/>
+    <candidate-role-admin-editor/>
     <Footer/>
   </div>
 </template>
@@ -25,7 +27,8 @@ import PartiesAdminList from './components/admin/PartiesAdminList.vue'
 import PartyAdminEditor from './components/admin/PartyAdminEditor.vue'
 import CandidatesAdminList from './components/admin/CandidatesAdminList.vue'
 import CandidateAdminEditor from './components/admin/CandidateAdminEditor.vue'
-
+import CandidateRolesAdminList from './components/admin/CandidateRolesAdminList.vue'
+import CandidateRoleAdminEditor from './components/admin/CandidateRoleAdminEditor.vue'
 export default {
   name: 'app',
   components: {
@@ -37,7 +40,9 @@ export default {
     PartiesAdminList,
     PartyAdminEditor,
     CandidatesAdminList,
-    CandidateAdminEditor
+    CandidateAdminEditor,
+    CandidateRolesAdminList,
+    CandidateRoleAdminEditor
   }
 }
 </script>

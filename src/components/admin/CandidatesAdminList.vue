@@ -20,6 +20,9 @@
             <button class="btn btn-sm btn-danger" v-on:click="deleteCandidate(c)">Eliminar</button>
           </td>
         </tr>
+        <tr v-if="candidates.length===0">
+          <td colspan="5" class="text-center">No hay candidatos registrados</td>
+        </tr>
       </tbody>
     </table>
   </div>

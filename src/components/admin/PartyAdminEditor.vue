@@ -23,7 +23,8 @@
             <input class="form-control" v-model="party.imgUrl">
           </div>
         </div>
-
+      </div>
+      <div class="card-footer">
         <div class="text-center">
           <button
             class="btn btn-primary"
@@ -78,7 +79,7 @@ export default {
 .input-group-text {
   width: 10rem;
 }
-.btn{
-    margin-left: 1rem;
+.btn {
+  margin-left: 1rem;
 }
 </style>

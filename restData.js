@@ -11,6 +11,11 @@ module.exports = function () {
       { id: 2, name: 'Marcos', partyName: 'TODOS', partyId: 2, imgUrl: '' },
       { id: 3, name: 'Lucas', partyName: 'PODEMOS', partyId: 3, imgUrl: '' },
       { id: 4, name: 'Juan', partyName: 'WINAQ', partyId: 4, imgUrl: '' }
+    ],
+    candidateRoles: [
+      { id: 1, name: 'Presidente' },
+      { id: 2, name: 'Diputado' },
+      { id: 3, name: 'Alcalde' }
     ]
   }
   return data
