@@ -16,14 +16,14 @@
             <span class="input-group-text">Tipo candidato</span>
             <input type="text" class="form-control" v-model="candidateRole.name">
           </div>
-        </div>
-        <div class="card-footer">
+        </div>        
+      </div>
+      <div class="card-footer">
           <div class="text-center">
             <button class="btn btn-primary" v-on:click="save">{{editing?"Guardar cambios": "Crear"}}</button>
             <button class="btn btn-secondary" v-on:click="cancel">Cancelar</button>
           </div>
         </div>
-      </div>
     </div>
   </div>
 </template>

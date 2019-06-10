@@ -25,6 +25,14 @@
             </select>
           </div>
         </div>
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Tipo Candidato</span>
+            <select v-model="candidate.candidateRoleId" class="form-control">
+              <option v-for="c in candidateRoles" v-bind:key="c.id" :value="c.id">{{c.name}}</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="card-footer">
         <div class="text-center">
@@ -42,7 +50,8 @@ export default {
     return {
       editing: false,
       candidate: {},
-      parties: []
+      parties: [],
+      candidateRoles: []
     }
   },
   methods: {
@@ -53,7 +62,9 @@ export default {
         name: candidate.name,
         imgUrl: candidate.imgUrl,
         partyId: candidate.partyId,
-        partyName: candidate.partyName
+        partyName: candidate.partyName,
+        candidateRoleId: candidate.candidateRoleId,
+        candidateRoleName: candidate.candidateRoleName
       }
     },
     startCreate () {
@@ -63,6 +74,9 @@ export default {
     save () {
       var index = this.parties.findIndex(p => p.id === this.candidate.partyId)
       this.candidate.partyName = this.parties[index].name
+      var index2 = this.candidateRoles.findIndex(p => p.id === this.candidate.candidateRoleId)
+      this.candidate.candidateRoleName = this.candidateRoles[index2].name
+
       this.eventBus.$emit('completeCandidate', this.candidate)
       this.startCreate()
     },
@@ -76,6 +90,7 @@ export default {
     this.eventBus.$on('createCandidate', this.startCreate)
     this.eventBus.$on('editCandidate', this.startEdit)
     this.parties = await this.restDataSource.getParties()
+    this.candidateRoles = await this.restDataSource.getAllCandidateRoles()
   }
 }
 </script>

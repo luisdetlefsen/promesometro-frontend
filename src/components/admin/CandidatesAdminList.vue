@@ -6,6 +6,7 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Partido</th>
+        <th>Puesto</th>
         <th>Foto</th>
       </tr>
       <tbody>
@@ -13,6 +14,7 @@
           <td>{{c.id}}</td>
           <td>{{c.name}}</td>
           <td>{{c.partyName}}</td>
+          <td>{{c.candidateRoleName}}</td>
           <td>{{c.imgUrl}}</td>
 
           <td>
