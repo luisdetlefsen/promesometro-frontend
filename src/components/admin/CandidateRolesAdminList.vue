@@ -75,7 +75,6 @@ export default {
   },
   inject: ['eventBus', 'restDataSource'],
   async created () {
-    console.log('what')
     this.getAllCandidateRoles(await this.restDataSource.getAllCandidateRoles())
     this.eventBus.$on(
       'completeCandidateRole',

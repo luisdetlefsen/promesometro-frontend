@@ -58,7 +58,6 @@ export class RestDataSource {
     await this.sendRequest('POST', candidateRolesUrl, candidateRole)
   }
   async sendRequest (httpMethod, url, party) {
-    console.log('Sending request to ' + baseUrl + ' , data: ' + party)
     try {
       return await Axios.request({
         method: httpMethod,

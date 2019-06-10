@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <p>Partido</p>
+        <p>Tipo de candidato</p>
       </div>
       <div class="card-body">
         <div class="form-group">

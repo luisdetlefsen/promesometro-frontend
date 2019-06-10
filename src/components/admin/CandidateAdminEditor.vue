@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     startEdit (candidate) {
-      console.log('edit: ', candidate)
       this.editing = true
       this.candidate = {
         id: candidate.id,
