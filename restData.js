@@ -7,10 +7,10 @@ module.exports = function () {
       { id: 4, name: 'WINAQ', imgUrl: '' }
     ],
     candidates: [
-      { id: 1, name: 'Mateo', imgUrl: '' },
-      { id: 2, name: 'Marcos', imgUrl: '' },
-      { id: 3, name: 'Lucas', imgUrl: '' },
-      { id: 4, name: 'Juan', imgUrl: '' }
+      { id: 1, name: 'Mateo', partyName: 'UNE', partyId: 1, imgUrl: '' },
+      { id: 2, name: 'Marcos', partyName: 'TODOS', partyId: 2, imgUrl: '' },
+      { id: 3, name: 'Lucas', partyName: 'PODEMOS', partyId: 3, imgUrl: '' },
+      { id: 4, name: 'Juan', partyName: 'WINAQ', partyId: 4, imgUrl: '' }
     ]
   }
   return data

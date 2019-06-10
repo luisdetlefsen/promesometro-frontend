@@ -20,7 +20,9 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Partido</span>
-            <select name id></select>
+            <select v-model="candidate.partyId" class="form-control">
+              <option v-for="p in parties" v-bind:key="p" :value="p.id">{{p.name}}</option>
+            </select>
           </div>
         </div>
         <div class="text-center">
@@ -37,16 +39,20 @@ export default {
   data: function () {
     return {
       editing: false,
-      candidate: {}
+      candidate: {},
+      parties: []
     }
   },
   methods: {
     startEdit (candidate) {
+      console.log('edit: ', candidate)
       this.editing = true
       this.candidate = {
         id: candidate.id,
         name: candidate.name,
-        imgUrl: candidate.imgUrl
+        imgUrl: candidate.imgUrl,
+        partyId: candidate.partyId,
+        partyName: candidate.partyName
       }
     },
     startCreate () {
@@ -54,6 +60,8 @@ export default {
       this.candidate = {}
     },
     save () {
+      var index = this.parties.findIndex(p => p.id === this.candidate.partyId)
+      this.candidate.partyName = this.parties[index].name
       this.eventBus.$emit('completeCandidate', this.candidate)
       this.startCreate()
     },
@@ -62,10 +70,11 @@ export default {
       this.editing = false
     }
   },
-  inject: ['eventBus'],
-  created () {
+  inject: ['eventBus', 'restDataSource'],
+  async created () {
     this.eventBus.$on('createCandidate', this.startCreate)
     this.eventBus.$on('editCandidate', this.startEdit)
+    this.parties = await this.restDataSource.getParties()
   }
 }
 </script>
@@ -74,7 +83,7 @@ export default {
 .input-group-text {
   width: 10rem;
 }
-.btn{
-    margin-left: 1rem;
+.btn {
+  margin-left: 1rem;
 }
 </style>

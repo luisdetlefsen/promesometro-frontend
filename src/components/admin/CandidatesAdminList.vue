@@ -12,7 +12,7 @@
         <tr v-for="c in candidates" v-bind:key="c.id">
           <td>{{c.id}}</td>
           <td>{{c.name}}</td>
-          <td>{{c.partyId}}</td>
+          <td>{{c.partyName}}</td>
           <td>{{c.imgUrl}}</td>
 
           <td>
