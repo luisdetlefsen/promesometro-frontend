@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-light">
             <div class="container">
-                <a class="navbar-brand-text" href="#">Promesometro
+                <a class="navbar-brand-text" href="#" v-on:click="goHome">Promesometro
                   <!-- <img class="navbar-brand" src="../assets/gt.png" /> -->
                   </a>
                 <!-- <p class="text-right">Inicia sesión si eres parte de un partido</p> -->
@@ -16,6 +16,11 @@ export default {
   name: 'LogoLogin',
   props: {
 
+  },
+  methods: {
+    goHome () {
+      this.$router.push('/')
+    }
   }
 }
 </script>

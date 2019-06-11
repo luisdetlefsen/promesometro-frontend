@@ -6,6 +6,7 @@ import Amplify, * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
 
 import aws_exports from '../aws-exports'
+import router from './router'
 Amplify.configure(aws_exports)
 
 Vue.config.productionTip = false
@@ -16,6 +17,7 @@ new Vue({
   data: {
     eventBus: new Vue()
   },
+  router,
   provide: function () {
     return { eventBus: this.eventBus,
       restDataSource: new RestDataSource(this.eventBus)

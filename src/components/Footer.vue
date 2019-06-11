@@ -40,7 +40,7 @@ export default {
 
 <style scoped>
 .footer{
-    margin-top:5rem;
+    margin-top:8rem;
     margin-bottom: 5rem;
 }
 </style>

@@ -65,7 +65,7 @@ Make sure that the baseUrl is in vue.config.js
 
 ```
 module.exports = {
-baseUrl: 'promesometro0.3/‘
+publicPath: 'promesometro0.3/‘
 }
 ```
 

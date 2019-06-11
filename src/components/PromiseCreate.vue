@@ -99,7 +99,7 @@ import Slick from 'vue-slick'
 // import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
-  name: 'Promise',
+  name: 'PromiseCreate',
   props: {},
   components: {
     vueDropzone: vue2Dropzone,

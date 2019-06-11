@@ -6,8 +6,16 @@
       <hr class="my-4">
       <p>ABC</p>
       <p class="lead">
-        <button type="button" class="btn btn-primary">Ingresar Promesa</button>
-        <button type="button" class="ml-2 btn btn-secondary">Ver Promesas</button>
+        <button
+          type="button"
+          class="btn btn-primary btn-lg btn-huge"
+          v-on:click="goCreatePromise"
+        >Ingresar Promesa</button>
+        <button
+          type="button"
+          class="ml-2 btn btn-secondary btn-lg btn-huge"
+          v-on:click="goViewPromises"
+        >Ver Promesas</button>
       </p>
     </div>
   </div>
@@ -18,6 +26,14 @@ export default {
   name: 'WelcomeMessage',
   props: {
     msg: String
+  },
+  methods: {
+    goCreatePromise () {
+      this.$router.push('/promesas/agregar')
+    },
+    goViewPromises () {
+      this.$router.push('/promesas/')
+    }
   }
 }
 </script>
@@ -35,7 +51,5 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
-}
+
 </style>
