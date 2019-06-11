@@ -1,5 +1,5 @@
 module.exports = {
-  baseUrl: 'promesometro0.3/',
+  publicPath: 'promesometro0.3/',
   pluginOptions: {
     s3Deploy: {
       registry: undefined,

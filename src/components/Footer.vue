@@ -41,5 +41,6 @@ export default {
 <style scoped>
 .footer{
     margin-top:5rem;
+    margin-bottom: 5rem;
 }
 </style>

@@ -6,8 +6,8 @@
       <hr class="my-4">
       <p>ABC</p>
       <p class="lead">
-        <button type="button" class="btn btn-primary">Primary</button>
-        <button type="button" class="ml-2 btn btn-secondary">Secondary</button>
+        <button type="button" class="btn btn-primary">Ingresar Promesa</button>
+        <button type="button" class="ml-2 btn btn-secondary">Ver Promesas</button>
       </p>
     </div>
   </div>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'WelcomeMessage',
   props: {
     msg: String
   }

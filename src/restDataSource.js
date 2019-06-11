@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-const baseUrl = 'http://192.168.0.13:3500/'
+const baseUrl = 'http://localhost:3500/'
 const partiesUrl = baseUrl + 'parties/'
 const candidatesUrl = baseUrl + 'candidates/'
 const candidateRolesUrl = baseUrl + 'candidateRoles/'
