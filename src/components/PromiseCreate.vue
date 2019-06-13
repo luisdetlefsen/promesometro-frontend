@@ -8,7 +8,7 @@
         <form>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
-              <carousel-3d :count="parties.length" ref="partyCarousel" v-on:after-slide-change="updateAvailableCandidates">
+              <carousel-3d :controls-visible="true" :clickable="false" :count="parties.length" ref="partyCarousel" v-on:after-slide-change="updateAvailableCandidates">
                 <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.id">
                   <h1>{{party.name}}</h1>
                 </slide>
@@ -18,7 +18,7 @@
 
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
-              <carousel-3d :count="candidates.length" ref="candidatesCarousel"  >
+              <carousel-3d :controls-visible="true" :count="candidates.length" ref="candidatesCarousel"  >
                 <slide v-for="(candidate, i) in candidates" :index="i" v-bind:key="candidate.id">
                   <h1>{{candidate.name}}</h1>
                   <h3>{{candidate.candidateRoleName}}</h3>
@@ -84,8 +84,8 @@ export default {
       this.allCandidates.splice(0)
       this.allCandidates.push(...newCandidates)
     },
-    updateAvailableCandidates () {
-      let currIndex = this.$refs.partyCarousel.currentIndex
+    updateAvailableCandidates (currIndex) {
+      // let currIndex = this.$refs.partyCarousel.currentIndex
       let currPartyId = this.parties[currIndex].id
       let newArr = this.allCandidates.filter(function (e) { return e.partyId === currPartyId })
       this.candidates.splice(0)
