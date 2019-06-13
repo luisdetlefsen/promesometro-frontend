@@ -8,13 +8,19 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Id</span>
-            <input class="form-control" v-model="candidate.id">
+            <input class="form-control" type="number" v-model="candidate.id">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Nombre</span>
             <input class="form-control" v-model="candidate.name">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Url foto</span>
+            <input class="form-control" type="url" v-model="candidate.imgUrl">
           </div>
         </div>
         <div class="form-group">
@@ -31,6 +37,40 @@
             <select v-model="candidate.candidateRoleId" class="form-control">
               <option v-for="c in candidateRoles" v-bind:key="c.id" :value="c.id">{{c.name}}</option>
             </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Descripcion</span>
+            <input class="form-control" v-model="candidate.description">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Url sitio</span>
+            <input class="form-control" type="url" v-model="candidate.siteUrl">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Twitter</span>
+            <input class="form-control" type="url" v-model="candidate.twitter">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Facebook</span>
+            <input class="form-control" type="url" v-model="candidate.facebook">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Casilla</span>
+            <input class="form-control" type="number" v-model="candidate.stall">
           </div>
         </div>
       </div>
@@ -64,7 +104,8 @@ export default {
         partyId: candidate.partyId,
         partyName: candidate.partyName,
         candidateRoleId: candidate.candidateRoleId,
-        candidateRoleName: candidate.candidateRoleName
+        candidateRoleName: candidate.candidateRoleName,
+        description: candidate.description
       }
     },
     startCreate () {
@@ -74,7 +115,9 @@ export default {
     save () {
       var index = this.parties.findIndex(p => p.id === this.candidate.partyId)
       this.candidate.partyName = this.parties[index].name
-      var index2 = this.candidateRoles.findIndex(p => p.id === this.candidate.candidateRoleId)
+      var index2 = this.candidateRoles.findIndex(
+        p => p.id === this.candidate.candidateRoleId
+      )
       this.candidate.candidateRoleName = this.candidateRoles[index2].name
 
       this.eventBus.$emit('completeCandidate', this.candidate)

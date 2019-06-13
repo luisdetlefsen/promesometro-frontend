@@ -8,7 +8,7 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Id</span>
-            <input class="form-control" v-model="party.id">
+            <input class="form-control" type="number" v-model="party.id">
           </div>
         </div>
         <div class="form-group">
@@ -20,7 +20,38 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Url logo partido</span>
-            <input class="form-control" v-model="party.imgUrl">
+            <input class="form-control" type="url" v-model="party.imgUrl">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Secretario</span>
+            <input class="form-control" v-model="party.secretary">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Fecha fundacion</span>
+            <input class="form-control" type="date" v-model="party.founded">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Fundador</span>
+            <input class="form-control" v-model="party.founder">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Url sitio</span>
+            <input class="form-control" type="url" v-model="party.siteUrl">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Descripción</span>
+            <input class="form-control" v-model="party.description">
           </div>
         </div>
       </div>
@@ -51,7 +82,12 @@ export default {
       this.party = {
         id: party.id,
         name: party.name,
-        imgUrl: party.imgUrl
+        imgUrl: party.imgUrl,
+        secretary: party.secretary,
+        foundation: party.foundation,
+        founder: party.founder,
+        siteUrl: party.siteUrl,
+        description: party.description
       }
     },
     startCreate () {

@@ -15,7 +15,7 @@
           <td>{{c.name}}</td>
           <td>{{c.partyName}}</td>
           <td>{{c.candidateRoleName}}</td>
-          <td>{{c.imgUrl}}</td>
+          <td> <img :src=c.imgUrl alt="" class="candidateSmall"> </td>
 
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editCandidate(c)">Editar</button>
@@ -92,5 +92,10 @@ export default {
 <style scoped>
 .btn {
   margin-left: 1rem;
+}
+
+.candidateSmall{
+  max-width: 64px;
+  max-height: 64px;
 }
 </style>

@@ -18,6 +18,6 @@ export default new VueRouter({
     { path: '/admin/partidos', component: AdminParties },
     { path: '/admin/candidatos', component: AdminCandidates },
     { path: '/admin/candidatos/roles', component: AdminCandidateRoles },
-    {path:'*', redirect:'/'}
+    { path: '*', redirect: '/' }
   ]
 })

@@ -1,11 +1,11 @@
 module.exports = {
-  publicPath: 'promesometro-frontend/',
+  publicPath: 'promesometro0.3/',
   pluginOptions: {
     s3Deploy: {
       registry: undefined,
       awsProfile: 'default',
       region: 'us-east-1',
-      bucket: 'promesometro-frontend',
+      bucket: 'promesometro0.3',
       createBucket: true,
       staticHosting: true,
       staticIndexPage: 'index.html',
