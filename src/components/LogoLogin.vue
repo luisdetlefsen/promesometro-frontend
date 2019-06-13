@@ -1,22 +1,21 @@
 <template>
-    <nav class="navbar navbar-light">
-            <div class="container">
-                <a class="navbar-brand-text" href="#" v-on:click="goHome">Promesometro
-                  <!-- <img class="navbar-brand" src="../assets/gt.png" /> -->
-                  </a>
-                <!-- <p class="text-right">Inicia sesión si eres parte de un partido</p> -->
-                <!-- <a v-on:click.stop="login" class="btn btn-primary login" href="#">Iniciar sesión</a> -->
-                <a class="btn btn-primary login" href="#">Iniciar sesión</a>
-            </div>
-        </nav>
+  <nav class="navbar navbar-light">
+    <div class="container">
+      <a class="navbar-brand-text" href="#" v-on:click="goHome">
+        Promesometro
+        <!-- <img class="navbar-brand" src="../assets/gt.png" /> -->
+      </a>
+      <!-- <p class="text-right">Inicia sesión si eres parte de un partido</p> -->
+      <!-- <a v-on:click.stop="login" class="btn btn-primary login" href="#">Iniciar sesión</a> -->
+      <a class="btn btn-primary login" href="#">Iniciar sesión</a>
+    </div>
+  </nav>
 </template>
 
 <script>
 export default {
   name: 'LogoLogin',
-  props: {
-
-  },
+  props: {},
   methods: {
     goHome () {
       this.$router.push('/')
@@ -26,23 +25,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-.login{
+.login {
   margin-left: auto;
   margin-right: 0px;
   margin-top: auto;
   margin-bottom: auto;
 }
 
-.navbar-brand{
+.navbar-brand {
   max-width: 64px;
   max-height: 64px;
 }
 
-.navbar-brand-text{
+.navbar-brand-text {
   font-weight: bold;
   font-size: 1rem;
   text-decoration: none;
 }
 
+nav{
+  margin-bottom: 5rem;
+}
 </style>

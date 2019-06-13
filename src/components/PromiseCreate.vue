@@ -8,57 +8,22 @@
         <form>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
-              <slick :options="slickOptions">
-                <div>
-                  <h5>UNE</h5>
-                </div>
-                <div>
-                  <h5>CREO</h5>
-                </div>
-                <div>
-                  <h5>VAMOS</h5>
-                </div>
-                <div>
-                  <h5>SEMILLA</h5>
-                </div>
-                <div>
-                  <h5>PAN</h5>
-                </div>
-                <div>
-                  <h5>UCN</h5>
-                </div>
-                <div>
-                  <h5>FRG</h5>
-                </div>
-              </slick>
+              <carousel-3d :count="parties.length" ref="partyCarousel" v-on:after-slide-change="updateAvailableCandidates">
+                <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.id">
+                  <h1>{{party.name}}</h1>
+                </slide>
+              </carousel-3d>
             </div>
           </div>
 
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
-              <slick :options="slickOptions">
-                <div>
-                  <h5>SANDRA</h5>
-                </div>
-                <div>
-                  <h5>MANUEL</h5>
-                </div>
-                <div>
-                  <h5>ALVARO</h5>
-                </div>
-                <div>
-                  <h5>JIMMY</h5>
-                </div>
-                <div>
-                  <h5>BORIS</h5>
-                </div>
-                <div>
-                  <h5>FIDEL</h5>
-                </div>
-                <div>
-                  <h5>MICHAEL</h5>
-                </div>
-              </slick>
+              <carousel-3d :count="candidates.length" ref="candidatesCarousel"  >
+                <slide v-for="(candidate, i) in candidates" :index="i" v-bind:key="candidate.id">
+                  <h1>{{candidate.name}}</h1>
+                  <h3>{{candidate.candidateRoleName}}</h3>
+                  </slide>
+              </carousel-3d>
             </div>
           </div>
 
@@ -94,7 +59,7 @@
 <script>
 // import $ from 'jquery'
 import vue2Dropzone from 'vue2-dropzone'
-import Slick from 'vue-slick'
+import { Carousel3d, Slide } from 'vue-carousel-3d'
 
 // import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
@@ -103,60 +68,60 @@ export default {
   props: {},
   components: {
     vueDropzone: vue2Dropzone,
-    Slick
+    Carousel3d,
+    Slide
   },
+  inject: ['eventBus', 'restDataSource'],
   methods: {
     showSuccess (file) {
       this.$toaster.success(File + ' : File uploaded')
+    },
+    getAllParties (newParties) {
+      this.parties.splice(0)
+      this.parties.push(...newParties)
+    },
+    getAllCandidates (newCandidates) {
+      this.allCandidates.splice(0)
+      this.allCandidates.push(...newCandidates)
+    },
+    updateAvailableCandidates () {
+      let currIndex = this.$refs.partyCarousel.currentIndex
+      let currPartyId = this.parties[currIndex].id
+      let newArr = this.allCandidates.filter(function (e) { return e.partyId === currPartyId })
+      this.candidates.splice(0)
+      this.candidates.push(...newArr)
+      this.$refs.candidatesCarousel.goSlide(0)
     }
-
   },
+
   data: function () {
     return {
+      parties: [],
+      candidates: [],
+      allCandidates: [],
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
         thumbnailWidth: 150,
         maxFilesize: 0.5,
         addRemoveLinks: true,
-        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Sube fotos, videos, grabaciones, o archivos",
+        dictDefaultMessage:
+          "<i class='fa fa-cloud-upload'></i> Sube fotos, videos, grabaciones, o archivos",
         headers: { 'My-Awesome-Header': 'header value' }
-      },
-      slickOptions: {
-        centerMode: true,
-        centerPadding: '60px',
-        slidesToShow: 3,
-        responsive: [
-          {
-            breakpoint: 768,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              centerPadding: '40px',
-              slidesToShow: 3
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              centerPadding: '40px',
-              slidesToShow: 1
-            }
-          }
-        ]
       }
     }
   },
+  async created () {
 
-  mounted () {
+  },
 
+  async mounted () {
+    this.getAllParties(await this.restDataSource.getParties())
+    this.getAllCandidates(await this.restDataSource.getAllCandidates())
   }
 }
 </script>
 
 <style scoped lang="scss">
-
 h5 {
   background: #fff;
   color: #3498db;
@@ -166,18 +131,6 @@ h5 {
   padding: 2%;
   position: relative;
   text-align: center;
-}
-
-.slick-active {
-  opacity: 0.3;
-}
-
-.slick-slide {
-  opacity: 0.3;
-}
-
-.slick-current {
-  opacity: 1;
 }
 
 .modal-header {
