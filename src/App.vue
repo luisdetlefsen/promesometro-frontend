@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="container d-flex flex-column">
     <LogoLogin/>
-    <router-view></router-view>
+    <router-view class="flex-grow-1"></router-view>
     <Footer/>
   </div>
 </template>
@@ -30,6 +30,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 </style>

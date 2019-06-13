@@ -4,7 +4,7 @@
 First you need to install amplify-cli and configure it.
 You can install it with:
 ```
-npm install -g amplify-cli
+npm install -g @aws-amplify/cli
 ```
 Configure it with:
 ```
