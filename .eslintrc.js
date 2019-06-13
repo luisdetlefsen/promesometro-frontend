@@ -9,7 +9,13 @@ module.exports = {
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'camelcase': ['error', {
+      'allow': [
+        'aws_exports'
+      ]
+    }]
+
   },
   parserOptions: {
     parser: 'babel-eslint'
