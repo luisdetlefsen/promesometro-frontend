@@ -109,12 +109,12 @@ export default {
       this.candidates.push(...newArr)
       this.$refs.candidatesCarousel.goSlide(0)
     },
-    s3UploadError(errorMessage){
-        alert('error' + errorMessage)
-      },
-      s3UploadSuccess(s3ObjectLocation){
-        alert('stored '+s3ObjectLocation);      
-      }
+    s3UploadError (errorMessage) {
+      alert('error' + errorMessage)
+    },
+    s3UploadSuccess (s3ObjectLocation) {
+      alert('stored ' + s3ObjectLocation)
+    }
   },
 
   data: function () {
@@ -131,11 +131,11 @@ export default {
           "<i class='fa fa-cloud-upload'></i> Sube fotos, videos, grabaciones, o archivos",
         headers: { 'My-Awesome-Header': 'header value' }
       },
-       awss3: {
+      awss3: {
         signingURL: (f) => {
           // The server REST endpoint we setup earlier
-          
-          //signingURL: (f) => {return 'http://aws-direct-s3.dev/' + f.name }
+
+          // signingURL: (f) => {return 'http://aws-direct-s3.dev/' + f.name }
           // Save this for later use
           // this.images[f.name] = f
           return `http://localhost:3000/signed-url?filename=${f.name}`
@@ -143,8 +143,8 @@ export default {
         headers: {},
         params: {},
         withCredentials: false,
-        sendFileToServer: true,
-      },
+        sendFileToServer: true
+      }
     }
   },
   async created () {

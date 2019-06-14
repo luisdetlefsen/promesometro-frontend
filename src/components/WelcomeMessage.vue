@@ -5,18 +5,41 @@
       <p class="lead">ABC</p>
       <hr class="my-4">
       <p>ABC</p>
-      <p class="lead">
-        <button
-          type="button"
-          class="btn btn-primary btn-lg btn-huge"
-          v-on:click="goCreatePromise"
-        >Ingresar Promesa</button>
-        <button
-          type="button"
-          class="ml-2 btn btn-secondary btn-lg btn-huge"
-          v-on:click="goViewPromises"
-        >Ver Promesas</button>
-      </p>
+      <!-- <p class="lead"> -->
+        <div class="row">
+<div class="col-lg-4 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <img src="../assets/img/promesa1.svg" alt="">
+          </div>
+          <div class="card-footer">
+            <button
+              type="button"
+              class="btn btn-purple btn-lg btn-huge"
+              v-on:click="goCreatePromise"
+            >Ingresar Promesa</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mx-auto">
+        <div class="card">
+          <div class="card-body">
+            <img src="../assets/img/promesas1.svg" alt="">
+          </div>
+          <div class="card-footer">
+            <button
+              type="button"
+              class="ml-2 btn btn-purple btn-lg btn-huge"
+              v-on:click="goViewPromises"
+            >Ver Promesas</button>
+          </div>
+        </div>
+      </div>
+
+        </div>
+
+      <!-- </p> -->
     </div>
   </div>
 </template>
@@ -52,4 +75,12 @@ li {
   margin: 0 10px;
 }
 
+.logoPromesa{
+  margin-left: 0px;
+  background-image: url("../assets/img/promesa1.svg") no-repeat;
+  // min-width: 500px;
+  // min-height: 200px;
+  max-width: 300px;
+  max-height: auto;
+}
 </style>
