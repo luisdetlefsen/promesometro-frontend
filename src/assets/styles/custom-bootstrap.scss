@@ -1,5 +1,5 @@
 $theme-colors: (
-  primary: #ff00ff,
+  primary: #f2dd3d,
   secondary: #000000ff // $success:       $green ,
     // $info:          $cyan ,
     // $warning:       $yellow ,
@@ -9,6 +9,10 @@ $theme-colors: (
 );
 
 $body-bg: rgb(245, 248, 252);
+
+.btn{
+  border-radius: 50px!important;
+}
 
 html, body {
   height: 100%;

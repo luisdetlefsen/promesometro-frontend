@@ -8,7 +8,13 @@
         <form>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
-              <carousel-3d :controls-visible="true" :clickable="false" :count="parties.length" ref="partyCarousel" v-on:after-slide-change="updateAvailableCandidates">
+              <carousel-3d
+                :controls-visible="true"
+                :clickable="false"
+                :count="parties.length"
+                ref="partyCarousel"
+                v-on:after-slide-change="updateAvailableCandidates"
+              >
                 <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.id">
                   <h1>{{party.name}}</h1>
                 </slide>
@@ -18,11 +24,15 @@
 
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
-              <carousel-3d :controls-visible="true" :count="candidates.length" ref="candidatesCarousel"  >
+              <carousel-3d
+                :controls-visible="true"
+                :count="candidates.length"
+                ref="candidatesCarousel"
+              >
                 <slide v-for="(candidate, i) in candidates" :index="i" v-bind:key="candidate.id">
                   <h1>{{candidate.name}}</h1>
                   <h3>{{candidate.candidateRoleName}}</h3>
-                  </slide>
+                </slide>
               </carousel-3d>
             </div>
           </div>
@@ -41,7 +51,14 @@
         </form>
         <div id="dropzone" class="form-row">
           <div class="col-12 col-md-12 mb-2 mb-md-0">
-            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+            <vue-dropzone
+              ref="myVueDropzone"
+              id="dropzone"
+              :options="dropzoneOptions"
+              :awss3="awss3"
+              v-on:vdropzone-s3-upload-error="s3UploadError"
+              v-on:vdropzone-s3-upload-success="s3UploadSuccess"
+            ></vue-dropzone>
           </div>
         </div>
 
@@ -91,7 +108,13 @@ export default {
       this.candidates.splice(0)
       this.candidates.push(...newArr)
       this.$refs.candidatesCarousel.goSlide(0)
-    }
+    },
+    s3UploadError(errorMessage){
+        alert('error' + errorMessage)
+      },
+      s3UploadSuccess(s3ObjectLocation){
+        alert('stored '+s3ObjectLocation);      
+      }
   },
 
   data: function () {
@@ -107,7 +130,21 @@ export default {
         dictDefaultMessage:
           "<i class='fa fa-cloud-upload'></i> Sube fotos, videos, grabaciones, o archivos",
         headers: { 'My-Awesome-Header': 'header value' }
-      }
+      },
+       awss3: {
+        signingURL: (f) => {
+          // The server REST endpoint we setup earlier
+          
+          //signingURL: (f) => {return 'http://aws-direct-s3.dev/' + f.name }
+          // Save this for later use
+          // this.images[f.name] = f
+          return `http://localhost:3000/signed-url?filename=${f.name}`
+        },
+        headers: {},
+        params: {},
+        withCredentials: false,
+        sendFileToServer: true,
+      },
     }
   },
   async created () {

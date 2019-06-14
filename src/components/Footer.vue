@@ -41,6 +41,11 @@ export default {
 <style scoped>
 .footer{
     margin-top:8rem;
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
+    background-color: #777777 !important;
+}
+
+.bg-light{
+    
 }
 </style>
