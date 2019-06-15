@@ -10,12 +10,12 @@
         <th>Foto</th>
       </tr>
       <tbody>
-        <tr v-for="c in candidates" v-bind:key="c.id">
-          <td>{{c.id}}</td>
-          <td>{{c.name}}</td>
-          <td>{{c.partyName}}</td>
-          <td>{{c.candidateRoleName}}</td>
-          <td> <img :src=c.imgUrl alt="" class="candidateSmall"> </td>
+        <tr v-for="c in candidates" v-bind:key="c.CANDIDATE_ID">
+          <td>{{c.CANDIDATE_ID}}</td>
+          <td>{{c.NAME}}</td>
+          <td>{{c.PARTY}}</td>
+          <td>{{c.POSITION}}</td>
+          <td> <img :src=c.PIC_URL alt="" class="candidateSmall"> </td>
 
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editCandidate(c)">Editar</button>
@@ -49,16 +49,16 @@ export default {
     async deleteCandidate (candidate) {
       this.$swal({
         title: 'Eliminar candidato',
-        text: 'Seguro que deseas eliminar el candidato ' + candidate.name + '?',
+        text: 'Seguro que deseas eliminar el candidato ' + candidate.NAME + '?',
         icon: 'warning',
         buttons: true,
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
           this.restDataSource.deleteCandidate(candidate)
-          var index = this.candidates.findIndex(c => c.id === candidate.id)
+          var index = this.candidates.findIndex(c => c.CANDIDATE_ID === candidate.CANDIDATE_ID)
           this.candidates.splice(index, 1)
-          this.$swal('Candidato eliminado: ' + candidate.name, {
+          this.$swal('Candidato eliminado: ' + candidate.NAME, {
             icon: 'success'
           })
         }
@@ -69,15 +69,15 @@ export default {
       this.candidates.push(...newCandidates)
     },
     async processCompleteCandidate (candidate) {
-      let index = this.candidates.findIndex(c => c.id === candidate.id)
+      let index = this.candidates.findIndex(c => c.CANDIDATE_ID === candidate.CANDIDATE_ID)
       if (index === -1) {
         await this.restDataSource.saveCandidate(candidate)
         this.candidates.push(candidate)
-        this.$swal('Candidato agregado', candidate.name, 'success')
+        this.$swal('Candidato agregado', candidate.NAME, 'success')
       } else {
         await this.restDataSource.updateCandidate(candidate)
         Vue.set(this.candidates, index, candidate)
-        this.$swal('Candidato actualizado', candidate.name, 'success')
+        this.$swal('Candidato actualizado', candidate.NAME, 'success')
       }
     }
   },

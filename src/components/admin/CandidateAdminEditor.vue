@@ -8,26 +8,26 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Id</span>
-            <input class="form-control" type="number" v-model="candidate.id">
+            <input class="form-control" type="number" v-model="candidate.CANDIDATE_ID">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Nombre</span>
-            <input class="form-control" v-model="candidate.name">
+            <input class="form-control" v-model="candidate.NAME">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Url foto</span>
-            <input class="form-control" type="url" v-model="candidate.imgUrl">
+            <input class="form-control" type="url" v-model="candidate.PIC_URL">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Partido</span>
             <select v-model="candidate.partyId" class="form-control">
-              <option v-for="p in parties" v-bind:key="p.id" :value="p.id">{{p.name}}</option>
+              <option v-for="p in parties" v-bind:key="p.CANDIDATE_ID" :value="p.CANDIDATE_ID">{{p.NAME}}</option>
             </select>
           </div>
         </div>
@@ -35,7 +35,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Tipo Candidato</span>
             <select v-model="candidate.candidateRoleId" class="form-control">
-              <option v-for="c in candidateRoles" v-bind:key="c.id" :value="c.id">{{c.name}}</option>
+              <option v-for="c in candidateRoles" v-bind:key="c.CANDIDATE_ID" :value="c.CANDIDATE_ID">{{c.NAME}}</option>
             </select>
           </div>
         </div>
@@ -43,34 +43,34 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Descripcion</span>
-            <input class="form-control" v-model="candidate.description">
+            <input class="form-control" v-model="candidate.DESCRIPTION">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Url sitio</span>
-            <input class="form-control" type="url" v-model="candidate.siteUrl">
+            <input class="form-control" type="url" v-model="candidate.PIC_URL">
           </div>
         </div>
 
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Twitter</span>
-            <input class="form-control" type="url" v-model="candidate.twitter">
+            <input class="form-control" type="url" v-model="candidate.TWITTER">
           </div>
         </div>
 
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Facebook</span>
-            <input class="form-control" type="url" v-model="candidate.facebook">
+            <input class="form-control" type="url" v-model="candidate.FACEBOOK">
           </div>
         </div>
 
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Casilla</span>
-            <input class="form-control" type="number" v-model="candidate.stall">
+            <input class="form-control" type="number" v-model="candidate.STALL">
           </div>
         </div>
       </div>
@@ -98,14 +98,14 @@ export default {
     startEdit (candidate) {
       this.editing = true
       this.candidate = {
-        id: candidate.id,
-        name: candidate.name,
-        imgUrl: candidate.imgUrl,
-        partyId: candidate.partyId,
-        partyName: candidate.partyName,
-        candidateRoleId: candidate.candidateRoleId,
-        candidateRoleName: candidate.candidateRoleName,
-        description: candidate.description
+        CANDIDATE_ID: candidate.CANDIDATE_ID,
+        NAME: candidate.NAME,
+        PIC_URL: candidate.PIC_URL,
+        PARTY_ID: candidate.PARTY_ID,
+        PARTY: candidate.PARTY,
+        POSITION_ID: candidate.POSITION_ID,
+        POSITION: candidate.POSITION,
+        DESCRIPTION: candidate.DESCRIPTION
       }
     },
     startCreate () {
@@ -113,12 +113,12 @@ export default {
       this.candidate = {}
     },
     save () {
-      var index = this.parties.findIndex(p => p.id === this.candidate.partyId)
-      this.candidate.partyName = this.parties[index].name
+      var index = this.parties.findIndex(p => p.PARTY_ID === this.candidate.PARTY_ID)
+      this.candidate.PARTY = this.parties[index].PARTY
       var index2 = this.candidateRoles.findIndex(
-        p => p.id === this.candidate.candidateRoleId
+        p => p.POSITION_ID === this.candidate.POSITION_ID
       )
-      this.candidate.candidateRoleName = this.candidateRoles[index2].name
+      this.candidate.POSITION = this.candidateRoles[index2].POSITION
 
       this.eventBus.$emit('completeCandidate', this.candidate)
       this.startCreate()

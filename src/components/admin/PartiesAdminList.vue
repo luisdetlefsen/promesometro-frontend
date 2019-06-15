@@ -9,7 +9,7 @@
         <th></th>
       </tr>
       <tbody>
-        <tr v-for="p in parties" v-bind:key="p.id">
+        <tr v-for="p in parties" v-bind:key="p.PARTY_ID">
           <td>{{p.PARTY_ID}}</td>
           <td>{{p.PARTY}}</td>
           <td>{{p.LOGO_URL}}</td>

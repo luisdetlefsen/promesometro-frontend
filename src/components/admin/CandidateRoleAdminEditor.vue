@@ -8,13 +8,13 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Id</span>
-            <input type="text" class="form-control" v-model="candidateRole.id">
+            <input type="text" class="form-control" v-model="candidateRole.POSITION_ID">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Tipo candidato</span>
-            <input type="text" class="form-control" v-model="candidateRole.name">
+            <input type="text" class="form-control" v-model="candidateRole.NAME">
           </div>
         </div>
       </div>
@@ -40,8 +40,8 @@ export default {
     startEdit (candidateRole) {
       this.editing = true
       this.candidateRole = {
-        id: candidateRole.id,
-        name: candidateRole.name
+        POSITION_ID: candidateRole.POSITION_ID,
+        POSITION: candidateRole.POSITION
       }
     },
     startCreate () {

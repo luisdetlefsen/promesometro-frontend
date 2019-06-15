@@ -7,9 +7,9 @@
         <th>Tipo de candidato</th>
       </tr>
       <tbody>
-        <tr v-for="t in candidateRoles" v-bind:key="t.id">
-          <td>{{t.id}}</td>
-          <td>{{t.name}}</td>
+        <tr v-for="t in candidateRoles" v-bind:key="t.POSITION_ID">
+          <td>{{t.POSITION_ID}}</td>
+          <td>{{t.POSITION}}</td>
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editCandidateRole(t)">Editar</button>
             <button class="btn btn-sm btn-danger" v-on:click="deleteCandidateRole(t)">Eliminar</button>
@@ -39,7 +39,7 @@ export default {
     async deleteCandidateRole (candidateRole) {
       this.$swal({
         title: 'Eliminar tipo candidato',
-        text: 'Seguro que deseas eliminar el tipo ' + candidateRole.name + '?',
+        text: 'Seguro que deseas eliminar el tipo ' + candidateRole.POSITION + '?',
         icon: 'warning',
         buttons: true,
         dangerMode: true
@@ -47,10 +47,10 @@ export default {
         if (willDelete) {
           this.restDataSource.deleteCandidateRole(candidateRole)
           var index = this.candidateRoles.findIndex(
-            c => c.id === candidateRole.id
+            c => c.POSITION_ID === candidateRole.POSITION_ID
           )
           this.candidateRoles.splice(index, 1)
-          this.$swal('Tipo candidato eliminado: ' + candidateRole.name, {
+          this.$swal('Tipo candidato eliminado: ' + candidateRole.POSITION, {
             icon: 'success'
           })
         }
@@ -61,15 +61,15 @@ export default {
       this.candidateRoles.push(...newCandidateRoles)
     },
     async processCompleteCandidateRole (candidateRole) {
-      let index = this.candidateRoles.findIndex(c => c.id === candidateRole.id)
+      let index = this.candidateRoles.findIndex(c => c.POSITION_ID === candidateRole.POSITION_ID)
       if (index === -1) {
         await this.restDataSource.saveCandidateRole(candidateRole)
         this.candidateRoles.push(candidateRole)
-        this.$swal('Tipo candidato agregado', candidateRole.name, 'success')
+        this.$swal('Tipo candidato agregado', candidateRole.POSITION, 'success')
       } else {
         await this.restDataSource.updateCandidateRole(candidateRole)
         Vue.set(this.candidateRoles, index, candidateRole)
-        this.$swal('Tipo candidato actualizado', candidateRole.name, 'success')
+        this.$swal('Tipo candidato actualizado', candidateRole.POSITION, 'success')
       }
     }
   },

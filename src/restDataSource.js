@@ -17,7 +17,7 @@ export class RestDataSource {
   }
 
   async deleteParty (party) {
-    await this.sendRequest('DELETE', `${partiesUrl}${party.id}`, party)
+    await this.sendRequest('DELETE', `${partiesUrl}${party.PARTY_ID}`, party)
   }
 
   async saveParty (party) {
@@ -25,7 +25,7 @@ export class RestDataSource {
   }
 
   async updateParty (party) {
-    await this.sendRequest('PUT', `${partiesUrl}${party.id}`, party)
+    await this.sendRequest('PUT', `${partiesUrl}${party.PARTY_ID}`, party)
   }
 
   async getAllCandidates () {
