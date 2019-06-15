@@ -18,9 +18,9 @@ module.exports = function () {
       { id: 3, name: 'Alcalde' }
     ],
     promises: [
-      { id: 1, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 15' },
-      { id: 1, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 16' },
-      { id: 1, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 17' }
+      { id: 1, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 15', partyName: 'UNE' },
+      { id: 2, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 16', partyName: 'UCN' },
+      { id: 3, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 17', partyName: 'UNE' }
     ]
   }
   return data

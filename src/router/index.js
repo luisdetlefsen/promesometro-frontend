@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import WelcomeMessage from '../components/WelcomeMessage.vue'
 import PromiseCreate from '../components/PromiseCreate.vue'
-import PromiseCandidate from '../components/PromiseCandidate.vue'
+import Promises from '../components/Promises.vue'
 import AdminMenu from '../components/admin/AdminMenu.vue'
 import AdminParties from '../components/admin/AdminParties.vue'
 import AdminCandidates from '../components/admin/AdminCandidates.vue'
@@ -13,7 +13,7 @@ export default new VueRouter({
   routes: [
     { path: '/', component: WelcomeMessage },
     { path: '/promesas/agregar', component: PromiseCreate },
-    { path: '/promesas', component: PromiseCandidate },
+    { path: '/promesas', component: Promises },
     { path: '/admin', component: AdminMenu },
     { path: '/admin/partidos', component: AdminParties },
     { path: '/admin/candidatos', component: AdminCandidates },
