@@ -19,6 +19,12 @@
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
+            <span class="input-group-text">Siglas partido</span>
+            <input class="form-control" v-model="party.SHORT_NAME">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group-prepend">
             <span class="input-group-text">Url logo partido</span>
             <input class="form-control" type="url" v-model="party.LOGO_URL">
           </div>
@@ -75,6 +81,7 @@ export default {
       this.editing = true
       this.party = {
         PARTY_ID: party.PARTY_ID,
+        SHORT_NAME: party.SHORT_NAME,
         PARTY: party.PARTY,
         LOGO_URL: party.LOGO_URL,
         SECRETARY: party.SECRETARY,

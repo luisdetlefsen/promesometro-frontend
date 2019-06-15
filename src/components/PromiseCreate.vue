@@ -15,8 +15,8 @@
                 ref="partyCarousel"
                 v-on:after-slide-change="updateAvailableCandidates"
               >
-                <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.id">
-                  <h1>{{party.name}}</h1>
+                <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.PARTY_ID">
+                  <h1>{{party.PARTY}}</h1>
                 </slide>
               </carousel-3d>
             </div>
@@ -29,9 +29,9 @@
                 :count="candidates.length"
                 ref="candidatesCarousel"
               >
-                <slide v-for="(candidate, i) in candidates" :index="i" v-bind:key="candidate.id">
-                  <h1>{{candidate.name}}</h1>
-                  <h3>{{candidate.candidateRoleName}}</h3>
+                <slide v-for="(candidate, i) in candidates" :index="i" v-bind:key="candidate.CANDIDATE_ID">
+                  <h1>{{candidate.NAME}}</h1>
+                  <h3>{{candidate.POSITION}}</h3>
                 </slide>
               </carousel-3d>
             </div>
@@ -66,7 +66,7 @@
           <div class="col-12 col-md-12 mb-2 mb-md-0">
 
             <!-- v-on:click.prevent="addCandidatePromise" -->
-            <button type="button" v-on:click="save" class="btn btn-block btn-lg btn-primary">Ingresar2</button>
+            <button type="button" v-on:click="save" class="btn btn-block btn-lg btn-primary">Ingresar</button>
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@ export default {
         this.$swal('Error', 'Debes de ingresar una promesa.', 'error')
         throw TypeError('Texto de promesa no ingresado')
       }
-      this.promise.candidateId = this.parties[this.$refs.candidatesCarousel.currentIndex].id
+      this.promise.PARTY_ID = this.parties[this.$refs.candidatesCarousel.currentIndex].PARTY_ID
       await this.restDataSource.savePromise(this.promise)
       this.$swal('Promesa agregada', 'asdfasdf', 'success')
     },
@@ -117,9 +117,9 @@ export default {
     },
     updateAvailableCandidates (currIndex) {
       // let currIndex = this.$refs.partyCarousel.currentIndex
-      let currPartyId = this.parties[currIndex].id
+      let currPartyId = this.parties[currIndex].PARTY_ID
       let newArr = this.allCandidates.filter(function (e) {
-        return e.partyId === currPartyId
+        return e.PARTY_ID === currPartyId
       })
       this.candidates.splice(0)
       this.candidates.push(...newArr)
@@ -173,6 +173,8 @@ export default {
   async mounted () {
     this.getAllParties(await this.restDataSource.getParties())
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
+
+    
   }
 }
 </script>
