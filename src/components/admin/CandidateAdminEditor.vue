@@ -26,16 +26,16 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Partido</span>
-            <select v-model="candidate.partyId" class="form-control">
-              <option v-for="p in parties" v-bind:key="p.CANDIDATE_ID" :value="p.CANDIDATE_ID">{{p.NAME}}</option>
+            <select v-model="candidate.PARTY_ID" class="form-control">
+              <option v-for="p in parties" v-bind:key="p.PARTY_ID" :value="p.PARTY_ID">{{p.PARTY}}</option>
             </select>
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Tipo Candidato</span>
-            <select v-model="candidate.candidateRoleId" class="form-control">
-              <option v-for="c in candidateRoles" v-bind:key="c.CANDIDATE_ID" :value="c.CANDIDATE_ID">{{c.NAME}}</option>
+            <select v-model="candidate.POSITION_ID" class="form-control">
+              <option v-for="c in candidateRoles" v-bind:key="c.POSITION_ID" :value="c.POSITION_ID">{{c.POSITION}}</option>
             </select>
           </div>
         </div>

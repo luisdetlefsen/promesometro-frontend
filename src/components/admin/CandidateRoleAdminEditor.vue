@@ -14,7 +14,7 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Tipo candidato</span>
-            <input type="text" class="form-control" v-model="candidateRole.NAME">
+            <input type="text" class="form-control" v-model="candidateRole.POSITION">
           </div>
         </div>
       </div>

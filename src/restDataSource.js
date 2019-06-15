@@ -4,7 +4,7 @@ import Axios from 'axios'
 const baseUrl = 'https://uhwvsjvsme.execute-api.us-east-1.amazonaws.com/dev/'
 const partiesUrl = baseUrl + 'parties/'
 const candidatesUrl = baseUrl + 'candidates/'
-const candidateRolesUrl = baseUrl + 'candidateRoles/'
+const candidateRolesUrl = baseUrl + 'candidateroles/'
 const promisesUrl = baseUrl + 'promises/'
 
 export class RestDataSource {
@@ -33,11 +33,11 @@ export class RestDataSource {
   }
 
   async deleteCandidate (candidate) {
-    await this.sendRequest('DELETE', `${candidatesUrl}${candidate.id}`, candidate)
+    await this.sendRequest('DELETE', `${candidatesUrl}${candidate.CANDIDATE_ID}`, candidate)
   }
 
   async updateCandidate (candidate) {
-    await this.sendRequest('PUT', `${candidatesUrl}${candidate.id}`, candidate)
+    await this.sendRequest('PUT', `${candidatesUrl}${candidate.CANDIDATE_ID}`, candidate)
   }
 
   async saveCandidate (candidate) {
@@ -49,11 +49,11 @@ export class RestDataSource {
   }
 
   async deleteCandidateRole (candidateRole) {
-    await this.sendRequest('DELETE', `${candidateRolesUrl}${candidateRole.id}`, candidateRole)
+    await this.sendRequest('DELETE', `${candidateRolesUrl}${candidateRole.POSITION_ID}`, candidateRole)
   }
 
   async updateCandidateRole (candidateRole) {
-    await this.sendRequest('PUT', `${candidateRolesUrl}${candidateRole.id}`, candidateRole)
+    await this.sendRequest('PUT', `${candidateRolesUrl}${candidateRole.POSITION_ID}`, candidateRole)
   }
 
   async saveCandidateRole (candidateRole) {
