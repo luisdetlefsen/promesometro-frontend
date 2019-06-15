@@ -16,6 +16,11 @@ module.exports = function () {
       { id: 1, name: 'Presidente' },
       { id: 2, name: 'Diputado' },
       { id: 3, name: 'Alcalde' }
+    ],
+    promises: [
+      { id: 1, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 15' },
+      { id: 1, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 16' },
+      { id: 1, candidateId: 1, candidateName: 'Mateo', promise: 'Bono 17' }
     ]
   }
   return data

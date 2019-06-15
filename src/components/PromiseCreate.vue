@@ -44,7 +44,7 @@
                   <span class="input-group-text">Promesa</span>
                 </div>
                 <!-- v-model="candidatePromise.enteredText" -->
-                <textarea class="form-control" aria-label="With textarea"></textarea>
+                <textarea class="form-control" v-model="promise.promise" aria-label="With textarea"></textarea>
               </div>
             </div>
           </div>
@@ -64,8 +64,9 @@
 
         <div class="form-row">
           <div class="col-12 col-md-12 mb-2 mb-md-0">
+
             <!-- v-on:click.prevent="addCandidatePromise" -->
-            <button type="submit" class="btn btn-block btn-lg btn-primary">Ingresar</button>
+            <button type="button" v-on:click="save" class="btn btn-block btn-lg btn-primary">Ingresar2</button>
           </div>
         </div>
       </div>
@@ -93,6 +94,19 @@ export default {
     showSuccess (file) {
       this.$toaster.success(File + ' : File uploaded')
     },
+    async save () {
+      if (this.$refs.candidatesCarousel.currentIndex) {
+        this.$swal('Error', 'Debes de seleccionar un partido.', 'error')
+        throw TypeError('Texto de promesa no ingresado')
+      }
+      if (this.promise.promise === undefined) {
+        this.$swal('Error', 'Debes de ingresar una promesa.', 'error')
+        throw TypeError('Texto de promesa no ingresado')
+      }
+      this.promise.candidateId = this.parties[this.$refs.candidatesCarousel.currentIndex].id
+      await this.restDataSource.savePromise(this.promise)
+      this.$swal('Promesa agregada', 'asdfasdf', 'success')
+    },
     getAllParties (newParties) {
       this.parties.splice(0)
       this.parties.push(...newParties)
@@ -104,16 +118,18 @@ export default {
     updateAvailableCandidates (currIndex) {
       // let currIndex = this.$refs.partyCarousel.currentIndex
       let currPartyId = this.parties[currIndex].id
-      let newArr = this.allCandidates.filter(function (e) { return e.partyId === currPartyId })
+      let newArr = this.allCandidates.filter(function (e) {
+        return e.partyId === currPartyId
+      })
       this.candidates.splice(0)
       this.candidates.push(...newArr)
       this.$refs.candidatesCarousel.goSlide(0)
     },
     s3UploadError (errorMessage) {
-      alert('error' + errorMessage)
+      this.$swal('Error', errorMessage, 'error')
     },
     s3UploadSuccess (s3ObjectLocation) {
-      alert('stored ' + s3ObjectLocation)
+      this.promise.filesUploaded.push(s3ObjectLocation)
     }
   },
 
@@ -122,6 +138,9 @@ export default {
       parties: [],
       candidates: [],
       allCandidates: [],
+      promise: {
+        filesUploaded: []
+      },
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
         thumbnailWidth: 150,
@@ -132,7 +151,7 @@ export default {
         headers: { 'My-Awesome-Header': 'header value' }
       },
       awss3: {
-        signingURL: (f) => {
+        signingURL: f => {
           // The server REST endpoint we setup earlier
 
           // signingURL: (f) => {return 'http://aws-direct-s3.dev/' + f.name }

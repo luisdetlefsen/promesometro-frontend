@@ -4,6 +4,7 @@ const baseUrl = 'http://localhost:3500/'
 const partiesUrl = baseUrl + 'parties/'
 const candidatesUrl = baseUrl + 'candidates/'
 const candidateRolesUrl = baseUrl + 'candidateRoles/'
+const promisesUrl = baseUrl + 'promises/'
 
 export class RestDataSource {
   constructor (bus) {
@@ -57,6 +58,15 @@ export class RestDataSource {
   async saveCandidateRole (candidateRole) {
     await this.sendRequest('POST', candidateRolesUrl, candidateRole)
   }
+
+  async savePromise (promise) {
+    await this.sendRequest('POST', promisesUrl, promise)
+  }
+
+  async getAllPromises () {
+    return (await this.sendRequest('GET', promisesUrl)).data
+  }
+
   async sendRequest (httpMethod, url, party) {
     try {
       return await Axios.request({
