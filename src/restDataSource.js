@@ -1,6 +1,7 @@
 import Axios from 'axios'
 
-const baseUrl = 'http://localhost:3500/'
+// const baseUrl = 'http://localhost:3500/'
+const baseUrl = 'https://uhwvsjvsme.execute-api.us-east-1.amazonaws.com/dev/'
 const partiesUrl = baseUrl + 'parties/'
 const candidatesUrl = baseUrl + 'candidates/'
 const candidateRolesUrl = baseUrl + 'candidateRoles/'
@@ -72,7 +73,8 @@ export class RestDataSource {
       return await Axios.request({
         method: httpMethod,
         url: url,
-        data: party
+        data: party,
+        withCredentials: false
       })
     } catch (err) {
       window.swal('Error', err.message, 'error')

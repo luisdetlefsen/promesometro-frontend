@@ -10,9 +10,9 @@
       </tr>
       <tbody>
         <tr v-for="p in parties" v-bind:key="p.id">
-          <td>{{p.id}}</td>
-          <td>{{p.name}}</td>
-          <td>{{p.imgUrl}}</td>
+          <td>{{p.PARTY_ID}}</td>
+          <td>{{p.PARTY}}</td>
+          <td>{{p.LOGO_URL}}</td>
 
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editParty(p)">Editar</button>
@@ -48,16 +48,16 @@ export default {
     async deleteParty (party) {
       this.$swal({
         title: 'Eliminar partido',
-        text: 'Seguro que deseas eliminar el partido ' + party.name,
+        text: 'Seguro que deseas eliminar el partido ' + party.PARTY,
         icon: 'warning',
         buttons: true,
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
           this.restDataSource.deleteParty(party)
-          let index = this.parties.findIndex(p => p.id === party.id)
+          let index = this.parties.findIndex(p => p.PARTY_ID === party.PARTY_ID)
           this.parties.splice(index, 1)
-          this.$swal('Partido eliminiado: ' + party.name, {
+          this.$swal('Partido eliminiado: ' + party.PARTY, {
             icon: 'success'
           })
         }
@@ -68,15 +68,15 @@ export default {
       this.parties.push(...newParties)
     },
     async processCompleteParty (party) {
-      let index = this.parties.findIndex(p => p.id === party.id)
+      let index = this.parties.findIndex(p => p.PARTY_ID === party.PARTY_ID)
       if (index === -1) {
         await this.restDataSource.saveParty(party)
         this.parties.push(party)
-        this.$swal('Partido agregado', party.name, 'success')
+        this.$swal('Partido agregado', party.PARTY, 'success')
       } else {
         await this.restDataSource.updateParty(party)
         Vue.set(this.parties, index, party)
-        this.$swal('Partido actualizado', party.name, 'success')
+        this.$swal('Partido actualizado', party.PARTY, 'success')
       }
     }
   },
