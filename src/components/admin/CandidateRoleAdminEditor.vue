@@ -2,7 +2,9 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <p>Tipo de candidato</p>
+        <div class="col-xl-12 mx-auto">
+        <h1 class="mb-5 section-title">Tipo de candidato</h1>
+      </div>
       </div>
       <div class="card-body">
         <div class="form-group">

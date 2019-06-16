@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+      <div class="col-xl-12 mx-auto">
+        <h1 class="mb-5 section-title">Administración</h1>
+      </div>
         <a href="" class="card" v-on:click.prevent="goPartyAdmin">
             <div class="card-body">
                 <h5>Partidos</h5>
@@ -37,6 +40,22 @@ export default {
 </script>
 
 <style scoped>
+h5{
+  color:inherit;
+  font-weight: bold;
+}
+
+a>div{
+  color:purple;
+}
+a>div:hover{
+  background-color:darkmagenta;
+  color:white!important;
+}
+h5:hover{
+  color:white;
+}
+
 a.card{
     text-decoration: none;
     opacity: 0.6;

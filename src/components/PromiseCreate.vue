@@ -19,7 +19,10 @@
                 v-on:after-slide-change="updateAvailableCandidates"
               >
                 <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.PARTY_ID">
-                  <h1>{{party.PARTY}}</h1>
+                  <div >
+                    <h1 class="text-center">{{party.PARTY}}</h1>
+                  </div>
+
                 </slide>
               </carousel-3d>
             </div>
@@ -40,8 +43,8 @@
                   :index="i"
                   v-bind:key="candidate.CANDIDATE_ID"
                 >
-                  <h1>{{candidate.NAME}}</h1>
-                  <h3>{{candidate.POSITION}}</h3>
+                  <h1 class="text-center">{{candidate.NAME}}</h1>
+                  <h3 class="text-center">{{candidate.POSITION}}</h3>
                 </slide>
               </carousel-3d>
             </div>
@@ -108,7 +111,7 @@ export default {
       this.$toaster.success(File + ' : File uploaded')
     },
     async save () {
-      if (this.$refs.candidatesCarousel.currentIndex) {
+      if (this.$refs.candidatesCarousel.currentIndex === undefined) {
         this.$swal('Error', 'Debes de seleccionar un partido.', 'error')
         throw TypeError('Texto de promesa no ingresado')
       }
@@ -116,7 +119,9 @@ export default {
         this.$swal('Error', 'Debes de ingresar una promesa.', 'error')
         throw TypeError('Texto de promesa no ingresado')
       }
-      this.promise.PARTY_ID = this.parties[this.$refs.candidatesCarousel.currentIndex].PARTY_ID
+      this.promise.PARTY_ID = this.parties[this.$refs.partyCarousel.currentIndex].PARTY_ID
+      this.promise.PARTY = this.parties[this.$refs.partyCarousel.currentIndex].PARTY
+      this.promise.CANDIDATE_ID = this.candidates[this.$refs.candidatesCarousel.currentIndex].CANDIDATE_ID
       await this.restDataSource.savePromise(this.promise)
       this.$swal('Promesa agregada', 'asdfasdf', 'success')
     },

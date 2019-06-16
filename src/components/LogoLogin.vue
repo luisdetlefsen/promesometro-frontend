@@ -26,6 +26,7 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
   font-weight: bold;
+  z-index: 42;
 }
 
 .navbar-brand {

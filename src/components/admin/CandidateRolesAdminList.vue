@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h3>Tipos de candidatos</h3>
+    <div class="col-xl-12 mx-auto">
+        <h1 class="mb-5 section-title">Tipos de candidatos</h1>
+      </div>
     <table class="table table-sm table-striped table-bordered">
       <tr>
         <th>ID</th>
