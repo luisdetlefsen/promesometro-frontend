@@ -29,6 +29,7 @@ export default {
   async created () {
     this.getAllPromises(await this.restDataSource.getAllPromises())
     // this.eventBus.$on('completeCandidate', this.processCompleteCandidate)
+    window.scrollTo(0, 0)
   }
 }
 </script>
