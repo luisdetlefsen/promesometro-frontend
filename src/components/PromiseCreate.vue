@@ -173,8 +173,6 @@ export default {
   async mounted () {
     this.getAllParties(await this.restDataSource.getParties())
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
-
-    
   }
 }
 </script>
