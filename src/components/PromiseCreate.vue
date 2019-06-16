@@ -2,10 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col-xl-9 mx-auto">
-        <h1 class="mb-5">Ingresa la promesa de un candidato</h1>
+        <h1 class="mb-5 section-title">Ingresa la promesa de un candidato</h1>
       </div>
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
         <form>
+          <div class="row justify-content-center">
+            <span class="sub-section-title">Seleccione el partido político</span>
+          </div>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
               <carousel-3d
@@ -22,6 +25,9 @@
             </div>
           </div>
 
+          <div class="row justify-content-center">
+            <span class="sub-section-title">Seleccione el candidato</span>
+          </div>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
               <carousel-3d
@@ -29,7 +35,11 @@
                 :count="candidates.length"
                 ref="candidatesCarousel"
               >
-                <slide v-for="(candidate, i) in candidates" :index="i" v-bind:key="candidate.CANDIDATE_ID">
+                <slide
+                  v-for="(candidate, i) in candidates"
+                  :index="i"
+                  v-bind:key="candidate.CANDIDATE_ID"
+                >
                   <h1>{{candidate.NAME}}</h1>
                   <h3>{{candidate.POSITION}}</h3>
                 </slide>
@@ -37,12 +47,12 @@
             </div>
           </div>
 
+          <div class="row justify-content-center">
+            <span class="sub-section-title">Ingrese la promesa</span>
+          </div>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
               <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">Promesa</span>
-                </div>
                 <!-- v-model="candidatePromise.enteredText" -->
                 <textarea class="form-control" v-model="promise.promise" aria-label="With textarea"></textarea>
               </div>
@@ -64,9 +74,12 @@
 
         <div class="form-row">
           <div class="col-12 col-md-12 mb-2 mb-md-0">
-
             <!-- v-on:click.prevent="addCandidatePromise" -->
-            <button type="button" v-on:click="save" class="btn btn-block btn-lg btn-primary">Ingresar</button>
+            <button
+              type="button"
+              v-on:click="save"
+              class="btn btn-purple btn-lg btn-huge"
+            >Subir promesa</button>
           </div>
         </div>
       </div>
@@ -147,7 +160,7 @@ export default {
         maxFilesize: 0.5,
         addRemoveLinks: true,
         dictDefaultMessage:
-          "<i class='fa fa-cloud-upload'></i> Sube fotos, videos, grabaciones, o archivos",
+          "<i class='fa fa-cloud-upload'></i> Agregar foto, video, grabación, o archivo",
         headers: { 'My-Awesome-Header': 'header value' }
       },
       awss3: {
@@ -178,17 +191,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-h5 {
-  background: #fff;
-  color: #3498db;
-  font-size: 36px;
-  line-height: 100px;
-  margin: 10px;
-  padding: 2%;
-  position: relative;
-  text-align: center;
-}
-
 .modal-header {
   display: block;
 }
@@ -201,12 +203,22 @@ h5 {
   width: 6rem;
 }
 
-// .dropzone {
-//   border-style: dashed;
-// }
+.dropzone {
+  border-style: dashed;
+  border-color: purple;
+}
 
 .login {
   margin-right: 1rem;
   margin-left: auto;
+}
+
+.carousel-3d-slide {
+  box-shadow: inset 0 0 0 1000px rgba(178, 18, 178, 0.2) !important;
+  opacity: 0.5 !important;
+}
+.carousel-3d-slide.current {
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0) !important;
+  opacity: 1 !important;
 }
 </style>

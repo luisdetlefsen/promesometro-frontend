@@ -7,6 +7,7 @@ $theme-colors: (
     // $dark:          $gray-800
 );
 
+$purple: #b212b2;
 $body-bg: rgb(245, 248, 252);
 
 .container{
@@ -19,13 +20,36 @@ $body-bg: rgb(245, 248, 252);
 }
 .btn.login {
   color: #f2dd3d;
-  background-color: #b212b2;
-  border-color: #b212b2;
+  background-color: $purple;
+  border-color: $purple;
+}
+
+.purple-background{
+  background-color: $purple;
+}
+
+.section-title{
+  background-color: $purple;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.sub-section-title{
+  color:$purple;
+  font-weight: bold;
+  font-size: x-large;
 }
 
 .btn.btn-purple {
   background-color: #f2dd3d;
-  color: #b212b2;
+  color: $purple;
+  font-weight: bold;
+}
+
+.btn-logo-huge {
+  min-height: 244px;
 }
 
 .btn {
@@ -39,6 +63,10 @@ body {
 
 .fill {
   height: 100%;
+}
+
+.carousel-3d-controls>a{
+  color:$purple!important;
 }
 
 .slick-active {

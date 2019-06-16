@@ -10,7 +10,7 @@
         <img
           src="../assets/img/bg-landing2.svg"
           alt
-          style="display:block;position:absolute;max-width:100%;max-height:auto;"
+          style="display:block;position:absolute;max-width:100%;max-height:auto;z-index:-1;"
         >
         <h1>¿Cómo surgió esta iniciativa?</h1>
 
@@ -77,9 +77,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.btn-logo-huge {
-  min-height: 244px;
-}
+
 .landing-1 {
   min-width: 100%;
   max-width: 100%;
@@ -98,6 +96,7 @@ export default {
   max-width: 100%;
   min-height: 354px;
   max-height: auto;
+  z-index: -1;
 }
 h1 {
   // padding-top: 1px;
@@ -112,10 +111,6 @@ h1 {
   max-width: 80%;
 }
 
-.card-footer,
-button {
-  font-weight: bold;
-}
 .card {
   margin-top: 15px;
 }
