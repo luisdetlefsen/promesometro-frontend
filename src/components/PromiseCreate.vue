@@ -7,7 +7,10 @@
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
         <form>
           <div class="row justify-content-center">
-            <span class="sub-section-title">Seleccione el partido político</span>
+            <span class="sub-section-title">Seleccione el partido político&nbsp;</span>
+            <div class="sub-section-title spinner-border" role="status" id="spinnerParty">
+              <span class="sr-only">Loading...</span>
+            </div>
           </div>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
@@ -19,17 +22,19 @@
                 v-on:after-slide-change="updateAvailableCandidates"
               >
                 <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.PARTY_ID">
-                  <div >
+                  <div>
                     <h1 class="text-center">{{party.PARTY}}</h1>
                   </div>
-
                 </slide>
               </carousel-3d>
             </div>
           </div>
 
           <div class="row justify-content-center">
-            <span class="sub-section-title">Seleccione el candidato</span>
+            <span class="sub-section-title">Seleccione el candidato&nbsp;</span>
+            <div class="sub-section-title spinner-border" role="status" id="spinnerCandidate">
+              <span class="sr-only">Loading...</span>
+            </div>
           </div>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
@@ -80,9 +85,19 @@
             <!-- v-on:click.prevent="addCandidatePromise" -->
             <button
               type="button"
-              v-on:click="save"
+              v-on:click="savePromise"
+              id="btnSavePromise"
               class="btn btn-purple btn-lg btn-huge"
-            >Subir promesa</button>
+            >
+              Subir promesa
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                style="display:none;"
+                aria-hidden="true"
+                id="spinnerSubmit"
+              >&nbsp;</span>
+            </button>
           </div>
         </div>
       </div>
@@ -91,7 +106,7 @@
 </template>
 
 <script>
-// import $ from 'jquery'
+import $ from 'jquery'
 import vue2Dropzone from 'vue2-dropzone'
 import { Carousel3d, Slide } from 'vue-carousel-3d'
 
@@ -110,28 +125,67 @@ export default {
     showSuccess (file) {
       this.$toaster.success(File + ' : File uploaded')
     },
-    async save () {
-      if (this.$refs.candidatesCarousel.currentIndex === undefined) {
-        this.$swal('Error', 'Debes de seleccionar un partido.', 'error')
-        throw TypeError('Texto de promesa no ingresado')
+    savePromise () {
+      $('#btnSavePromise').attr('disabled', true)
+      $('#spinnerSubmit').show()
+      try {
+        this.save()
+      } catch (err) {
+      } finally {
+        $('#spinnerSubmit').hide()
+        $('#btnSavePromise').removeAttr('disabled')
       }
+    },
+    async save () {
+      if (
+        this.$refs.partyCarousel.currentIndex === undefined ||
+        this.$refs.partyCarousel.currentIndex < 0
+      ) {
+        this.$swal('Error', 'Debes de seleccionar un partido.', 'error')
+        await Promise.reject(new Error('Missing data.'))
+      }
+      if (
+        this.$refs.candidatesCarousel.currentIndex === undefined ||
+        this.$refs.candidatesCarousel.currentIndex < 0
+      ) {
+        this.$swal('Error', 'Debes de seleccionar un candidato.', 'error')
+        await Promise.reject(new Error('Missing data.'))
+      }
+
       if (this.promise.promise === undefined) {
         this.$swal('Error', 'Debes de ingresar una promesa.', 'error')
-        throw TypeError('Texto de promesa no ingresado')
+        await Promise.reject(new Error('Missing data.'))
       }
-      this.promise.PARTY_ID = this.parties[this.$refs.partyCarousel.currentIndex].PARTY_ID
-      this.promise.PARTY = this.parties[this.$refs.partyCarousel.currentIndex].PARTY
-      this.promise.CANDIDATE_ID = this.candidates[this.$refs.candidatesCarousel.currentIndex].CANDIDATE_ID
-      await this.restDataSource.savePromise(this.promise)
-      this.$swal('Promesa agregada', 'asdfasdf', 'success')
+      try {
+        this.promise.PARTY_ID = this.parties[this.$refs.partyCarousel.currentIndex].PARTY_ID
+        this.promise.PARTY = this.parties[this.$refs.partyCarousel.currentIndex].PARTY
+        this.promise.CANDIDATE_ID = this.candidates[this.$refs.candidatesCarousel.currentIndex].CANDIDATE_ID
+        await this.restDataSource.savePromise(this.promise)
+        this.$swal(
+          'Promesa agregada',
+          'La promesa fue agregada. Gracias por contribuir!',
+          'success'
+        ).then(val => {
+          this.$router.go()
+        })
+      } catch (err) {
+        this.$swal(
+          'Error',
+          'No se pudo agregar la promesa. Por favor vuelva a intentarlo. Código de error: ' +
+            err.errorMessage,
+          'error'
+        )
+      }
     },
     getAllParties (newParties) {
       this.parties.splice(0)
       this.parties.push(...newParties)
+      $('#spinnerParty').hide()
     },
     getAllCandidates (newCandidates) {
       this.allCandidates.splice(0)
       this.allCandidates.push(...newCandidates)
+      $('#spinnerCandidate').hide()
     },
     updateAvailableCandidates (currIndex) {
       // let currIndex = this.$refs.partyCarousel.currentIndex

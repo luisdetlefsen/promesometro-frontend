@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="col-xl-12 mx-auto">
-        <h1 class="mb-5 section-title">Partidos</h1>
-      </div>
+      <h1 class="mb-5 section-title">Partidos</h1>
+    </div>
     <table class="table table-sm table-striped table-bordered">
       <tr>
         <th>ID</th>
@@ -22,7 +22,14 @@
           </td>
         </tr>
         <tr v-if="parties.length===0">
-          <td colspan="5" class="text-center">No hay partidos registrados</td>
+          <td colspan="4" class="text-center">No hay partidos registrados</td>
+        </tr>
+        <tr id="spinnerParties">
+          <td colspan="4" class="text-center">
+            <div class="sub-section-title spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -30,6 +37,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import Vue from 'vue'
 
 export default {
@@ -57,7 +65,9 @@ export default {
       }).then(willDelete => {
         if (willDelete) {
           this.restDataSource.deleteParty(party)
-          let index = this.parties.findIndex(p => p.PARTY_ID === party.PARTY_ID)
+          let index = this.parties.findIndex(
+            p => p.PARTY_ID === party.PARTY_ID
+          )
           this.parties.splice(index, 1)
           this.$swal('Partido eliminiado: ' + party.PARTY, {
             icon: 'success'
@@ -68,6 +78,7 @@ export default {
     getAllParties (newParties) {
       this.parties.splice(0)
       this.parties.push(...newParties)
+      $('#spinnerParties').hide()
     },
     async processCompleteParty (party) {
       let index = this.parties.findIndex(p => p.PARTY_ID === party.PARTY_ID)

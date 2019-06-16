@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar navbar-light">
-      <a class="navbar-brand-text" href="#" v-on:click="goHome">
-        <img class="logo" src="../assets/img/promesometro1.svg" alt="Promesometro">
-      </a>
-      <a class="btn btn-primary login" href="#">Ingresar</a>
+    <a class="navbar-brand-text" href="#" v-on:click="goHome">
+      <img class="logo" src="../assets/img/promesometro1.svg" alt="Promesometro">
+    </a>
+    <a class="btn btn-primary login" href="#">Ingresar</a>
   </nav>
 </template>
 

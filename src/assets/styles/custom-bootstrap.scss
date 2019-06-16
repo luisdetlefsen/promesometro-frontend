@@ -28,6 +28,10 @@ $body-bg: rgb(245, 248, 252);
   background-color: $purple;
 }
 
+.spinner-border{
+  vertical-align: inherit !important;
+}
+
 .section-title{
   background-color: $purple;
   padding-top: 10px;

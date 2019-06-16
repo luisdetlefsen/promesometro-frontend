@@ -7,6 +7,7 @@
       <tr>
         <th>ID</th>
         <th>Tipo de candidato</th>
+        <th></th>
       </tr>
       <tbody>
         <tr v-for="t in candidateRoles" v-bind:key="t.POSITION_ID">
@@ -18,7 +19,14 @@
           </td>
         </tr>
         <tr v-if="candidateRoles.length===0">
-          <td colspan="5" class="text-center">No hay tipo de candidatos registrados</td>
+          <td colspan="3" class="text-center">No hay tipo de candidatos registrados</td>
+        </tr>
+        <tr id="spinnerRoles">
+          <td colspan="3" class="text-center">
+            <div class="sub-section-title spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -26,6 +34,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import Vue from 'vue'
 export default {
   props: {},
@@ -61,6 +70,7 @@ export default {
     getAllCandidateRoles (newCandidateRoles) {
       this.candidateRoles.splice(0)
       this.candidateRoles.push(...newCandidateRoles)
+      $('#spinnerRoles').hide()
     },
     async processCompleteCandidateRole (candidateRole) {
       let index = this.candidateRoles.findIndex(c => c.POSITION_ID === candidateRole.POSITION_ID)

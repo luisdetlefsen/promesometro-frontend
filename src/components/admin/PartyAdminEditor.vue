@@ -63,7 +63,8 @@
           <button
             class="btn btn-primary"
             v-on:click="save"
-          >{{ editing ? "Guardar cambios" : "Crear" }}</button>
+          >{{ editing ? "Guardar cambios" : "Crear" }}
+          </button>
           <button class="btn btn-secondary" v-on:click="cancel">Cancelar</button>
         </div>
       </div>

@@ -6,13 +6,22 @@
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;">
-    <promise-candidate v-for="p in promises" v-bind:key="p.PROMISE_ID" :party="p.PARTY" :candidateName="p.NAME"
-    :promise="p.PROMISE"/>
+      <div class="sub-section-title spinner-border" role="status" id="spinnerPromises">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <promise-candidate
+        v-for="p in promises"
+        v-bind:key="p.PROMISE_ID"
+        :party="p.PARTY"
+        :candidateName="p.NAME"
+        :promise="p.PROMISE"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
 import PromiseCandidate from './PromiseCandidate'
 export default {
   components: {
@@ -27,6 +36,7 @@ export default {
     getAllPromises (newPromises) {
       this.promises.splice(0)
       this.promises.push(...newPromises)
+      $('#spinnerPromises').hide()
     }
   },
   inject: ['eventBus', 'restDataSource'],

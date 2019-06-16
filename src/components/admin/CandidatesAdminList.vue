@@ -27,12 +27,20 @@
         <tr v-if="candidates.length===0">
           <td colspan="5" class="text-center">No hay candidatos registrados</td>
         </tr>
+        <tr id="spinnerCandidates">
+          <td colspan="5" class="text-center">
+            <div class="sub-section-title spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
 import Vue from 'vue'
 export default {
   props: {},
@@ -69,6 +77,7 @@ export default {
     getAllCandidates (newCandidates) {
       this.candidates.splice(0)
       this.candidates.push(...newCandidates)
+      $('#spinnerCandidates').hide()
     },
     async processCompleteCandidate (candidate) {
       let index = this.candidates.findIndex(c => c.CANDIDATE_ID === candidate.CANDIDATE_ID)
