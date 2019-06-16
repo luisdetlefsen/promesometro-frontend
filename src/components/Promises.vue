@@ -1,10 +1,14 @@
 <template>
   <div class="container">
-
-      <promise-candidate v-for="p in promises" v-bind:key="p.id"
-      :party='p.partyName'
-       />
-
+    <div class="row">
+      <div class="col-xl-12 mx-auto">
+        <h1 class="mb-5 section-title">Promesas</h1>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;">
+    <promise-candidate v-for="p in promises" v-bind:key="p.PROMISE_ID" :party="p.PARTY" :candidateName="p.NAME"
+    :promise="p.PROMISE"/>
+    </div>
   </div>
 </template>
 

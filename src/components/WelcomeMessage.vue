@@ -102,18 +102,10 @@ h1 {
   // padding-top: 1px;
 }
 
-.card {
-  border-radius: 10px;
-  border: 1px solid purple;
-  font-weight: normal;
-}
 .short-description {
   max-width: 80%;
 }
 
-.card {
-  margin-top: 15px;
-}
 @media only screen and (max-width: 768px) {
   .landing-1 {
     max-width: 100%;

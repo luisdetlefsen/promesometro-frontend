@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-xl-9 mx-auto">
+      <div class="col-xl-12 mx-auto">
         <h1 class="mb-5 section-title">Ingresa la promesa de un candidato</h1>
       </div>
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
