@@ -9,6 +9,10 @@ $theme-colors: (
 
 $body-bg: rgb(245, 248, 252);
 
+.container{
+  max-width: 100%!important;
+}
+
 .footer a,
 .footer {
   color: white;
@@ -25,7 +29,7 @@ $body-bg: rgb(245, 248, 252);
 }
 
 .btn {
-  border-radius: 50px !important;
+  border-radius: 10px !important;
 }
 
 html,

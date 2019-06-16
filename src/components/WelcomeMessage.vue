@@ -1,16 +1,23 @@
 <template>
-  <div class="hello">
-    <div class="jumbotron">
-      <h1 class="display-4">Votaciones 2019</h1>
-      <p class="lead">ABC</p>
-      <hr class="my-4">
-      <p>ABC</p>
-      <!-- <p class="lead"> -->
-        <div class="row">
-<div class="col-lg-4 mx-auto">
+  <div>
+    <!-- <p class="lead"> -->
+    <div class="row justify-content-center">
+      <img src="../assets/img/bg-landing1.svg" alt class="landing-1">
+    </div>
+    <div class="row justify-content-center">
+      <div class="landing-2 justify-content-center">
+        <h1>¿Cómo surgió esta iniciativa?</h1>
+        <p
+          class="short-description justify-content-center"
+        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-4 mx-auto">
         <div class="card">
           <div class="card-body">
-            <img src="../assets/img/promesa1.svg" alt="">
+            <img src="../assets/img/promesa1.svg" style="max-width:100%;" alt>
           </div>
           <div class="card-footer">
             <button
@@ -25,7 +32,7 @@
       <div class="col-lg-4 mx-auto">
         <div class="card">
           <div class="card-body">
-            <img src="../assets/img/promesas1.svg" alt="">
+            <img src="../assets/img/promesas1.svg" alt>
           </div>
           <div class="card-footer">
             <button
@@ -37,10 +44,10 @@
         </div>
       </div>
 
-        </div>
-
-      <!-- </p> -->
+      <div class="col-lg-2"></div>
     </div>
+
+    <!-- </p> -->
   </div>
 </template>
 
@@ -63,8 +70,28 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+.landing-1 {
+  min-width: 100%;
+  max-width: 100%;
+}
+.landing-2> h1{
+color:blue;
+font-weight: bold;
+}
+.landing-2 {
+  background: url(../assets/img/bg-landing2.svg) no-repeat;
+  background-position: center;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 354px;
+  max-height: auto;
+
+  // min-width: 100%;
+  // max-width: 100%;
+  // background-image: url('../assets/img/promesa1.svg') no-repeat;
+}
+h1 {
+  padding-top: 50px;
 }
 ul {
   list-style-type: none;
@@ -74,13 +101,11 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-
-.logoPromesa{
-  margin-left: 0px;
-  background-image: url("../assets/img/promesa1.svg") no-repeat;
-  // min-width: 500px;
-  // min-height: 200px;
-  max-width: 300px;
-  max-height: auto;
+.card {
+  border-radius: 10px;
+  border: 1px solid purple;
+}
+.short-description {
+  max-width: 50%;
 }
 </style>

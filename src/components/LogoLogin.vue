@@ -3,7 +3,7 @@
     <div class="container">
       <a class="navbar-brand-text" href="#" v-on:click="goHome">
         <!-- <div class="logo"></div> -->
-        <img class="logo" src="../assets/img/promesometro1.svg" alt="">
+        <img class="logo" src="../assets/img/promesometro1.svg" alt="Promesometro">
 
         <!-- <img class="navbar-brand" src="../assets/gt.png" /> -->
       </a>
@@ -45,15 +45,13 @@ export default {
   text-decoration: none;
 }
 
-.logo{
+.logo {
   margin-left: 0px;
   background-image: url("../assets/img/promesometro1.svg") no-repeat;
-  // min-width: 500px;
-  // min-height: 200px;
-  max-width: 300px;
   max-height: auto;
+  max-width: 90%;
 }
-nav{
+nav {
   margin-bottom: 5rem;
 }
 </style>
