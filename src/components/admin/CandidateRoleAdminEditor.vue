@@ -3,16 +3,16 @@
     <div class="card">
       <div class="card-header">
         <div class="col-xl-12 mx-auto">
-        <h1 class="mb-5 section-title">Tipo de candidato</h1>
+        <h1>Tipo de candidato</h1>
       </div>
       </div>
       <div class="card-body">
-        <div class="form-group">
+        <!-- <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Id</span>
             <input type="text" class="form-control" v-model="candidateRole.POSITION_ID">
           </div>
-        </div>
+        </div> -->
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Tipo candidato</span>
@@ -52,9 +52,11 @@ export default {
     },
     save () {
       this.eventBus.$emit('completeCandidateRole', this.candidateRole)
+      this.eventBus.$emit('dissmissCandidateRoleEditor')
       this.startCreate()
     },
     cancel () {
+      this.eventBus.$emit('dissmissCandidateRoleEditor')
       this.candidateRole = {}
       this.editing = false
     }
