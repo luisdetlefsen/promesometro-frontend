@@ -23,10 +23,8 @@ export default {
       return s.split('').reduce(function (a, b) { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0)
     }
   },
-  mounted () {
-    // dem0gv
-    this.l = true
-    // this.l = this.hashCode(prompt('Codigo')) === -1335479917
+  mounted () {  
+    this.l = this.hashCode(prompt('Codigo')) === -1335479917
   }
 }
 </script>
