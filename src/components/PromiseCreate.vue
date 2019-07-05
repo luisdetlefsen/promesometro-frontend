@@ -62,7 +62,7 @@
             <div class="col-12 col-md-12 mb-2 mb-md-0">
               <div class="input-group">
                 <!-- v-model="candidatePromise.enteredText" -->
-                <textarea class="form-control" v-model="promise.promise" aria-label="With textarea"></textarea>
+                <textarea class="form-control" v-model="promise.PROMISE" aria-label="With textarea"></textarea>
               </div>
             </div>
           </div>
@@ -76,7 +76,9 @@
               :awss3="awss3"
               v-on:vdropzone-s3-upload-error="s3UploadError"
               v-on:vdropzone-s3-upload-success="s3UploadSuccess"
+
             ></vue-dropzone>
+            <!-- v-on:vdropzone-sending="sendingEvent" -->
           </div>
         </div>
 
@@ -93,7 +95,6 @@
               <span
                 class="spinner-border spinner-border-sm"
                 role="status"
-                style="display:none;"
                 aria-hidden="true"
                 id="spinnerSubmit"
               >&nbsp;</span>
@@ -122,6 +123,23 @@ export default {
   },
   inject: ['eventBus', 'restDataSource'],
   methods: {
+    determineCurrentPosition () {
+      navigator.geolocation.getCurrentPosition(
+        this.setCurrenPosition,
+        this.setDefaultPosition
+      )
+    },
+    setCurrenPosition (position) {
+      this.promise.LATITUDE = position.coords.latitude
+      this.promise.LONGITUDE = position.coords.longitude
+    },
+    setDefaultPosition () {
+      this.promise.LATITUDE = 0
+      this.promise.LONGITUDE = 0
+    },
+    getUserAgent () {
+      return navigator.userAgent
+    },
     showSuccess (file) {
       this.$toaster.success(File + ' : File uploaded')
     },
@@ -152,7 +170,7 @@ export default {
         await Promise.reject(new Error('Missing data.'))
       }
 
-      if (this.promise.promise === undefined) {
+      if (this.promise.PROMISE === undefined) {
         this.$swal('Error', 'Debes de ingresar una promesa.', 'error')
         await Promise.reject(new Error('Missing data.'))
       }
@@ -160,6 +178,10 @@ export default {
         this.promise.PARTY_ID = this.parties[this.$refs.partyCarousel.currentIndex].PARTY_ID
         this.promise.PARTY = this.parties[this.$refs.partyCarousel.currentIndex].PARTY
         this.promise.CANDIDATE_ID = this.candidates[this.$refs.candidatesCarousel.currentIndex].CANDIDATE_ID
+        // this.promise.LATITUDE = 1.2; //TODO:
+        // this.promise.LONGITUDE = 1.2;
+        this.promise.DEVICE = this.getUserAgent()
+        this.promise.USER_ID = 1
         await this.restDataSource.savePromise(this.promise)
         this.$swal(
           'Promesa agregada',
@@ -201,10 +223,48 @@ export default {
       this.$swal('Error', errorMessage, 'error')
     },
     s3UploadSuccess (s3ObjectLocation) {
+      this.$swal('Archivo subido', 'Ubicacion ' + s3ObjectLocation, 'success')
       this.promise.filesUploaded.push(s3ObjectLocation)
     }
+    // sendingEvent: function (file, xhr, formData) {
+    //   const idx = file.name.lastIndexOf('.')
+    //   var fileExtension = '.png'
+    //   if (idx > 0) {
+    //     fileExtension = file.name.substring(idx)
+    //   }
+    //   // formData.set('Key', formData.get('Key') + fileExtension)
+    // }
   },
-
+  computed: {
+    awss3 () {
+      return {
+        signingURL: (f) => {
+          const key = `https://uhwvsjvsme.execute-api.us-east-1.amazonaws.com/dev/s3signedurl3/?originalfilename=${f.name}`
+          return key
+        },
+        headers: {},
+        params: {},
+        sendFileToServer: false,
+        withCredentials: false
+      }
+    },
+    dropzoneOptions () {
+      return {
+        // The URL will be changed for each new file being processing
+        url: '/',
+        thumbnailWidth: 150,
+        maxFilesize: 0.5,
+        addRemoveLinks: true,
+        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Agregar foto, video, grabación, o archivo",
+        // method: 'PUT',
+        parallelUploads: 1,
+        uploadMultiple: false,
+        maxFiles: 5,
+        preventDuplicates: true
+        // header: ''
+      }
+    }
+  },
   data: function () {
     return {
       parties: [],
@@ -212,29 +272,6 @@ export default {
       allCandidates: [],
       promise: {
         filesUploaded: []
-      },
-      dropzoneOptions: {
-        url: 'https://httpbin.org/post',
-        thumbnailWidth: 150,
-        maxFilesize: 0.5,
-        addRemoveLinks: true,
-        dictDefaultMessage:
-          "<i class='fa fa-cloud-upload'></i> Agregar foto, video, grabación, o archivo",
-        headers: { 'My-Awesome-Header': 'header value' }
-      },
-      awss3: {
-        signingURL: f => {
-          // The server REST endpoint we setup earlier
-
-          // signingURL: (f) => {return 'http://aws-direct-s3.dev/' + f.name }
-          // Save this for later use
-          // this.images[f.name] = f
-          return `http://localhost:3000/signed-url?filename=${f.name}`
-        },
-        headers: {},
-        params: {},
-        withCredentials: false,
-        sendFileToServer: true
       }
     }
   },
@@ -243,8 +280,10 @@ export default {
   },
 
   async mounted () {
+    // this.determineCurrentPosition();
     this.getAllParties(await this.restDataSource.getParties())
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
+    $('#spinnerSubmit').hide()
   }
 }
 </script>

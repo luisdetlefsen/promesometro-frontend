@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container d-flex flex-column">
+  <div id="app" class="container d-flex flex-column" v-if="this.l">
     <LogoLogin/>
     <router-view class="flex-grow-1"></router-view>
     <Footer/>
@@ -14,6 +14,19 @@ export default {
   components: {
     LogoLogin,
     Footer
+  },
+  props: {
+    l: Boolean
+  },
+  methods: {
+    hashCode (s) {
+      return s.split('').reduce(function (a, b) { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0)
+    }
+  },
+  mounted () {
+    // dem0gv
+    this.l = true
+    // this.l = this.hashCode(prompt('Codigo')) === -1335479917
   }
 }
 </script>

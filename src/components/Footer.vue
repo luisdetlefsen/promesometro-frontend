@@ -2,8 +2,8 @@
   <footer class="footer">
     <div class="container">
       <div class="row justify-content-center">
-        <img src="../assets/img/logo_oes.png" alt>
-        <img src="../assets/img/logo_rti.png" alt>
+        <img style="display:none;" src="../assets/img/logo_oes.png" alt>
+        <img style="display:none;" src="../assets/img/logo_rti.png" alt>
         <img src="../assets/img/logo_code.png" alt>
         <img src="../assets/img/logo_datum.png" alt>
         <img src="../assets/img/logo_gv.png" alt>
