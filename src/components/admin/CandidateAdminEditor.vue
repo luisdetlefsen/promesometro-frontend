@@ -3,17 +3,11 @@
     <div class="card">
       <div class="card-header">
         <div class="col-xl-12 mx-auto">
-        <h1 class="mb-5 section-title">Candidato</h1>
+        <h1>Candidato</h1>
       </div>
 
       </div>
       <div class="card-body">
-        <div class="form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Id</span>
-            <input class="form-control" type="number" v-model="candidate.CANDIDATE_ID">
-          </div>
-        </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Nombre</span>
@@ -52,7 +46,7 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Url sitio</span>
-            <input class="form-control" type="url" v-model="candidate.PIC_URL">
+            <input class="form-control" type="url" v-model="candidate.SITE_URL">
           </div>
         </div>
 
@@ -104,6 +98,7 @@ export default {
         CANDIDATE_ID: candidate.CANDIDATE_ID,
         NAME: candidate.NAME,
         PIC_URL: candidate.PIC_URL,
+        SITE_URL: candidate.SITE_URL,
         PARTY_ID: candidate.PARTY_ID,
         PARTY: candidate.PARTY,
         POSITION_ID: candidate.POSITION_ID,
@@ -125,8 +120,10 @@ export default {
 
       this.eventBus.$emit('completeCandidate', this.candidate)
       this.startCreate()
+      this.eventBus.$emit('dismissCandidateEditor')
     },
     cancel () {
+      this.eventBus.$emit('dismissCandidateEditor')
       this.candidate = {}
       this.editing = false
     }

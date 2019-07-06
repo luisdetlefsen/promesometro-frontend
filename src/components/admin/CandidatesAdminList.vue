@@ -3,9 +3,19 @@
     <div class="col-xl-12 mx-auto">
         <h1 class="mb-5 section-title">Candidatos</h1>
       </div>
+
+      <div class="row">
+      <button
+        type="button"
+        id="btnAdd"
+        class="btn btn-primary"
+        data-toggle="modal"
+        v-on:click="editCandidate"
+        data-target="#exampleModal"
+      >Agregar</button>
+    </div>
     <table class="table table-sm table-striped table-bordered">
       <tr>
-        <th>ID</th>
         <th>Nombre</th>
         <th>Partido</th>
         <th>Puesto</th>
@@ -13,7 +23,6 @@
       </tr>
       <tbody>
         <tr v-for="c in candidates" v-bind:key="c.CANDIDATE_ID">
-          <td>{{c.CANDIDATE_ID}}</td>
           <td>{{c.NAME}}</td>
           <td>{{c.PARTY}}</td>
           <td>{{c.POSITION}}</td>
@@ -36,24 +45,60 @@
         </tr>
       </tbody>
     </table>
+
+<div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Crear/Editar tipo de candidato</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <candidate-admin-editor/>
+          </div>
+          <div class="modal-footer">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 import $ from 'jquery'
 import Vue from 'vue'
+import 'bootstrap'
+import CandidateAdminEditor from './CandidateAdminEditor.vue'
 export default {
   props: {},
+  components: {
+    CandidateAdminEditor
+  },
   data: function () {
     return {
       candidates: []
     }
   },
   methods: {
+    dismissCandidateEditor () {
+      $('#exampleModal').modal('hide')
+    },
     createCandidate () {
       this.eventBus.$emit('createCandidate')
     },
     editCandidate (candidate) {
+      $('#exampleModal').modal('show')
       this.eventBus.$emit('editCandidate', candidate)
     },
     async deleteCandidate (candidate) {
@@ -96,6 +141,7 @@ export default {
   async created () {
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
     this.eventBus.$on('completeCandidate', this.processCompleteCandidate)
+    this.eventBus.$on('dismissCandidateEditor', this.dismissCandidateEditor)
   }
 }
 </script>
@@ -108,5 +154,9 @@ export default {
 .candidateSmall{
   max-width: 64px;
   max-height: 64px;
+}
+#btnAdd {
+  margin-right: 2%;
+  margin-left: auto;
 }
 </style>
