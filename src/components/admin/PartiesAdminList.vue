@@ -3,16 +3,25 @@
     <div class="col-xl-12 mx-auto">
       <h1 class="mb-5 section-title">Partidos</h1>
     </div>
+    <div class="row">
+      <button
+        type="button"
+        id="btnAdd"
+        class="btn btn-primary"
+        data-toggle="modal"
+        v-on:click="editParty"
+        data-target="#exampleModal"
+      >Agregar</button>
+    </div>
+
     <table class="table table-sm table-striped table-bordered">
       <tr>
-        <th>ID</th>
         <th>Nombre</th>
         <th>Url imagen partido</th>
         <th></th>
       </tr>
       <tbody>
         <tr v-for="p in parties" v-bind:key="p.PARTY_ID">
-          <td>{{p.PARTY_ID}}</td>
           <td>{{p.PARTY}}</td>
           <td>{{p.LOGO_URL}}</td>
 
@@ -33,27 +42,62 @@
         </tr>
       </tbody>
     </table>
+
+<div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Crear/Editar partido</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <party-admin-editor/>
+          </div>
+          <div class="modal-footer">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 import $ from 'jquery'
 import Vue from 'vue'
+import 'bootstrap'
+import PartyAdminEditor from './PartyAdminEditor.vue'
 
 export default {
-  // name: "CandidatesAdminList",
   props: {},
+  components: {
+    PartyAdminEditor
+  },
   data: function () {
     return {
       parties: []
     }
   },
   methods: {
+    dissmissPartyEditor () {
+      $('#exampleModal').modal('hide')
+    },
     createParty () {
       this.eventBus.$emit('createParty')
     },
     editParty (party) {
       this.eventBus.$emit('editParty', party)
+      $('#exampleModal').modal('show')
     },
     async deleteParty (party) {
       this.$swal({
@@ -97,6 +141,7 @@ export default {
   async created () {
     this.getAllParties(await this.restDataSource.getParties())
     this.eventBus.$on('completeParty', this.processCompleteParty)
+    this.eventBus.$on('dissmissPartyEditor', this.dissmissPartyEditor)
   }
 }
 </script>
@@ -104,5 +149,10 @@ export default {
 <style scoped>
 .btn {
   margin-left: 1rem;
+}
+
+#btnAdd {
+  margin-right: 2%;
+  margin-left: auto;
 }
 </style>

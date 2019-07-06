@@ -3,17 +3,11 @@
     <div class="card">
       <div class="card-header">
         <div class="col-xl-12 mx-auto">
-        <h1 class="mb-5 section-title">Partido</h1>
+        <h1>Partido</h1>
       </div>
 
       </div>
       <div class="card-body">
-        <div class="form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Id</span>
-            <input class="form-control" type="number" v-model="party.PARTY_ID">
-          </div>
-        </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Nombre partido</span>
@@ -100,9 +94,11 @@ export default {
     },
     save () {
       this.eventBus.$emit('completeParty', this.party)
+      this.eventBus.$emit('dissmissPartyEditor')
       this.startCreate()
     },
     cancel () {
+      this.eventBus.$emit('dissmissPartyEditor')
       this.party = {}
       this.editing = false
     }

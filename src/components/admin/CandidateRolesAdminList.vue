@@ -124,18 +124,18 @@ export default {
       if (index === -1) {
         await this.restDataSource.saveCandidateRole(candidateRole)
         this.candidateRoles.push(candidateRole)
-        this.$swal('Tipo candidato agregado',candidateRole.POSITION,'success')
+        this.$swal('Tipo candidato agregado', candidateRole.POSITION, 'success')
       } else {
         await this.restDataSource.updateCandidateRole(candidateRole)
         Vue.set(this.candidateRoles, index, candidateRole)
-        this.$swal('Tipo candidato actualizado',candidateRole.POSITION,'success')
+        this.$swal('Tipo candidato actualizado', candidateRole.POSITION, 'success')
       }
     }
   },
   inject: ['eventBus', 'restDataSource'],
   async created () {
     this.getAllCandidateRoles(await this.restDataSource.getAllCandidateRoles())
-    this.eventBus.$on('completeCandidateRole',this.processCompleteCandidateRole)
+    this.eventBus.$on('completeCandidateRole', this.processCompleteCandidateRole)
     this.eventBus.$on('dissmissCandidateRoleEditor', this.dissmissEditDialog)
   }
 }
