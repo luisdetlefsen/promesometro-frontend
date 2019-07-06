@@ -58,7 +58,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <candidate-role-admin-editor />
+            <admin-candidate-role-editor />
           </div>
           <div class="modal-footer">
 
@@ -73,11 +73,11 @@
 import $ from 'jquery'
 import Vue from 'vue'
 import 'bootstrap'
-import CandidateRoleAdminEditor from './CandidateRoleAdminEditor.vue'
+import AdminCandidateRoleEditor from './AdminCandidateRoleEditor.vue'
 
 export default {
   props: {},
-  components: { CandidateRoleAdminEditor },
+  components: { AdminCandidateRoleEditor },
   data: function () {
     return {
       candidateRoles: []

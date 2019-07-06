@@ -9,9 +9,7 @@
         >
       </div>
       <div class="col-lg-6">
-        <p class="text-left">Tiempo transcurrido</p>
-        <br>
-        <p class="text-left">{{daysPassed}} días</p>
+
       </div>
     </div>
     <div class="row">

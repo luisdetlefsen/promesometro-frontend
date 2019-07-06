@@ -60,7 +60,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <party-admin-editor/>
+            <admin-party-editor/>
           </div>
           <div class="modal-footer">
 
@@ -76,12 +76,12 @@
 import $ from 'jquery'
 import Vue from 'vue'
 import 'bootstrap'
-import PartyAdminEditor from './PartyAdminEditor.vue'
+import AdminPartyEditor from './AdminPartyEditor.vue'
 
 export default {
   props: {},
   components: {
-    PartyAdminEditor
+    AdminPartyEditor
   },
   data: function () {
     return {

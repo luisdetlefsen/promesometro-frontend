@@ -60,7 +60,6 @@
 
 <script>
 export default {
-  name: 'WelcomeMessage',
   props: {
     msg: String
   },

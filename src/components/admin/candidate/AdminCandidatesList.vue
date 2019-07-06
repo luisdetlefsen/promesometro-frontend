@@ -63,7 +63,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <candidate-admin-editor/>
+            <admin-candidate-editor/>
           </div>
           <div class="modal-footer">
 
@@ -79,11 +79,11 @@
 import $ from 'jquery'
 import Vue from 'vue'
 import 'bootstrap'
-import CandidateAdminEditor from './CandidateAdminEditor.vue'
+import AdminCandidateEditor from './AdminCandidateEditor.vue'
 export default {
   props: {},
   components: {
-    CandidateAdminEditor
+    AdminCandidateEditor
   },
   data: function () {
     return {

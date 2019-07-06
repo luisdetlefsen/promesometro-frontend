@@ -5,7 +5,7 @@
         <h1 class="mb-5 section-title">Promesas</h1>
       </div>
     </div>
-    <div style="display:flex;flex-wrap:wrap;">
+    <div style="display:flex;flex-wrap:wrap;margin:auto;">
       <div class="sub-section-title spinner-border" role="status" id="spinnerPromises">
         <span class="sr-only">Loading...</span>
       </div>
@@ -15,6 +15,7 @@
         :party="p.PARTY"
         :candidateName="p.NAME"
         :promise="p.PROMISE"
+        :candidateImgUrl="p.PIC_URL"
       />
     </div>
   </div>

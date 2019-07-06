@@ -1,18 +1,18 @@
 <template>
   <div id="app" class="container d-flex flex-column" v-if="this.l">
-    <LogoLogin/>
+    <Header/>
     <router-view class="flex-grow-1"></router-view>
     <Footer/>
   </div>
 </template>
 
 <script>
-import LogoLogin from './components/LogoLogin.vue'
+import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 export default {
   name: 'app',
   components: {
-    LogoLogin,
+    Header,
     Footer
   },
   props: {
