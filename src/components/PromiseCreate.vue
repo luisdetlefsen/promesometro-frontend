@@ -14,17 +14,28 @@
           </div>
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
+               <!-- :width=200
+                :height=140 -->
               <carousel-3d
                 :controls-visible="true"
                 :clickable="false"
                 :count="parties.length"
+
                 ref="partyCarousel"
                 v-on:after-slide-change="updateAvailableCandidates"
               >
                 <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.PARTY_ID">
-                  <div>
-                    <h1 class="text-center">{{party.PARTY}}</h1>
-                  </div>
+                  <figure>
+                    <img class="partyLogo" :src='party.LOGO_URL'>
+                    <!-- <figcaption>
+                      <strong>{{party.PARTY}}</strong>
+
+                    </figcaption> -->
+                  </figure>
+                  <!-- <div>
+                    <h1 class="text-center">{{party.PARTY}}</h1> -
+                    <img class="partyLogo" :src='party.LOGO_URL' alt="">
+                  </div> -->
                 </slide>
               </carousel-3d>
             </div>
@@ -48,8 +59,16 @@
                   :index="i"
                   v-bind:key="candidate.CANDIDATE_ID"
                 >
-                  <h1 class="text-center">{{candidate.NAME}}</h1>
-                  <h3 class="text-center">{{candidate.POSITION}}</h3>
+                  <div>
+                    <figure>
+                    <img class="partyLogo" :src='candidate.PIC_URL'>
+                    <figcaption>
+                      <strong class="text-center">{{candidate.NAME}}</strong> <br>
+                  <strong class="text-center">{{candidate.POSITION}}</strong>
+
+                    </figcaption>
+                  </figure>
+                  </div>
                 </slide>
               </carousel-3d>
             </div>
@@ -61,7 +80,6 @@
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
               <div class="input-group">
-                <!-- v-model="candidatePromise.enteredText" -->
                 <textarea class="form-control" v-model="promise.PROMISE" aria-label="With textarea"></textarea>
               </div>
             </div>
@@ -76,6 +94,10 @@
               :awss3="awss3"
               v-on:vdropzone-s3-upload-error="s3UploadError"
               v-on:vdropzone-s3-upload-success="s3UploadSuccess"
+              v-on:vdropzone-removed-file="removeFile"
+              v-on:vdropzone-file-added="fileAdded"
+              v-on:vdropzone-complete="filesCompletedProcessing"
+              :duplicateCheck="true"
 
             ></vue-dropzone>
             <!-- v-on:vdropzone-sending="sendingEvent" -->
@@ -123,6 +145,20 @@ export default {
   },
   inject: ['eventBus', 'restDataSource'],
   methods: {
+    fileAdded (file) {
+      this.filesUploading += 1
+    },
+    filesCompletedProcessing (response) {
+      this.filesUploading -= 1
+    },
+    removeFile (file, error, xhr) {
+      let fileKey = file.s3Url + '/' + file.s3Signature.Key
+      let idx = this.promise.filesUploaded.indexOf(fileKey)
+      if (idx > -1) {
+        this.promise.filesUploaded.splice(idx, 1)
+      }
+      //  this.promise.filesUploaded.push(s3ObjectLocation)
+    },
     determineCurrentPosition () {
       navigator.geolocation.getCurrentPosition(
         this.setCurrenPosition,
@@ -155,17 +191,15 @@ export default {
       }
     },
     async save () {
-      if (
-        this.$refs.partyCarousel.currentIndex === undefined ||
-        this.$refs.partyCarousel.currentIndex < 0
-      ) {
+      if (this.filesUploading > 0) {
+        this.$swal('Error', 'Espera a que terminen de subir los archivos seleccionados.', 'error')
+        await Promise.reject(new Error('Invalid state.'))
+      }
+      if (this.$refs.partyCarousel.currentIndex === undefined || this.$refs.partyCarousel.currentIndex < 0) {
         this.$swal('Error', 'Debes de seleccionar un partido.', 'error')
         await Promise.reject(new Error('Missing data.'))
       }
-      if (
-        this.$refs.candidatesCarousel.currentIndex === undefined ||
-        this.$refs.candidatesCarousel.currentIndex < 0
-      ) {
+      if (this.$refs.candidatesCarousel.currentIndex === undefined || this.$refs.candidatesCarousel.currentIndex < 0) {
         this.$swal('Error', 'Debes de seleccionar un candidato.', 'error')
         await Promise.reject(new Error('Missing data.'))
       }
@@ -223,8 +257,7 @@ export default {
       this.$swal('Error', errorMessage, 'error')
     },
     s3UploadSuccess (s3ObjectLocation) {
-      this.$swal('Archivo subido', 'Ubicacion ' + s3ObjectLocation, 'success')
-      this.promise.filesUploaded.push(s3ObjectLocation)
+      this.promise.filesUploaded.push(decodeURIComponent(s3ObjectLocation))
     }
     // sendingEvent: function (file, xhr, formData) {
     //   const idx = file.name.lastIndexOf('.')
@@ -253,20 +286,24 @@ export default {
         // The URL will be changed for each new file being processing
         url: '/',
         thumbnailWidth: 150,
-        maxFilesize: 0.5,
+        maxFilesize: 5,
         addRemoveLinks: true,
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Agregar foto, video, grabación, o archivo",
+        dictRemoveFile: 'Remover archivo',
+        dictCancelUpload: 'Cancelar carga',
+        dictCancelUploadConfirmation: 'Estas seguro que deseas cancelar la carga de este archivo?',
+        dictFileTooBig: 'Archivo demasiado grande ({{filesize}}Mb). Máximo permitido: {{maxFilesize}}Mb',
         // method: 'PUT',
         parallelUploads: 1,
         uploadMultiple: false,
-        maxFiles: 5,
-        preventDuplicates: true
+        maxFiles: 5
         // header: ''
       }
     }
   },
   data: function () {
     return {
+      filesUploading: 0,
       parties: [],
       candidates: [],
       allCandidates: [],
@@ -280,7 +317,7 @@ export default {
   },
 
   async mounted () {
-    // this.determineCurrentPosition();
+    this.determineCurrentPosition()
     this.getAllParties(await this.restDataSource.getParties())
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
     $('#spinnerSubmit').hide()
@@ -319,4 +356,30 @@ export default {
   box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0) !important;
   opacity: 1 !important;
 }
+
+.partyLogo{
+   position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  /* Maintain aspect ratio */
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.carousel-3d-container figure {
+  margin:0;
+}
+
+.carousel-3d-container figcaption {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  bottom: 0;
+  padding: 15px;
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
 </style>
