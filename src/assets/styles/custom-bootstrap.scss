@@ -99,3 +99,12 @@ body {
 a.dz-remove{
   color:black !important;
 }
+
+a.page-link {
+  color:black;
+}
+
+.page-item.active .page-link{
+  background-color:$purple !important;
+  border-color: $purple !important;
+}

@@ -97,9 +97,6 @@ export default {
   max-height: auto;
   z-index: -1;
 }
-h1 {
-  // padding-top: 1px;
-}
 
 .short-description {
   max-width: 80%;

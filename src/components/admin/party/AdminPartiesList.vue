@@ -17,13 +17,13 @@
     <table class="table table-sm table-striped table-bordered">
       <tr>
         <th>Nombre</th>
-        <th>Url imagen partido</th>
+        <th>Logo</th>
         <th></th>
       </tr>
       <tbody>
         <tr v-for="p in parties" v-bind:key="p.PARTY_ID">
           <td>{{p.PARTY}}</td>
-          <td>{{p.LOGO_URL}}</td>
+          <td> <img :src=p.LOGO_URL alt="" class="partySmall"></td>
 
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editParty(p)">Editar</button>
@@ -149,6 +149,11 @@ export default {
 <style scoped>
 .btn {
   margin-left: 1rem;
+}
+
+.partySmall{
+  max-width: 64px;
+  max-height: 64px;
 }
 
 #btnAdd {

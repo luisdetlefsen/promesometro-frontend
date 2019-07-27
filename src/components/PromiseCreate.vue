@@ -212,6 +212,12 @@ export default {
         this.promise.PARTY_ID = this.parties[this.$refs.partyCarousel.currentIndex].PARTY_ID
         this.promise.PARTY = this.parties[this.$refs.partyCarousel.currentIndex].PARTY
         this.promise.CANDIDATE_ID = this.candidates[this.$refs.candidatesCarousel.currentIndex].CANDIDATE_ID
+        if (this.promise.LATITUDE === undefined) {
+          this.promise.LATITUDE = 0
+        }
+        if (this.promise.LONGITUDE === undefined) {
+          this.promise.LONGITUDE = 0
+        }
         // this.promise.LATITUDE = 1.2; //TODO:
         // this.promise.LONGITUDE = 1.2;
         this.promise.DEVICE = this.getUserAgent()
@@ -321,6 +327,12 @@ export default {
     this.getAllParties(await this.restDataSource.getParties())
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
     $('#spinnerSubmit').hide()
+    let elements = document.querySelectorAll('.carousel-3d-slide:not(.current)')
+    for (let i = 0; i < elements.length; i++) {
+      let layerColored = document.createElement('div')
+      layerColored.classList.add('layer')
+      elements[i].appendChild(layerColored)
+    }
   }
 }
 </script>
@@ -380,6 +392,19 @@ export default {
   padding: 15px;
   min-width: 100%;
   box-sizing: border-box;
+}
+
+.layer {
+    background-color: rgba(230, 117, 205, 0.25);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 88%;
+    height: 100%;
+
+    margin-left: 15px;
+  margin-right: 15px;
+  padding: 5px;
 }
 
 </style>

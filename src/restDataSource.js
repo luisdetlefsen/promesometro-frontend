@@ -1,7 +1,8 @@
 import Axios from 'axios'
 
 // const baseUrl = 'http://localhost:3500/'
-const baseUrl = 'https://uhwvsjvsme.execute-api.us-east-1.amazonaws.com/dev/'
+// const baseUrl = 'https://uhwvsjvsme.execute-api.us-east-1.amazonaws.com/dev/'
+const baseUrl = 'https://i2grkc0sea.execute-api.us-east-1.amazonaws.com/dev1/'
 const partiesUrl = baseUrl + 'parties/'
 const candidatesUrl = baseUrl + 'candidates/'
 const candidateRolesUrl = baseUrl + 'candidateroles/'
@@ -66,6 +67,14 @@ export class RestDataSource {
 
   async getAllPromises () {
     return (await this.sendRequest('GET', promisesUrl)).data
+  }
+
+  async getTotalPromisesCount () {
+    return (await this.sendRequest('GET', promisesUrl + 'count')).data
+  }
+
+  async getPagedPromises (startingId, count) {
+    return (await this.sendRequest('GET', promisesUrl + startingId + '/' + count)).data
   }
 
   async sendRequest (httpMethod, url, party) {

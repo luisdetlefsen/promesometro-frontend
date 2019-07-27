@@ -7,6 +7,8 @@
           style="min-width:128px;min-height:128px;max-width:128px;max-height:128px;margin:5px;border-radius:10px;"
           alt
         >
+        <div class="layer">
+    </div>
       </div>
       <div class="col-lg-6">
 
@@ -46,12 +48,27 @@ export default {
 }
 
 img {
-  box-shadow: inset 0 0 0 1000px rgba(178, 18, 178, 0.2) !important;
-  opacity: 0.5 !important;
+  // box-shadow: inset 0 0 0 1000px rgba(178, 18, 178, 0.2) !important;
+  // opacity: 0.5 !important;
+   background: rgba(21, 201, 45, 0.3) !important;
 }
 
 li {
   list-style: none;
   list-style-type: none;
+}
+
+.layer {
+  z-index: 100;
+    background-color: rgba(230, 117, 205, 0.25) !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 88%;
+    height: 100%;
+
+    margin-left: 15px;
+  margin-right: 15px;
+  padding: 5px;
 }
 </style>
