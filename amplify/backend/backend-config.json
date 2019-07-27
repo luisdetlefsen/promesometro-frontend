@@ -1,8 +1,0 @@
-{
-	"auth": {
-		"cognitopromesometro": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation"
-		}
-	}
-}
