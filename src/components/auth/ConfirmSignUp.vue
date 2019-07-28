@@ -2,30 +2,29 @@
     <amplify-confirm-sign-up v-bind:confirmSignUpConfig="confirmSignUpConfig" v-bind:usernameAttributes="usernameAttributes"></amplify-confirm-sign-up>
 </template>
 <script>
-import { AmplifyEventBus } from 'aws-amplify-vue';
+import { AmplifyEventBus } from 'aws-amplify-vue'
 
 export default {
-    name: 'ConfirmSignUp',
-    props: ['username'],
-    data () {
-        return {
-            usernameAttributes: "Correo Electronico",
-            confirmSignUpConfig: {
-                header: "Confirma tu cuenta",
-                username: this.username
-            }
-        }
-    },
-    mounted() {
-        AmplifyEventBus.$on('authState', info => {
-            if (info === 'signIn') {
-                this.$router.replace('ingresar')
-            }
-        });
+  name: 'ConfirmSignUp',
+  props: ['username'],
+  data () {
+    return {
+      usernameAttributes: 'Correo Electronico',
+      confirmSignUpConfig: {
+        header: 'Confirma tu cuenta',
+        username: this.username
+      }
     }
+  },
+  mounted () {
+    AmplifyEventBus.$on('authState', info => {
+      if (info === 'signIn') {
+        this.$router.replace('ingresar')
+      }
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>
 
 </style>
-
