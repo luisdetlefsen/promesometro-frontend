@@ -6,6 +6,7 @@ import { AmplifyEventBus } from 'aws-amplify-vue';
 
 export default {
     name: 'ConfirmSignUp',
+    props: ['username'],
     data () {
         return {
             usernameAttributes: "Correo Electronico",
@@ -13,11 +14,6 @@ export default {
                 header: "Confirma tu cuenta",
                 username: this.username
             }
-        }
-    },
-    computed: {
-        username () {
-            return this.$route.query.username
         }
     }
 }

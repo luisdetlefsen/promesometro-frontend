@@ -49,7 +49,8 @@ export default {
 
         AmplifyEventBus.$on('authState', info => {
             if (info === 'confirmSignUp') {
-                this.$router.replace({ path: 'confirm', query: { username: this.username} })
+                console.log("Username "+this.username)
+                this.$router.replace({ name: 'confirmSignUp', params: { username: this.username} })
             }
         });
     }
