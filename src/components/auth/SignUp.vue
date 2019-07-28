@@ -4,16 +4,11 @@
 <script>
 import { AmplifyEventBus } from 'aws-amplify-vue';
 
-AmplifyEventBus.$on('authState', info => {
-    if (info === 'confirmSignUp') {
-        this.$router.replace('')
-    }
-});
-
 export default {
     name: 'SignUp',
     data () {
         return {
+            username: null,
             usernameAttributes: "Correo Electronico",
             signUpConfig: {
                 header: "Crea tu cuenta",
@@ -45,6 +40,18 @@ export default {
                 ]
             }
         }
+    },
+    async mounted() {
+        AmplifyEventBus.$on('localUser', info => {
+            console.log(info)
+            this.username = info.username
+        });
+
+        AmplifyEventBus.$on('authState', info => {
+            if (info === 'confirmSignUp') {
+                this.$router.replace({ path: 'confirm', query: { username: this.username} })
+            }
+        });
     }
 }
 </script>

@@ -10,12 +10,14 @@ import AdminCandidateRolesList from '../components/admin/candidateRole/AdminCand
 import AdminCandidatesList from '../components/admin/candidate/AdminCandidatesList.vue'
 
 import SignUp from '../components/auth/SignUp.vue'
+import ConfirmSignUp from '../components/auth/ConfirmSignUp.vue'
 
 Vue.use(VueRouter)
 export default new VueRouter({
   routes: [
     { path: '/', component: LandingPage },
     { path: '/signup', component: SignUp},
+    { path: '/confirm', component: ConfirmSignUp },
     { path: '/promesas/agregar', component: PromiseCreate },
     { path: '/promesas', component: Promises },
     { path: '/admin', component: AdminMenu },
