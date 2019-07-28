@@ -9,20 +9,32 @@ import { AmplifyPlugin } from 'aws-amplify-vue'
 import awsconfig from '../aws-exports'
 
 const dict = {
-    'en': {
-        'Have an account? ': "Ya tienes cuenta? ",
-        'Sign in': "Inicia sesion",
-        'Create Account': "Crear cuenta",
-        'Invalid email address format.': "Correo Invalido",
-        'Confirmation Code': "Codigo de confirmacion",
-        'Lost your code? ': "Perdiste el codigo? ",
-        'Resend Code': "Reenviar codigo",
-        'Back to Sign In': "Iniciar Sesion",
-        'Confirm': "Confirmar"
-    }
-};
+  'en': {
+    'Have an account? ': 'Ya tienes cuenta? ',
+    'Sign in': 'Inicia sesion',
+    'Create Account': 'Crear cuenta',
+    'Invalid email address format.': 'Correo Invalido',
+    'Confirmation Code': 'Codigo de confirmacion',
+    'Lost your code? ': 'Perdiste el codigo? ',
+    'Resend Code': 'Reenviar codigo',
+    'Back to Sign In': 'Iniciar Sesion',
+    'Confirm': 'Confirmar',
+    'Enter your Correo Electronico': 'Ingresa tu correo electronico',
+    'Enter your password': 'Ingresa tu contraseña',
+    'Password': 'Contraseña',
+    'Forget your password? ': 'Olvidaste tu contraseña? ',
+    'Reset password': 'Reiniciar contraseña',
+    'Sign In': 'Iniciar sesion',
+    'No account? ': 'Aun no tienes cuenta? ',
+    'Create account': 'Crear cuenta',
+    'Send Code': 'Enviar codigo',
+    'Code': 'Codigo',
+    'New Password': 'Nueva Contraseña',
+    'Submit': 'Enviar'
+  }
+}
 
-AmplifyModules.I18n.putVocabularies(dict);
+AmplifyModules.I18n.putVocabularies(dict)
 
 Amplify.configure(awsconfig)
 

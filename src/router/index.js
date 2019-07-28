@@ -11,20 +11,41 @@ import AdminCandidatesList from '../components/admin/candidate/AdminCandidatesLi
 import PromiseDetail from '../components/PromiseDetail.vue'
 import SignUp from '../components/auth/SignUp.vue'
 import ConfirmSignUp from '../components/auth/ConfirmSignUp.vue'
+import SignIn from '../components/auth/SignIn.vue'
 
 Vue.use(VueRouter)
-export default new VueRouter({
+const router = new VueRouter({
   routes: [
-    { path: '/', component: LandingPage },
-    { path: '/registrar', component: SignUp},
-    { path: '/confirmar', name: 'confirmSignUp', component: ConfirmSignUp, props: true },
-    { path: '/promesas/agregar', component: PromiseCreate },
-    { path: '/promesas', component: Promises },
-    { path: '/promesas/:id', component: PromiseDetail },
-    { path: '/admin', component: AdminMenu },
-    { path: '/admin/partidos', component: AdminPartiesList },
-    { path: '/admin/candidatos', component: AdminCandidatesList },
-    { path: '/admin/candidatos/roles', component: AdminCandidateRolesList },
+    { path: '/', component: LandingPage, meta: { requiresAuth: false } },
+    { path: '/registrar', component: SignUp, meta: { requiresAuth: false } },
+    { path: '/confirmar', name: 'confirmSignUp', component: ConfirmSignUp, props: true, meta: { requiresAuth: false } },
+    { path: '/ingresar', component: SignIn, meta: { requiresAuth: false } },
+    { path: '/promesas/agregar', component: PromiseCreate, meta: { requiresAuth: true } },
+    { path: '/promesas', component: Promises, meta: { requiresAuth: false } },
+    { path: '/promesas/:id', component: PromiseDetail, meta: { requiresAuth: false } },
+    { path: '/admin', component: AdminMenu, meta: { requiresAuth: true } },
+    { path: '/admin/partidos', component: AdminPartiesList, meta: { requiresAuth: true } },
+    { path: '/admin/candidatos', component: AdminCandidatesList, meta: { requiresAuth: true } },
+    { path: '/admin/candidatos/roles', component: AdminCandidateRolesList, meta: { requiresAuth: true } },
     { path: '*', redirect: '/' }
   ]
 })
+
+router.beforeResolve(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    try {
+      await Vue.prototype.$Amplify.Auth.currentAuthenticatedUser()
+      next()
+    } catch (e) {
+      next({
+        path: '/ingresar',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  }
+  next()
+})
+
+export default router
