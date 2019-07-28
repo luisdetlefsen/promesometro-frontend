@@ -10,8 +10,8 @@
     "json": "json-server restData.js -p 3500"
   },
   "dependencies": {
-    "aws-amplify": "^1.1.28",
-    "aws-amplify-vue": "^0.2.11",
+    "aws-amplify": "^1.1.32",
+    "aws-amplify-vue": "^0.2.13",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",

@@ -9,11 +9,14 @@
 <script>
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+import { components } from 'aws-amplify-vue'
+
 export default {
   name: 'app',
   components: {
     Header,
-    Footer
+    Footer,
+    components
   },
   props: {
     l: Boolean
