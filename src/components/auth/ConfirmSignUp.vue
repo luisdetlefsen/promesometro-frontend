@@ -1,5 +1,5 @@
 <template>
-    <amplify-confirm-sign-up v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-confirm-sign-up>
+    <amplify-confirm-sign-up v-bind:confirmSignUpConfig="confirmSignUpConfig" v-bind:usernameAttributes="usernameAttributes"></amplify-confirm-sign-up>
 </template>
 <script>
 import { AmplifyEventBus } from 'aws-amplify-vue';
@@ -15,6 +15,13 @@ export default {
                 username: this.username
             }
         }
+    },
+    async mounted() {
+        AmplifyEventBus.$on('authState', info => {
+            if (info === 'signIn') {
+                this.$router.replace('iniciarSesion')
+            }
+        });
     }
 }
 </script>

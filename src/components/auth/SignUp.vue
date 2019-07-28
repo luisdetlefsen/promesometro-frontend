@@ -51,6 +51,8 @@ export default {
             if (info === 'confirmSignUp') {
                 console.log("Username "+this.username)
                 this.$router.replace({ name: 'confirmSignUp', params: { username: this.username} })
+            } else if (info === 'signIn') {
+                this.$router.replace('iniciarSesion')
             }
         });
     }

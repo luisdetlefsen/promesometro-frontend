@@ -10,10 +10,15 @@ import awsconfig from '../aws-exports'
 
 const dict = {
     'en': {
-        'Have an account? ': "Ya tienes cuenta?",
+        'Have an account? ': "Ya tienes cuenta? ",
         'Sign in': "Inicia sesion",
         'Create Account': "Crear cuenta",
-        'Invalid email address format.': "Correo Invalido"
+        'Invalid email address format.': "Correo Invalido",
+        'Confirmation Code': "Codigo de confirmacion",
+        'Lost your code? ': "Perdiste el codigo? ",
+        'Resend Code': "Reenviar codigo",
+        'Back to Sign In': "Iniciar Sesion",
+        'Confirm': "Confirmar"
     }
 };
 
