@@ -26,7 +26,11 @@ const dict = {
     'Reset password': 'Reiniciar contraseña',
     'Sign In': 'Iniciar sesion',
     'No account? ': 'Aun no tienes cuenta? ',
-    'Create account': 'Crear cuenta'
+    'Create account': 'Crear cuenta',
+    'Send Code': 'Enviar codigo',
+    'Code': 'Codigo',
+    'New Password': 'Nueva Contraseña',
+    'Submit': 'Enviar'
   }
 }
 
