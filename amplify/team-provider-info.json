@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "promesometro-dev-20190727192541-authRole",
+            "UnauthRoleArn": "arn:aws:iam::348362794595:role/promesometro-dev-20190727192541-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::348362794595:role/promesometro-dev-20190727192541-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "promesometro-dev-20190727192541-deployment",
+            "UnauthRoleName": "promesometro-dev-20190727192541-unauthRole",
+            "StackName": "promesometro-dev-20190727192541",
+            "StackId": "arn:aws:cloudformation:us-east-1:348362794595:stack/promesometro-dev-20190727192541/9d470d00-b0d6-11e9-bbce-12a9adafee72"
+        },
+        "categories": {
+            "auth": {
+                "promesometro1a469772": {}
+            }
+        }
+    }
+}

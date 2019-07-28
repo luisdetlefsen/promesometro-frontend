@@ -1,0 +1,9 @@
+{
+	"auth": {
+		"promesometro1a469772": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}
