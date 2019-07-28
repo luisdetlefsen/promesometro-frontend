@@ -14,7 +14,7 @@ export default {
             }
         }
     },
-    async mounted() {
+    mounted() {
         AmplifyEventBus.$on('localUser', info => {
             console.log(info)
         });

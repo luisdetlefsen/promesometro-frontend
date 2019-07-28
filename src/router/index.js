@@ -17,7 +17,7 @@ Vue.use(VueRouter)
 export default new VueRouter({
   routes: [
     { path: '/', component: LandingPage },
-    { path: '/registrar', component: SignUp},
+    { path: '/registrar', component: SignUp },
     { path: '/confirmar', name: 'confirmSignUp', component: ConfirmSignUp, props: true },
     { path: '/ingresar', component: SignIn },
     { path: '/promesas/agregar', component: PromiseCreate },
