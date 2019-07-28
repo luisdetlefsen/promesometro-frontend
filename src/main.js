@@ -8,6 +8,17 @@ import Amplify, * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
 import awsconfig from '../aws-exports'
 
+const dict = {
+    'en': {
+        'Have an account? ': "Ya tienes cuenta?",
+        'Sign in': "Inicia sesion",
+        'Create Account': "Crear cuenta",
+        'Invalid email address format.': "Correo Invalido"
+    }
+};
+
+AmplifyModules.I18n.putVocabularies(dict);
+
 Amplify.configure(awsconfig)
 
 Vue.config.productionTip = false

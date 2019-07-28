@@ -4,6 +4,7 @@
       <img class="logo" src="../assets/img/promesometro1.svg" alt="Promesometro">
     </a>
     <a class="btn btn-primary login" href="#">Ingresar</a>
+    <router-link class="btn btn-primary signup" to="/signup">Registrarse</router-link>
   </nav>
 </template>
 
@@ -19,6 +20,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.signup {
+  margin-left: 16px;
+}
 .login {
   margin-left: auto;
   margin-right: 0px;
