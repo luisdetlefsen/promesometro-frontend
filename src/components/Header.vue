@@ -3,7 +3,7 @@
     <a class="navbar-brand-text" href="#" v-on:click="goHome">
       <img class="logo" src="../assets/img/promesometro1.svg" alt="Promesometro">
     </a>
-    <a class="btn btn-primary login" href="#">Ingresar</a>
+    <router-link class="btn btn-primary login" to="/ingresar">Ingresar</router-link>
     <router-link class="btn btn-primary signup" to="/registrar">Registrarse</router-link>
   </nav>
 </template>

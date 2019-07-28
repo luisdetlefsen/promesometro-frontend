@@ -19,7 +19,7 @@ export default {
     async mounted() {
         AmplifyEventBus.$on('authState', info => {
             if (info === 'signIn') {
-                this.$router.replace('iniciarSesion')
+                this.$router.replace('ingresar')
             }
         });
     }

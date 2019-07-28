@@ -11,6 +11,7 @@ import AdminCandidatesList from '../components/admin/candidate/AdminCandidatesLi
 import PromiseDetail from '../components/PromiseDetail.vue'
 import SignUp from '../components/auth/SignUp.vue'
 import ConfirmSignUp from '../components/auth/ConfirmSignUp.vue'
+import SignIn from '../components/auth/SignIn.vue'
 
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -18,6 +19,7 @@ export default new VueRouter({
     { path: '/', component: LandingPage },
     { path: '/registrar', component: SignUp},
     { path: '/confirmar', name: 'confirmSignUp', component: ConfirmSignUp, props: true },
+    { path: '/ingresar', component: SignIn },
     { path: '/promesas/agregar', component: PromiseCreate },
     { path: '/promesas', component: Promises },
     { path: '/promesas/:id', component: PromiseDetail },

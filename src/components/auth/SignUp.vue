@@ -52,7 +52,7 @@ export default {
                 console.log("Username "+this.username)
                 this.$router.replace({ name: 'confirmSignUp', params: { username: this.username} })
             } else if (info === 'signIn') {
-                this.$router.replace('iniciarSesion')
+                this.$router.replace('ingresar')
             }
         });
     }

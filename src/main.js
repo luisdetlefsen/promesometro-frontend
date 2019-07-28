@@ -18,7 +18,15 @@ const dict = {
         'Lost your code? ': "Perdiste el codigo? ",
         'Resend Code': "Reenviar codigo",
         'Back to Sign In': "Iniciar Sesion",
-        'Confirm': "Confirmar"
+        'Confirm': "Confirmar",
+        'Enter your Correo Electronico': "Ingresa tu correo electronico",
+        'Enter your password': "Ingresa tu contraseña",
+        'Password': "Contraseña",
+        'Forget your password? ': "Olvidaste tu contraseña? ",
+        'Reset password': "Reiniciar contraseña",
+        'Sign In': "Iniciar sesion",
+        'No account? ': "Aun no tienes cuenta? ",
+        'Create account': "Crear cuenta"
     }
 };
 
