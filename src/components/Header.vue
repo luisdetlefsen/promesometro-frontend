@@ -3,18 +3,50 @@
     <a class="navbar-brand-text" href="#" v-on:click="goHome">
       <img class="logo" src="../assets/img/promesometro1.svg" alt="Promesometro">
     </a>
-    <router-link class="btn btn-primary login" to="/ingresar">Ingresar</router-link>
-    <router-link class="btn btn-primary signup" to="/registrar">Registrarse</router-link>
+    <router-link v-if="!signedIn" class="btn btn-primary login" to="/ingresar">Ingresar</router-link>
+    <router-link v-if="!signedIn" class="btn btn-primary signup" to="/registrar">Registrarse</router-link>
+    <amplify-sign-out v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
   </nav>
 </template>
 
 <script>
+import { AmplifyEventBus } from 'aws-amplify-vue'
+
 export default {
   props: {},
+  data () {
+    return {
+      signedIn: false,
+      signOutConfig: {
+        signOutButton: 'Cerrar sesion'
+      }
+    }
+  },
   methods: {
     goHome () {
       this.$router.push('/')
     }
+  },
+  async beforeCreate () {
+    try {
+      await this.$Amplify.Auth.currentAuthenticatedUser()
+      this.signedIn = true
+    } catch (err) {
+      this.signedIn = false
+    }
+    AmplifyEventBus.$on('authState', info => {
+      this.signedIn = info === 'signedIn'
+    })
+  },
+  mounted () {
+    AmplifyEventBus.$on('authState', info => {
+      if (info === 'signedOut') {
+        this.signedIn = false
+        this.$router.replace('/')
+      } else if (info === 'signedIn') {
+        this.signedIn = true
+      }
+    })
   }
 }
 </script>
