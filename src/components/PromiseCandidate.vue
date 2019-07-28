@@ -45,6 +45,7 @@ export default {
   margin-left: 15px;
   margin-right: 15px;
   padding: 5px;
+  cursor: pointer;
 }
 
 img {
@@ -71,4 +72,5 @@ li {
   margin-right: 15px;
   padding: 5px;
 }
+
 </style>
