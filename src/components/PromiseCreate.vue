@@ -221,7 +221,7 @@ export default {
         // this.promise.LATITUDE = 1.2; //TODO:
         // this.promise.LONGITUDE = 1.2;
         this.promise.DEVICE = this.getUserAgent()
-        this.promise.USER_ID = 1
+        this.promise.USER_ID = 2
         await this.restDataSource.savePromise(this.promise)
         this.$swal(
           'Promesa agregada',

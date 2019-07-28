@@ -22,6 +22,7 @@
         :candidateName="p.NAME"
         :promise="p.PROMISE"
         :candidateImgUrl="p.PIC_URL"
+        v-on:click.native="goToPromise(p.PROMISE_ID)"
       />
     </div>
     <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;margin-top:35px;">
@@ -58,6 +59,9 @@ export default {
     }
   },
   methods: {
+    goToPromise (id) {
+      this.$router.push('/promesas/' + id)
+    },
     async getAndSetMinPromiseId () {
       // let minPromiseId = await this.restDataSource.getMinPromiseId()
       let minPromiseId = await this.restDataSource.getPagedPromises(-1, 1)
