@@ -7,6 +7,7 @@ const partiesUrl = baseUrl + 'parties/'
 const candidatesUrl = baseUrl + 'candidates/'
 const candidateRolesUrl = baseUrl + 'candidateroles/'
 const promisesUrl = baseUrl + 'promises/'
+const commentsUrl = baseUrl + 'comment/'
 
 export class RestDataSource {
   constructor (bus) {
@@ -75,6 +76,14 @@ export class RestDataSource {
 
   async getPagedPromises (startingId, count) {
     return (await this.sendRequest('GET', promisesUrl + startingId + '/' + count)).data
+  }
+
+  async getPromiseComments (promiseId) {
+    return (await this.sendRequest('GET', commentsUrl + 'promise/' + promiseId)).data
+  }
+
+  async saveComment (commentData) {
+    await this.sendRequest('POST', commentsUrl, commentData)
   }
 
   async sendRequest (httpMethod, url, party) {
