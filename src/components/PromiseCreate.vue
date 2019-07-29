@@ -20,22 +20,17 @@
                 :controls-visible="true"
                 :clickable="false"
                 :count="parties.length"
+                :disable3d="true"
+                :space="365"
 
                 ref="partyCarousel"
                 v-on:after-slide-change="updateAvailableCandidates"
+                v-on:before-slide-change="updatePartiesCarousel"
               >
                 <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.PARTY_ID">
                   <figure>
-                    <img class="partyLogo" :src='party.LOGO_URL'>
-                    <!-- <figcaption>
-                      <strong>{{party.PARTY}}</strong>
-
-                    </figcaption> -->
+                    <img class="partyLogo" style="padding:40px;" :src='party.LOGO_URL'>
                   </figure>
-                  <!-- <div>
-                    <h1 class="text-center">{{party.PARTY}}</h1> -
-                    <img class="partyLogo" :src='party.LOGO_URL' alt="">
-                  </div> -->
                 </slide>
               </carousel-3d>
             </div>
@@ -48,18 +43,22 @@
             </div>
           </div>
           <div class="form-row">
-            <div class="col-12 col-md-12 mb-2 mb-md-0">
+            <div class="col-12 col-md-12 mb-2 mb-md-0 candidatesCarousel">
               <carousel-3d
                 :controls-visible="true"
                 :count="candidates.length"
                 ref="candidatesCarousel"
+                :disable3d="true"
+                :space="365"
+                v-on:after-slide-change="updateCandidatesCarousel"
+                v-on:before-slide-change="updateCandidatesCarouselBefore"
               >
                 <slide
                   v-for="(candidate, i) in candidates"
                   :index="i"
                   v-bind:key="candidate.CANDIDATE_ID"
                 >
-                  <div>
+                  <div >
                     <figure>
                     <img class="partyLogo" :src='candidate.PIC_URL'>
                     <figcaption>
@@ -145,6 +144,37 @@ export default {
   },
   inject: ['eventBus', 'restDataSource'],
   methods: {
+    setOpaqueLayers () {
+      // let elements = document.querySelectorAll('.carousel-3d-slide:not(.current)')
+      let elements = document.querySelectorAll('.carousel-3d-slide')
+      for (let i = 0; i < elements.length; i++) {
+        let layerColored = document.createElement('div')
+        layerColored.className = 'layer'
+        elements[i].appendChild(layerColored)
+      }
+    },
+    updatePartiesCarousel (currIndex) {
+      let layerElements = document.querySelectorAll('.carousel-3d-slide.current>div.layer')
+      layerElements[0].style.display = 'block'
+    },
+    updateCandidatesCarouselBefore (currIndex) {
+      let layerElements = document.querySelectorAll('div.candidatesCarousel div.carousel-3d-slide.current>div.layer')
+      layerElements[0].style.display = 'block'
+    },
+    updateCandidatesCarousel (currIndex) {
+      let existingLayers = document.querySelectorAll('div.candidatesCarousel div.carousel-3d-slide.current>div.layer')
+      if (!existingLayers.length) {
+        let elements = document.querySelectorAll('div.candidatesCarousel div.carousel-3d-slide')
+        for (let i = 0; i < elements.length; i++) {
+          let layerColored = document.createElement('div')
+          layerColored.className = 'layer'
+          elements[i].appendChild(layerColored)
+        }
+      }
+
+      let layerElements = document.querySelectorAll('div.candidatesCarousel div.carousel-3d-slide.current>div.layer')
+      layerElements[0].style.display = 'none'
+    },
     fileAdded (file) {
       this.filesUploading += 1
     },
@@ -189,6 +219,10 @@ export default {
         $('#spinnerSubmit').hide()
         $('#btnSavePromise').removeAttr('disabled')
       }
+    },
+    goToRandomParty () {
+      let randomParty = Math.floor(Math.random() * this.parties.length)
+      this.$refs.partyCarousel.goSlide(randomParty)
     },
     async save () {
       if (this.filesUploading > 0) {
@@ -258,6 +292,10 @@ export default {
       this.candidates.splice(0)
       this.candidates.push(...newArr)
       this.$refs.candidatesCarousel.goSlide(0)
+
+      // remove opaque layer to current slide
+      let layerElements = document.querySelectorAll('.carousel-3d-slide.current>div.layer')
+      layerElements[0].style.display = 'none'
     },
     s3UploadError (errorMessage) {
       this.$swal('Error', errorMessage, 'error')
@@ -327,12 +365,8 @@ export default {
     this.getAllParties(await this.restDataSource.getParties())
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
     $('#spinnerSubmit').hide()
-    let elements = document.querySelectorAll('.carousel-3d-slide:not(.current)')
-    for (let i = 0; i < elements.length; i++) {
-      let layerColored = document.createElement('div')
-      layerColored.classList.add('layer')
-      elements[i].appendChild(layerColored)
-    }
+    this.setOpaqueLayers()
+    this.goToRandomParty()
   }
 }
 </script>
@@ -355,14 +389,10 @@ export default {
   border-color: purple;
 }
 
-.login {
-  margin-right: 1rem;
-  margin-left: auto;
-}
-
 .carousel-3d-slide {
-  box-shadow: inset 0 0 0 1000px rgba(178, 18, 178, 0.2) !important;
-  opacity: 0.5 !important;
+  // box-shadow: inset 0 0 0 10000px rgba(178, 18, 178, 0.4) !important;
+  background-color: white;
+  opacity: 0.7 !important;
 }
 .carousel-3d-slide.current {
   box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0) !important;
@@ -382,29 +412,17 @@ export default {
 
 .carousel-3d-container figure {
   margin:0;
+  background-color: rgba(192, 29, 29, 0.5);
 }
 
 .carousel-3d-container figcaption {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(192, 29, 29, 0.5);
   color: #fff;
   bottom: 0;
   padding: 15px;
   min-width: 100%;
   box-sizing: border-box;
-}
-
-.layer {
-    background-color: rgba(230, 117, 205, 0.25);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 88%;
-    height: 100%;
-
-    margin-left: 15px;
-  margin-right: 15px;
-  padding: 5px;
 }
 
 </style>
