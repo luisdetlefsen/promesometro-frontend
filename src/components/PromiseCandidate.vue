@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: "PromiseCandidate",
+  name: 'PromiseCandidate',
   props: {
     party: String,
     candidateName: String,
@@ -41,7 +41,7 @@ export default {
     daysPassed: String,
     upvotes: Number
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

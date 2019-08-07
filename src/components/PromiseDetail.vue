@@ -57,9 +57,9 @@ export default {
       }
       await this.restDataSource.saveComment(payload)
       let comment = {
-          COMMENT_DATE : "now",
-          COMMENT : payload.COMMENT_V,
-          USER : "test user"
+        COMMENT_DATE: 'now',
+        COMMENT: payload.COMMENT_V,
+        USER: 'test user'
       }
       this.comments.push(comment)
     }

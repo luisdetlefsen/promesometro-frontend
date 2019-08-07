@@ -309,8 +309,8 @@ export default {
       let layerElements = document.querySelectorAll('.carousel-3d-slide.current>div.layer')
       this.updateLayerElements(layerElements, 'none')
     },
-    updateLayerElements(elementsArray, elementStyle){
-      if(elementsArray && elementsArray.length > 0){
+    updateLayerElements (elementsArray, elementStyle) {
+      if (elementsArray && elementsArray.length > 0) {
         elementsArray[0].style.display = elementStyle
       }
     },
