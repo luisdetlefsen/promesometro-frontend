@@ -7,12 +7,13 @@
     </div>
 
     <div class="row">
-      Promesa: {{this.promise.id}}
+
       <promise-candidate
         :party="promise.PARTY"
         :candidateName="promise.NAME"
         :promise="promise.PROMISE"
         :candidateImgUrl="promise.PIC_URL"
+        :upvotes="promise.FEEL_SUM"
       />
     </div>
     <div class="row">
@@ -49,12 +50,18 @@ export default {
       let payload = {
         PROMISE_ID_V: this.$route.params.id,
         USER_ID_V: '2',
-        DATE_V: '2019-07-28',
+        DATE_V: '2019-07-04',
         LAT_V: '',
         LONG_V: '',
         COMMENT_V: 'comment from test api'
       }
       await this.restDataSource.saveComment(payload)
+      let comment = {
+          COMMENT_DATE : "now",
+          COMMENT : payload.COMMENT_V,
+          USER : "test user"
+      }
+      this.comments.push(comment)
     }
   },
   data: function () {

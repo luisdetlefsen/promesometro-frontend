@@ -21,7 +21,9 @@
                 :clickable="false"
                 :count="parties.length"
                 :disable3d="true"
-                :space="365"
+                :space="200"
+                :width=200
+                :height=200
 
                 ref="partyCarousel"
                 v-on:after-slide-change="updateAvailableCandidates"
@@ -29,7 +31,7 @@
               >
                 <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.PARTY_ID">
                   <figure>
-                    <img class="partyLogo" style="padding:40px;" :src='party.LOGO_URL'>
+                    <img class="partyLogo" style="padding:10px;" :src='party.LOGO_URL'>
                   </figure>
                 </slide>
               </carousel-3d>
@@ -49,7 +51,9 @@
                 :count="candidates.length"
                 ref="candidatesCarousel"
                 :disable3d="true"
-                :space="365"
+                :space="199"
+                 :width=200
+                :height=200
                 v-on:after-slide-change="updateCandidatesCarousel"
                 v-on:before-slide-change="updateCandidatesCarouselBefore"
               >
@@ -60,7 +64,7 @@
                 >
                   <div >
                     <figure>
-                    <img class="partyLogo" :src='candidate.PIC_URL'>
+                    <img class="partyLogo" style="border: solid black 1px;" :src='candidate.PIC_URL'>
                     <figcaption>
                       <strong class="text-center">{{candidate.NAME}}</strong> <br>
                   <strong class="text-center">{{candidate.POSITION}}</strong>
@@ -155,11 +159,11 @@ export default {
     },
     updatePartiesCarousel (currIndex) {
       let layerElements = document.querySelectorAll('.carousel-3d-slide.current>div.layer')
-      layerElements[0].style.display = 'block'
+      this.updateLayerElements(layerElements, 'block')
     },
     updateCandidatesCarouselBefore (currIndex) {
       let layerElements = document.querySelectorAll('div.candidatesCarousel div.carousel-3d-slide.current>div.layer')
-      layerElements[0].style.display = 'block'
+      this.updateLayerElements(layerElements, 'block')
     },
     updateCandidatesCarousel (currIndex) {
       let existingLayers = document.querySelectorAll('div.candidatesCarousel div.carousel-3d-slide.current>div.layer')
@@ -173,7 +177,7 @@ export default {
       }
 
       let layerElements = document.querySelectorAll('div.candidatesCarousel div.carousel-3d-slide.current>div.layer')
-      layerElements[0].style.display = 'none'
+      this.updateLayerElements(layerElements, 'none')
     },
     fileAdded (file) {
       this.filesUploading += 1
@@ -215,6 +219,7 @@ export default {
       try {
         this.save()
       } catch (err) {
+        this.$swal('Error', 'Ocurrió un error al ingresar la promesa. Por favor intenta más tarde.', 'error')
       } finally {
         $('#spinnerSubmit').hide()
         $('#btnSavePromise').removeAttr('disabled')
@@ -262,7 +267,7 @@ export default {
           'La promesa fue agregada. Gracias por contribuir!',
           'success'
         ).then(val => {
-          this.$router.go()
+          this.resetForm()
         })
       } catch (err) {
         this.$swal(
@@ -272,6 +277,13 @@ export default {
           'error'
         )
       }
+    },
+    resetForm () {
+      this.promise = {
+        filesUploaded: []
+      }
+      this.$refs.myVueDropzone.removeAllFiles()
+      this.goToRandomParty()
     },
     getAllParties (newParties) {
       this.parties.splice(0)
@@ -295,7 +307,12 @@ export default {
 
       // remove opaque layer to current slide
       let layerElements = document.querySelectorAll('.carousel-3d-slide.current>div.layer')
-      layerElements[0].style.display = 'none'
+      this.updateLayerElements(layerElements, 'none')
+    },
+    updateLayerElements(elementsArray, elementStyle){
+      if(elementsArray && elementsArray.length > 0){
+        elementsArray[0].style.display = elementStyle
+      }
     },
     s3UploadError (errorMessage) {
       this.$swal('Error', errorMessage, 'error')
@@ -392,11 +409,16 @@ export default {
 .carousel-3d-slide {
   // box-shadow: inset 0 0 0 10000px rgba(178, 18, 178, 0.4) !important;
   background-color: white;
-  opacity: 0.7 !important;
+  // opacity: 0.7 !important;
 }
 .carousel-3d-slide.current {
   box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0) !important;
   opacity: 1 !important;
+}
+
+.carousel-3d-slide.current>figure>img
+,.carousel-3d-slide.current>div>figure>img{
+  filter:grayscale(0);
 }
 
 .partyLogo{
@@ -408,6 +430,7 @@ export default {
   /* Maintain aspect ratio */
   max-height: 100%;
   max-width: 100%;
+  filter: grayscale(100%);
 }
 
 .carousel-3d-container figure {
@@ -417,7 +440,7 @@ export default {
 
 .carousel-3d-container figcaption {
   position: absolute;
-  background-color: rgba(192, 29, 29, 0.5);
+  background-color: rgba(101, 4, 85, 0.5);
   color: #fff;
   bottom: 0;
   padding: 15px;

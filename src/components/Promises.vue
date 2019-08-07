@@ -18,10 +18,11 @@
       <promise-candidate
         v-for="p in promises"
         v-bind:key="p.PROMISE_ID"
-        :party="p.PARTY"
+        :party="p.SHORT_NAME"
         :candidateName="p.NAME"
         :promise="p.PROMISE"
         :candidateImgUrl="p.PIC_URL"
+        :upvotes="p.FEEL_SUM"
         v-on:click.native="goToPromise(p.PROMISE_ID)"
       />
     </div>
