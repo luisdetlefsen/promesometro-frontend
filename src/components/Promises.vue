@@ -17,12 +17,12 @@
       </div>
       <promise-candidate
         v-for="p in promises"
-        v-bind:key="p.PROMISE_ID"
-        :promiseId="p.PROMISE_ID"
-        :party="p.SHORT_NAME"
-        :candidateName="p.NAME"
-        :promise="p.PROMISE"
-        :candidateImgUrl="p.PIC_URL"
+        v-bind:key="p.idPromise"
+        :promiseId="p.idPromise"
+        :party="p._embedded.party.shortName"
+        :candidateName="p._embedded.candidate.candidateName"
+        :promise="p.promiseText"
+        :candidateImgUrl="p._embedded.candidate.imgUrl"
         :upvotes="p.FEEL_SUM"
         :daysPassed="0"
         :displayPromiseLink="true"
@@ -53,7 +53,7 @@ export default {
         last: 'Última'
       },
       paginatorData: {
-        currentPage: 1,
+        currentPage: 0,
         promiseMinId: 0,
         totalPromisesCount: 0,
         itemsPerPage: 20
@@ -62,37 +62,29 @@ export default {
     }
   },
   methods: {
-    async getAndSetMinPromiseId () {
-      // let minPromiseId = await this.restDataSource.getMinPromiseId()
-      let minPromiseId = await this.restDataSource.getPagedPromises(-1, 1)
-      let realValue = minPromiseId[0].PROMISE_ID
-      if (realValue >= 0) {
-        this.paginatorData.promiseMinId = realValue
-      } else {
-        // todo: handle error
-      }
-    },
-    async getAndSetTotalPromisesCount () {
-      let totalPromisesCount = await this.restDataSource.getTotalPromisesCount()
-      let realValue = totalPromisesCount.count
-      if (realValue >= 0) {
-        this.paginatorData.totalPromisesCount = realValue
-      } else {
-        // todo: handle error
-      }
-    },
-    async getPagedPromises (page, count) {
-      let minId = this.paginatorData.promiseMinId + ((page - 1) * count)
-      return this.restDataSource.getPagedPromises(minId, this.paginatorData.itemsPerPage)
+    async getPagedPromises (page) {
+      return this.restDataSource.getPagedPromises(page)
     },
     getAllPromises (newPromises) {
+      this.paginatorData.itemsPerPage = newPromises.page.size
+      this.paginatorData.currentPage = newPromises.page.number
+      this.paginatorData.totalPromisesCount = newPromises.page.totalElements
       this.promises.splice(0)
-      this.promises.push(...newPromises)
+      for (let i = 0; i < newPromises._embedded.promises.length; i++) { // ugly fix for spring
+        newPromises._embedded.promises[i].idPromise = newPromises._embedded.promises[i].id
+        newPromises._embedded.promises[i].id = undefined
+      }
+
+      this.promises.push(...newPromises._embedded.promises)
       $('#spinnerPromises').hide()
     },
     async callbackPagination (page) {
-      let pagedPromises = await this.getPagedPromises(page, this.paginatorData.itemsPerPage)
+      let pagedPromises = await this.getPagedPromises(page)
       this.promises.splice(0)
+      for (let i = 0; i < pagedPromises.length; i++) { // ugly fix for spring
+        pagedPromises[i].idPromise = pagedPromises[i].id
+        pagedPromises[i].id = undefined
+      }
       this.promises.push(...pagedPromises)
     }
   },
@@ -101,9 +93,7 @@ export default {
     // this.getAllPromises(await this.restDataSource.getAllPromises())
     // this.eventBus.$on('completeCandidate', this.processCompleteCandidate)
     window.scrollTo(0, 0)
-    await this.getAndSetMinPromiseId()
-    await this.getAndSetTotalPromisesCount()
-    this.getAllPromises(await this.getPagedPromises(1, this.paginatorData.itemsPerPage))
+    this.getAllPromises(await this.restDataSource.getAllPromises())
   }
 }
 </script>

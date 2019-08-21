@@ -80,17 +80,13 @@ export class RestDataSource {
   async savePromise (promise) {
     await this.sendRequest('POST', promisesUrl, promise)
   }
-
+  // migrated
   async getAllPromises () {
     return (await this.sendRequest('GET', promisesUrl)).data
   }
-
-  async getTotalPromisesCount () {
-    return (await this.sendRequest('GET', promisesUrl + 'count')).data
-  }
-
-  async getPagedPromises (startingId, count) {
-    return (await this.sendRequest('GET', promisesUrl + startingId + '/' + count)).data
+  // migrated
+  async getPagedPromises (page) {
+    return (await this.sendRequest('GET', promisesUrl + 'page=' + page)).data._embedded.promises
   }
 
   async getPromiseComments (promiseId) {

@@ -248,7 +248,7 @@ export default {
       }
       try {
         this.promise.idParty = this.parties[this.$refs.partyCarousel.currentIndex].idParty
-        this.promise.party = this.parties[this.$refs.partyCarousel.currentIndex].party
+        this.promise.party = this.parties[this.$refs.partyCarousel.currentIndex]._links.self.href
         this.promise.idCandidate = this.candidates[this.$refs.candidatesCarousel.currentIndex].idCandidate
         this.promise.candidate = this.candidates[this.$refs.candidatesCarousel.currentIndex]._links.self.href
         if (this.promise.LATITUDE === undefined) {
