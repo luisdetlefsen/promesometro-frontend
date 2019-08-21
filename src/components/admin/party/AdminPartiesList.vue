@@ -21,9 +21,9 @@
         <th></th>
       </tr>
       <tbody>
-        <tr v-for="p in parties" v-bind:key="p.PARTY_ID">
-          <td>{{p.PARTY}}</td>
-          <td> <img :src=p.LOGO_URL alt="" class="partySmall"></td>
+        <tr v-for="p in parties" v-bind:key="p.idParty">
+          <td>{{p.party}}</td>
+          <td> <img :src=p.logoUrl alt="" class="partySmall"></td>
 
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editParty(p)">Editar</button>
@@ -102,7 +102,7 @@ export default {
     async deleteParty (party) {
       this.$swal({
         title: 'Eliminar partido',
-        text: 'Seguro que deseas eliminar el partido ' + party.PARTY,
+        text: 'Seguro que deseas eliminar el partido ' + party.party,
         icon: 'warning',
         buttons: true,
         dangerMode: true
@@ -110,10 +110,10 @@ export default {
         if (willDelete) {
           this.restDataSource.deleteParty(party)
           let index = this.parties.findIndex(
-            p => p.PARTY_ID === party.PARTY_ID
+            p => p.idParty === party.idParty
           )
           this.parties.splice(index, 1)
-          this.$swal('Partido eliminiado: ' + party.PARTY, {
+          this.$swal('Partido eliminiado: ' + party.party, {
             icon: 'success'
           })
         }
@@ -121,19 +121,23 @@ export default {
     },
     getAllParties (newParties) {
       this.parties.splice(0)
+      for (let i = 0; i < newParties.length; i++) { // ugly fix for spring
+        newParties[i].idParty = newParties[i].id
+        newParties[i].id = undefined
+      }
       this.parties.push(...newParties)
       $('#spinnerParties').hide()
     },
     async processCompleteParty (party) {
-      let index = this.parties.findIndex(p => p.PARTY_ID === party.PARTY_ID)
+      let index = this.parties.findIndex(p => p.idParty === party.idParty)
       if (index === -1) {
         await this.restDataSource.saveParty(party)
         this.parties.push(party)
-        this.$swal('Partido agregado', party.PARTY, 'success')
+        this.$swal('Partido agregado', party.party, 'success')
       } else {
         await this.restDataSource.updateParty(party)
         Vue.set(this.parties, index, party)
-        this.$swal('Partido actualizado', party.PARTY, 'success')
+        this.$swal('Partido actualizado', party.party, 'success')
       }
     }
   },

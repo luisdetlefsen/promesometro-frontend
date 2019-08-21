@@ -11,44 +11,31 @@
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Nombre partido</span>
-            <input class="form-control" v-model="party.PARTY">
+            <input class="form-control" v-model="party.party">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Siglas partido</span>
-            <input class="form-control" v-model="party.SHORT_NAME">
+            <input class="form-control" v-model="party.shortName">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Url logo partido</span>
-            <input class="form-control" type="url" v-model="party.LOGO_URL">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Secretario</span>
-            <input class="form-control" v-model="party.SECRETARY">
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Fundador</span>
-            <input class="form-control" v-model="party.FOUNDER">
+            <input class="form-control" type="url" v-model="party.logoUrl">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Url sitio</span>
-            <input class="form-control" type="url" v-model="party.SITE_URL">
+            <input class="form-control" type="url" v-model="party.siteUrl">
           </div>
         </div>
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Descripción</span>
-            <input class="form-control" v-model="party.DESCRIPTION">
+            <input class="form-control" v-model="party.description">
           </div>
         </div>
       </div>
@@ -78,14 +65,12 @@ export default {
     startEdit (party) {
       this.editing = true
       this.party = {
-        PARTY_ID: party.PARTY_ID,
-        SHORT_NAME: party.SHORT_NAME,
-        PARTY: party.PARTY,
-        LOGO_URL: party.LOGO_URL,
-        SECRETARY: party.SECRETARY,
-        FOUNDER: party.FOUNDER,
-        SITE_URL: party.SITE_URL,
-        DESCRIPTION: party.DESCRIPTION
+        idParty: party.idParty,
+        shortName: party.shortName,
+        party: party.party,
+        logoUrl: party.logoUrl,
+        siteUrl: party.siteUrl,
+        description: party.description
       }
     },
     startCreate () {

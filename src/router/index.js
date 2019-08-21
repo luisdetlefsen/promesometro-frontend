@@ -20,13 +20,13 @@ const router = new VueRouter({
     { path: '/registrar', component: SignUp, meta: { requiresAuth: false } },
     { path: '/confirmar', name: 'confirmSignUp', component: ConfirmSignUp, props: true, meta: { requiresAuth: false } },
     { path: '/ingresar', component: SignIn, meta: { requiresAuth: false } },
-    { path: '/promesas/agregar', component: PromiseCreate, meta: { requiresAuth: true } },
+    { path: '/promesas/agregar', component: PromiseCreate, meta: { requiresAuth: false } },
     { path: '/promesas', component: Promises, meta: { requiresAuth: false } },
     { path: '/promesas/:id', component: PromiseDetail, meta: { requiresAuth: false } },
-    { path: '/admin', component: AdminMenu, meta: { requiresAuth: true } },
-    { path: '/admin/partidos', component: AdminPartiesList, meta: { requiresAuth: true } },
-    { path: '/admin/candidatos', component: AdminCandidatesList, meta: { requiresAuth: true } },
-    { path: '/admin/candidatos/roles', component: AdminCandidateRolesList, meta: { requiresAuth: true } },
+    { path: '/admin', component: AdminMenu, meta: { requiresAuth: false } },
+    { path: '/admin/partidos', component: AdminPartiesList, meta: { requiresAuth: false } },
+    { path: '/admin/candidatos', component: AdminCandidatesList, meta: { requiresAuth: false } },
+    { path: '/admin/candidatos/roles', component: AdminCandidateRolesList, meta: { requiresAuth: false } },
     { path: '*', redirect: '/' }
   ]
 })

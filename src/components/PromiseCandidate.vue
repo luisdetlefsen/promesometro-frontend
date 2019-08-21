@@ -109,7 +109,7 @@ li {
 .candidateLayer{
   min-width:128px;min-height:128px;max-width:128px;max-height:128px;margin:5px;border-radius:10px;
   background-repeat: no-repeat;
-  background-color: rgb(116, 29, 167);
+  background-color: rgb(160, 128, 179);
   background-blend-mode: luminosity;
 }
 

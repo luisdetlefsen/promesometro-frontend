@@ -56,7 +56,7 @@ export default {
         currentPage: 1,
         promiseMinId: 0,
         totalPromisesCount: 0,
-        itemsPerPage: 5
+        itemsPerPage: 20
 
       }
     }

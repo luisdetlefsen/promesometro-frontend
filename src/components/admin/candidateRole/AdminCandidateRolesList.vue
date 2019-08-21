@@ -9,7 +9,7 @@
         id="btnAdd"
         class="btn btn-primary"
         data-toggle="modal"
-        v-on:click="editCandidateRole"
+        v-on:click="createCandidateRole"
         data-target="#exampleModal"
       >Agregar</button>
     </div>
@@ -21,8 +21,8 @@
         <th></th>
       </tr>
       <tbody>
-        <tr v-for="t in candidateRoles" v-bind:key="t.POSITION_ID">
-          <td>{{t.POSITION}}</td>
+        <tr v-for="t in candidateRoles" v-bind:key="t.idCandidateType">
+          <td>{{t.position}}</td>
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editCandidateRole(t)">Editar</button>
             <button class="btn btn-sm btn-danger" v-on:click="deleteCandidateRole(t)">Eliminar</button>
@@ -91,11 +91,15 @@ export default {
       $('#exampleModal').modal('show')
       this.eventBus.$emit('editCandidateRole', candidateRole)
     },
+    createCandidateRole () {
+      $('#exampleModal').modal('show')
+      this.eventBus.$emit('createCandidateRole')
+    },
     async deleteCandidateRole (candidateRole) {
       this.$swal({
         title: 'Eliminar tipo candidato',
         text:
-          'Seguro que deseas eliminar el tipo ' + candidateRole.POSITION + '?',
+          'Seguro que deseas eliminar el tipo ' + candidateRole.position + '?',
         icon: 'warning',
         buttons: true,
         dangerMode: true
@@ -103,10 +107,10 @@ export default {
         if (willDelete) {
           this.restDataSource.deleteCandidateRole(candidateRole)
           var index = this.candidateRoles.findIndex(
-            c => c.POSITION_ID === candidateRole.POSITION_ID
+            c => c.idCandidateType === candidateRole.idCandidateType
           )
           this.candidateRoles.splice(index, 1)
-          this.$swal('Tipo candidato eliminado: ' + candidateRole.POSITION, {
+          this.$swal('Tipo candidato eliminado: ' + candidateRole.position, {
             icon: 'success'
           })
         }
@@ -114,21 +118,25 @@ export default {
     },
     getAllCandidateRoles (newCandidateRoles) {
       this.candidateRoles.splice(0)
+      for (let i = 0; i < newCandidateRoles.length; i++) { // ugly fix for spring
+        newCandidateRoles[i].idCandidateType = newCandidateRoles[i].id
+        newCandidateRoles[i].id = undefined
+      }
       this.candidateRoles.push(...newCandidateRoles)
       $('#spinnerRoles').hide()
     },
     async processCompleteCandidateRole (candidateRole) {
       let index = this.candidateRoles.findIndex(
-        c => c.POSITION_ID === candidateRole.POSITION_ID
+        c => c.idCandidateType === candidateRole.idCandidateType
       )
-      if (index === -1) {
+      if (index < 0 || candidateRole.idCandidateType === undefined) {
         await this.restDataSource.saveCandidateRole(candidateRole)
         this.candidateRoles.push(candidateRole)
-        this.$swal('Tipo candidato agregado', candidateRole.POSITION, 'success')
+        this.$swal('Tipo candidato agregado', candidateRole.position, 'success')
       } else {
         await this.restDataSource.updateCandidateRole(candidateRole)
         Vue.set(this.candidateRoles, index, candidateRole)
-        this.$swal('Tipo candidato actualizado', candidateRole.POSITION, 'success')
+        this.$swal('Tipo candidato actualizado', candidateRole.position, 'success')
       }
     }
   },

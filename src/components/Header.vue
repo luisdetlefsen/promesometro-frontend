@@ -30,6 +30,8 @@ export default {
   async beforeCreate () {
     try {
       await this.$Amplify.Auth.currentAuthenticatedUser()
+      let a = await this.$Amplify.Auth.currentCredentials()
+      console.log(a)
       this.signedIn = true
     } catch (err) {
       this.signedIn = false

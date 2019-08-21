@@ -7,22 +7,16 @@
       </div>
       </div>
       <div class="card-body">
-        <!-- <div class="form-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Id</span>
-            <input type="text" class="form-control" v-model="candidateRole.POSITION_ID">
-          </div>
-        </div> -->
         <div class="form-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Tipo candidato</span>
-            <input type="text" class="form-control" v-model="candidateRole.POSITION">
+            <input type="text" class="form-control" v-model="candidateRole.position">
           </div>
         </div>
       </div>
       <div class="card-footer">
           <div class="text-center">
-            <button class="btn btn-primary" v-on:click="save">{{editing?"Guardar cambios": "Crear"}}</button>
+            <button class="btn btn-primary" v-on:click="save">{{this.editing?"Guardar cambios": "Crear"}}</button>
             <button class="btn btn-secondary" v-on:click="cancel">Cancelar</button>
           </div>
         </div>
@@ -42,8 +36,8 @@ export default {
     startEdit (candidateRole) {
       this.editing = true
       this.candidateRole = {
-        POSITION_ID: candidateRole.POSITION_ID,
-        POSITION: candidateRole.POSITION
+        idCandidateType: candidateRole.idCandidateType,
+        position: candidateRole.position
       }
     },
     startCreate () {

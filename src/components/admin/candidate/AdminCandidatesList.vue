@@ -22,10 +22,10 @@
         <th>Foto</th>
       </tr>
       <tbody>
-        <tr v-for="c in candidates" v-bind:key="c.CANDIDATE_ID">
-          <td>{{c.NAME}}</td>
-          <td>{{c.PARTY}}</td>
-          <td>{{c.POSITION}}</td>
+        <tr v-for="c in candidates" v-bind:key="c.idCandidate">
+          <td>{{c.candidateName}}</td>
+          <td>{{c._embedded.party.shortName}}</td>
+          <td>{{c._embedded.candidateType.position}}</td>
           <td> <img :src=c.PIC_URL alt="" class="candidateSmall"> </td>
 
           <td>
@@ -99,21 +99,21 @@ export default {
     },
     editCandidate (candidate) {
       $('#exampleModal').modal('show')
-      this.eventBus.$emit('editCandidate', candidate)
+      if (candidate.idCandidate) { this.eventBus.$emit('editCandidate', candidate) } else { this.eventBus.$emit('createCandidate', candidate) }
     },
     async deleteCandidate (candidate) {
       this.$swal({
         title: 'Eliminar candidato',
-        text: 'Seguro que deseas eliminar el candidato ' + candidate.NAME + '?',
+        text: 'Seguro que deseas eliminar el candidato ' + candidate.candidateName + '?',
         icon: 'warning',
         buttons: true,
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
           this.restDataSource.deleteCandidate(candidate)
-          var index = this.candidates.findIndex(c => c.CANDIDATE_ID === candidate.CANDIDATE_ID)
+          var index = this.candidates.findIndex(c => c.idCandidate === candidate.idCandidate)
           this.candidates.splice(index, 1)
-          this.$swal('Candidato eliminado: ' + candidate.NAME, {
+          this.$swal('Candidato eliminado: ' + candidate.candidateName, {
             icon: 'success'
           })
         }
@@ -121,19 +121,23 @@ export default {
     },
     getAllCandidates (newCandidates) {
       this.candidates.splice(0)
+      for (let i = 0; i < newCandidates.length; i++) { // ugly fix for spring
+        newCandidates[i].idCandidate = newCandidates[i].id
+        newCandidates[i].id = undefined
+      }
       this.candidates.push(...newCandidates)
       $('#spinnerCandidates').hide()
     },
     async processCompleteCandidate (candidate) {
-      let index = this.candidates.findIndex(c => c.CANDIDATE_ID === candidate.CANDIDATE_ID)
+      let index = this.candidates.findIndex(c => c.idCandidate === candidate.idCandidate)
       if (index === -1) {
         await this.restDataSource.saveCandidate(candidate)
         this.candidates.push(candidate)
-        this.$swal('Candidato agregado', candidate.NAME, 'success')
+        this.$swal('Candidato agregado', candidate.candidateName, 'success')
       } else {
         await this.restDataSource.updateCandidate(candidate)
         Vue.set(this.candidates, index, candidate)
-        this.$swal('Candidato actualizado', candidate.NAME, 'success')
+        this.$swal('Candidato actualizado', candidate.candidateName, 'success')
       }
     }
   },

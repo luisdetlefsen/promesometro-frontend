@@ -33,8 +33,7 @@
       <div class="col-lg-6 offset-md-3 offset-lg-3">
         <div class="panel panel-info">
           <div class="panel-body">
-            <textarea placeholder="Escribe tu comentario aquí" class="pb-cmnt-textarea"></textarea>
-
+            <textarea placeholder="Escribe tu comentario aquí" v-model="userComment"  class="pb-cmnt-textarea"></textarea>
             <button v-on:click="postComment" class="btn btn-primary pull-right" type="button">
               <i class="fa fa-commenting-o"></i> Agregar comentario
             </button>
@@ -42,13 +41,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="row">
-        <div class="col-lg-12">
-            <input type="text" placeholder="Comentario..."/>
-            <button v-on:click="postComment">Agregar</button>
-        </div>
-    </div>-->
   </div>
 </template>
 
@@ -65,13 +57,14 @@ export default {
   inject: ['eventBus', 'restDataSource'],
   methods: {
     async postComment () {
+      let today = new Date()
       let payload = {
         PROMISE_ID_V: this.$route.params.id,
         USER_ID_V: '2',
-        DATE_V: '2019-07-04',
+        DATE_V: today.toISOString(),
         LAT_V: '',
         LONG_V: '',
-        COMMENT_V: 'comment from test api'
+        COMMENT_V: this.userComment
       }
       await this.restDataSource.saveComment(payload)
       let comment = {
@@ -91,6 +84,7 @@ export default {
         PROMISE: '',
         PIC_URL: ''
       },
+      userComment: '',
       comments: []
     }
   },

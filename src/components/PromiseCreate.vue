@@ -29,9 +29,9 @@
                 v-on:after-slide-change="updateAvailableCandidates"
                 v-on:before-slide-change="updatePartiesCarousel"
               >
-                <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.PARTY_ID">
+                <slide v-for="(party, i) in parties" :index="i" v-bind:key="party.idParty">
                   <figure>
-                    <img class="partyLogo" style="padding:10px;" :src='party.LOGO_URL'>
+                    <img class="partyLogo" style="padding:10px;" :src='party.logoUrl'>
                   </figure>
                 </slide>
               </carousel-3d>
@@ -60,15 +60,14 @@
                 <slide
                   v-for="(candidate, i) in candidates"
                   :index="i"
-                  v-bind:key="candidate.CANDIDATE_ID"
+                  v-bind:key="candidate.idCandidate"
                 >
                   <div >
                     <figure>
-                    <img class="partyLogo" style="border: solid black 1px;" :src='candidate.PIC_URL'>
+                    <img class="partyLogo" style="border: solid black 1px;" :src='candidate.imgUrl'>
                     <figcaption>
-                      <strong class="text-center">{{candidate.NAME}}</strong> <br>
-                  <strong class="text-center">{{candidate.POSITION}}</strong>
-
+                      <strong class="text-center">{{candidate.candidateName}}</strong> <br>
+                      <strong class="text-center">{{candidate._embedded.candidateType.position}}</strong>
                     </figcaption>
                   </figure>
                   </div>
@@ -83,7 +82,7 @@
           <div class="form-row">
             <div class="col-12 col-md-12 mb-2 mb-md-0">
               <div class="input-group">
-                <textarea class="form-control" v-model="promise.PROMISE" aria-label="With textarea"></textarea>
+                <textarea class="form-control" v-model="promise.promiseText" aria-label="With textarea"></textarea>
               </div>
             </div>
           </div>
@@ -243,14 +242,15 @@ export default {
         await Promise.reject(new Error('Missing data.'))
       }
 
-      if (this.promise.PROMISE === undefined) {
+      if (this.promise.promiseText === undefined) {
         this.$swal('Error', 'Debes de ingresar una promesa.', 'error')
         await Promise.reject(new Error('Missing data.'))
       }
       try {
-        this.promise.PARTY_ID = this.parties[this.$refs.partyCarousel.currentIndex].PARTY_ID
-        this.promise.PARTY = this.parties[this.$refs.partyCarousel.currentIndex].PARTY
-        this.promise.CANDIDATE_ID = this.candidates[this.$refs.candidatesCarousel.currentIndex].CANDIDATE_ID
+        this.promise.idParty = this.parties[this.$refs.partyCarousel.currentIndex].idParty
+        this.promise.party = this.parties[this.$refs.partyCarousel.currentIndex].party
+        this.promise.idCandidate = this.candidates[this.$refs.candidatesCarousel.currentIndex].idCandidate
+        this.promise.candidate = this.candidates[this.$refs.candidatesCarousel.currentIndex]._links.self.href
         if (this.promise.LATITUDE === undefined) {
           this.promise.LATITUDE = 0
         }
@@ -259,8 +259,18 @@ export default {
         }
         // this.promise.LATITUDE = 1.2; //TODO:
         // this.promise.LONGITUDE = 1.2;
-        this.promise.DEVICE = this.getUserAgent()
+        this.promise.userAgent = this.getUserAgent()
         this.promise.USER_ID = 2
+        this.promise.promiseMediaContentList = []
+
+        for (let i = 0; i < this.promise.filesUploaded.length; i++) {
+          let pmc = {
+            contentUrl: this.promise.filesUploaded[i]
+          }
+          let res = await this.restDataSource.savePromiseMediaContent(pmc)
+          this.promise.promiseMediaContentList.push(res._links.self.href)
+        }
+
         await this.restDataSource.savePromise(this.promise)
         this.$swal(
           'Promesa agregada',
@@ -287,19 +297,27 @@ export default {
     },
     getAllParties (newParties) {
       this.parties.splice(0)
+      for (let i = 0; i < newParties.length; i++) { // ugly fix for spring
+        newParties[i].idParty = newParties[i].id
+        newParties[i].id = undefined
+      }
       this.parties.push(...newParties)
       $('#spinnerParty').hide()
     },
     getAllCandidates (newCandidates) {
       this.allCandidates.splice(0)
+      for (let i = 0; i < newCandidates.length; i++) { // ugly fix for spring
+        newCandidates[i].idCandidate = newCandidates[i].id
+        newCandidates[i].id = undefined
+      }
       this.allCandidates.push(...newCandidates)
       $('#spinnerCandidate').hide()
     },
     updateAvailableCandidates (currIndex) {
       // let currIndex = this.$refs.partyCarousel.currentIndex
-      let currPartyId = this.parties[currIndex].PARTY_ID
+      let currPartyId = this.parties[currIndex].idParty
       let newArr = this.allCandidates.filter(function (e) {
-        return e.PARTY_ID === currPartyId
+        return e._embedded.party.id === currPartyId
       })
       this.candidates.splice(0)
       this.candidates.push(...newArr)
