@@ -12,21 +12,22 @@ import PromiseDetail from '../components/PromiseDetail.vue'
 import SignUp from '../components/auth/SignUp.vue'
 import ConfirmSignUp from '../components/auth/ConfirmSignUp.vue'
 import SignIn from '../components/auth/SignIn.vue'
-
+import Login from '../components/auth/Login.vue'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
     { path: '/', component: LandingPage, meta: { requiresAuth: false } },
+    { path: '/login', component: Login }, // This should be the login
     { path: '/registrar', component: SignUp, meta: { requiresAuth: false } },
     { path: '/confirmar', name: 'confirmSignUp', component: ConfirmSignUp, props: true, meta: { requiresAuth: false } },
     { path: '/ingresar', component: SignIn, meta: { requiresAuth: false } },
     { path: '/promesas/agregar', component: PromiseCreate, meta: { requiresAuth: false } },
     { path: '/promesas', component: Promises, meta: { requiresAuth: false } },
     { path: '/promesas/:id', component: PromiseDetail, meta: { requiresAuth: false } },
-    { path: '/admin', component: AdminMenu, meta: { requiresAuth: false } },
-    { path: '/admin/partidos', component: AdminPartiesList, meta: { requiresAuth: false } },
-    { path: '/admin/candidatos', component: AdminCandidatesList, meta: { requiresAuth: false } },
-    { path: '/admin/candidatos/roles', component: AdminCandidateRolesList, meta: { requiresAuth: false } },
+    { path: '/admin', component: AdminMenu, meta: { requiresAuth: true, adminOnly: true } },
+    { path: '/admin/partidos', component: AdminPartiesList, meta: { requiresAuth: true, adminOnly: true } },
+    { path: '/admin/candidatos', component: AdminCandidatesList, meta: { requiresAuth: true, adminOnly: true } },
+    { path: '/admin/candidatos/roles', component: AdminCandidateRolesList, meta: { requiresAuth: true, adminOnly: true } },
     { path: '*', redirect: '/' }
   ]
 })
@@ -35,8 +36,18 @@ router.beforeResolve(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     try {
       await Vue.prototype.$Amplify.Auth.currentAuthenticatedUser()
+      if (to.matched.some(record => record.meta.adminOnly)) {
+        let c = await Vue.prototype.$Amplify.Auth.currentSession()
+        let d = c.idToken.payload['cognito:roles']
+        if (d && d.length > 0) {
+          if (!d[0].includes('webadmins')) {
+            throw new Exception('Admin only')
+          }
+        }
+      }
       next()
     } catch (e) {
+      console.log(e)
       next({
         path: '/ingresar',
         query: {

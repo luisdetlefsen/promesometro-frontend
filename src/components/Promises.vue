@@ -24,7 +24,7 @@
         :promise="p.promiseText"
         :candidateImgUrl="p._embedded.candidate.imgUrl"
         :upvotes="p.FEEL_SUM"
-        :daysPassed="0"
+        :daysPassed="p.daysPassedSinceCreation"
         :displayPromiseLink="true"
       />
     </div>
@@ -39,6 +39,7 @@
 import $ from 'jquery'
 import PromiseCandidate from './PromiseCandidate'
 import Pagination from 'vue-pagination-2'
+
 export default {
   components: {
     PromiseCandidate,
@@ -86,6 +87,14 @@ export default {
         pagedPromises[i].id = undefined
       }
       this.promises.push(...pagedPromises)
+    },
+    async isAdmin () {
+      let c = await this.$Amplify.Auth.currentSession()
+      let d = c.idToken.payload['cognito:roles']
+      if (d && d.length > 0) {
+        if (d[0].includes('webadmins')) { return true }
+      }
+      return false
     }
   },
   inject: ['eventBus', 'restDataSource'],
@@ -94,6 +103,8 @@ export default {
     // this.eventBus.$on('completeCandidate', this.processCompleteCandidate)
     window.scrollTo(0, 0)
     this.getAllPromises(await this.restDataSource.getAllPromises())
+
+    console.log(await this.isAdmin())
   }
 }
 </script>

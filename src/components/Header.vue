@@ -5,6 +5,8 @@
     </a>
     <router-link v-if="!signedIn" class="btn btn-primary login" to="/ingresar">Ingresar</router-link>
     <router-link v-if="!signedIn" class="btn btn-primary signup" to="/registrar">Registrarse</router-link>
+
+    <router-link v-if="isAdmin" class="btn btn-primary login" to="/admin">Admin</router-link>
     <amplify-sign-out v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
   </nav>
 </template>
@@ -17,8 +19,9 @@ export default {
   data () {
     return {
       signedIn: false,
+      isAdmin: false,
       signOutConfig: {
-        signOutButton: 'Cerrar sesion'
+        signOutButton: 'Cerrar sesión'
       }
     }
   },
@@ -30,8 +33,14 @@ export default {
   async beforeCreate () {
     try {
       await this.$Amplify.Auth.currentAuthenticatedUser()
-      let a = await this.$Amplify.Auth.currentCredentials()
-      console.log(a)
+      let c = await this.$Amplify.Auth.currentSession()
+      let d = c.idToken.payload['cognito:roles']
+      if (d && d.length > 0) {
+        if (d[0].includes('webadmins')) {
+          this.isAdmin = true
+          // console.log(this.isAdmin)
+        }
+      }
       this.signedIn = true
     } catch (err) {
       this.signedIn = false

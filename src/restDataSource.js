@@ -103,7 +103,8 @@ export class RestDataSource {
         method: httpMethod,
         url: url,
         data: party,
-        withCredentials: false
+        withCredentials: false,
+        maxRedirects: 1
       })
     } catch (err) {
       window.swal('Error', err.message, 'error')
