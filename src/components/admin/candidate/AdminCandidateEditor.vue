@@ -73,6 +73,7 @@ export default {
         imgUrl: candidate.imgUrl,
         idParty: candidate._embedded.party.id,
         party: candidate._embedded.party.party,
+        idCandidateType: candidate._embedded.candidateType.id,
         idPosition: candidate._embedded.candidateType.id,
         position: candidate._embedded.candidateType.position,
         description: candidate.description
@@ -105,6 +106,10 @@ export default {
     this.eventBus.$on('editCandidate', this.startEdit)
     this.parties = await this.restDataSource.getParties()
     this.candidateRoles = await this.restDataSource.getAllCandidateRoles()
+  },
+  beforeDestroy () {
+    this.eventBus.$off('createCandidate')
+    this.eventBus.$off('editCandidate')
   }
 }
 </script>

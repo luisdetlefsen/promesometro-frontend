@@ -131,11 +131,14 @@ export default {
     async processCompleteCandidate (candidate) {
       let index = this.candidates.findIndex(c => c.idCandidate === candidate.idCandidate)
       if (index === -1) {
-        await this.restDataSource.saveCandidate(candidate)
+        let result = await this.restDataSource.saveCandidate(candidate)
+        candidate._embedded = result.data._embedded
+        candidate.idCandidate = result.data.id
         this.candidates.push(candidate)
         this.$swal('Candidato agregado', candidate.candidateName, 'success')
       } else {
-        await this.restDataSource.updateCandidate(candidate)
+        let updateResult = await this.restDataSource.updateCandidate(candidate)
+        candidate._embedded = updateResult.data._embedded
         Vue.set(this.candidates, index, candidate)
         this.$swal('Candidato actualizado', candidate.candidateName, 'success')
       }
@@ -146,6 +149,10 @@ export default {
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
     this.eventBus.$on('completeCandidate', this.processCompleteCandidate)
     this.eventBus.$on('dismissCandidateEditor', this.dismissCandidateEditor)
+  },
+  beforeDestroy () {
+    this.eventBus.$off('completeCandidate')
+    this.eventBus.$off('dismissCandidateEditor')
   }
 }
 </script>

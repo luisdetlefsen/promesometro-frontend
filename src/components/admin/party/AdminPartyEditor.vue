@@ -63,6 +63,10 @@ export default {
   },
   methods: {
     startEdit (party) {
+      if (party.idParty === undefined) {
+        this.startCreate()
+        return
+      }
       this.editing = true
       this.party = {
         idParty: party.idParty,
@@ -92,6 +96,10 @@ export default {
   created () {
     this.eventBus.$on('createParty', this.startCreate)
     this.eventBus.$on('editParty', this.startEdit)
+  },
+  beforeDestroy () {
+    this.eventBus.$off('createParty')
+    this.eventBus.$off('editParty')
   }
 }
 </script>

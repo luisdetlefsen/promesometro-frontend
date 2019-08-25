@@ -21,7 +21,6 @@ export class RestDataSource {
 
   async getParties () {
     let res = (await this.sendRequest('GET', partiesUrl))
-
     return res.data._embedded.parties
   }
 
@@ -30,7 +29,7 @@ export class RestDataSource {
   }
 
   async saveParty (party) {
-    await this.sendRequest('POST', partiesUrl, party)
+    return (await this.sendRequest('POST', partiesUrl, party)).data
   }
 
   async updateParty (party) {
@@ -46,11 +45,13 @@ export class RestDataSource {
   }
 
   async updateCandidate (candidate) {
-    await this.sendRequest('PUT', `${candidatesUrl}${candidate.idCandidate}`, candidate)
+    let updateCandidateResult = await this.sendRequest('PUT', `${candidatesUrl}${candidate.idCandidate}`, candidate)
+    return updateCandidateResult
   }
 
   async saveCandidate (candidate) {
-    await this.sendRequest('POST', candidatesUrl, candidate)
+    let res = await this.sendRequest('POST', candidatesUrl, candidate)
+    return res
   }
 
   async getAllCandidateRoles () {
@@ -63,11 +64,13 @@ export class RestDataSource {
   }
 
   async updateCandidateRole (candidateRole) {
-    await this.sendRequest('PUT', `${candidateRolesUrl}${candidateRole.idCandidateType}`, candidateRole)
+    let res = await this.sendRequest('PUT', `${candidateRolesUrl}${candidateRole.idCandidateType}`, candidateRole)
+    return res
   }
 
   async saveCandidateRole (candidateRole) {
-    await this.sendRequest('POST', candidateRolesUrl, candidateRole)
+    let res = await this.sendRequest('POST', candidateRolesUrl, candidateRole)
+    return res.data
   }
 
   async savePromiseMediaContent (pmc) {
@@ -76,7 +79,8 @@ export class RestDataSource {
   }
 
   async savePromise (promise) {
-    return await this.sendRequest('POST', promisesUrl, promise)
+    let res = await this.sendRequest('POST', promisesUrl, promise)
+    return res
   }
 
   async updatePromise (promise) {
@@ -108,7 +112,8 @@ export class RestDataSource {
   }
 
   async saveReaction (reaction) {
-    return await this.sendRequest('POST', reactionsUrl, reaction)
+    let res = await this.sendRequest('POST', reactionsUrl, reaction)
+    return res
   }
 
   async updateReaction (reaction) {

@@ -130,7 +130,8 @@ export default {
         c => c.idCandidateType === candidateRole.idCandidateType
       )
       if (index < 0 || candidateRole.idCandidateType === undefined) {
-        await this.restDataSource.saveCandidateRole(candidateRole)
+        let result = await this.restDataSource.saveCandidateRole(candidateRole)
+        candidateRole.idCandidateType = result.id
         this.candidateRoles.push(candidateRole)
         this.$swal('Tipo candidato agregado', candidateRole.position, 'success')
       } else {
@@ -145,6 +146,10 @@ export default {
     this.getAllCandidateRoles(await this.restDataSource.getAllCandidateRoles())
     this.eventBus.$on('completeCandidateRole', this.processCompleteCandidateRole)
     this.eventBus.$on('dissmissCandidateRoleEditor', this.dissmissEditDialog)
+  },
+  beforeDestroy () {
+    this.eventBus.$off('completeCandidateRole')
+    this.eventBus.$off('dissmissCandidateRoleEditor')
   }
 }
 </script>

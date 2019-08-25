@@ -6,7 +6,7 @@
     <router-link v-if="!signedIn" class="btn btn-primary login" to="/ingresar">Ingresar</router-link>
     <router-link v-if="!signedIn" class="btn btn-primary signup" to="/registrar">Registrarse</router-link>
     <router-link v-if="isAdmin" class="btn btn-primary login" to="/admin">Admin</router-link>
-    <amplify-sign-out class="wtf-amplify" v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>    
+    <amplify-sign-out class="wtf-amplify" v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
   </nav>
 </template>
 
@@ -28,7 +28,7 @@ export default {
     goHome () {
       this.$router.push('/')
     },
-    async validateAdmin() {
+    async validateAdmin () {
       let c = await this.$Amplify.Auth.currentSession()
       let d = c.idToken.payload['cognito:roles']
       if (d && d.length > 0) {
@@ -41,17 +41,18 @@ export default {
   async beforeCreate () {
     try {
       await this.$Amplify.Auth.currentAuthenticatedUser()
-      await validateAdmin()
+      await this.validateAdmin()
       this.signedIn = true
     } catch (err) {
       this.signedIn = false
+      this.isAdmin = false
     }
     AmplifyEventBus.$on('authState', info => {
       this.signedIn = info === 'signedIn'
     })
   },
   async mounted () {
-    AmplifyEventBus.$on('authState', async  info => {
+    AmplifyEventBus.$on('authState', async info => {
       if (info === 'signedOut') {
         this.signedIn = false
         this.isAdmin = false

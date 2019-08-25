@@ -129,12 +129,18 @@ export default {
       $('#spinnerParties').hide()
     },
     async processCompleteParty (party) {
+      console.log('saving party', party)
       let index = this.parties.findIndex(p => p.idParty === party.idParty)
       if (index === -1) {
-        await this.restDataSource.saveParty(party)
+        let result = await this.restDataSource.saveParty(party)
+        console.log(result)
+        party.idParty = result.id
+        party.id = result.id
         this.parties.push(party)
+        this.party = {}
         this.$swal('Partido agregado', party.party, 'success')
       } else {
+        console.log(this.parties, party)
         await this.restDataSource.updateParty(party)
         Vue.set(this.parties, index, party)
         this.$swal('Partido actualizado', party.party, 'success')
@@ -146,6 +152,10 @@ export default {
     this.getAllParties(await this.restDataSource.getParties())
     this.eventBus.$on('completeParty', this.processCompleteParty)
     this.eventBus.$on('dissmissPartyEditor', this.dissmissPartyEditor)
+  },
+  beforeDestroy () {
+    this.eventBus.$off('completeParty')
+    this.eventBus.$off('dissmissPartyEditor')
   }
 }
 </script>

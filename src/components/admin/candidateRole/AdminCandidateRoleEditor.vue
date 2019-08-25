@@ -59,6 +59,10 @@ export default {
   created () {
     this.eventBus.$on('createCandidateRole', this.startCreate)
     this.eventBus.$on('editCandidateRole', this.startEdit)
+  },
+  beforeDestroy () {
+    this.eventBus.$off('createCandidateRole')
+    this.eventBus.$off('editCandidateRole')
   }
 }
 </script>
