@@ -7,33 +7,53 @@
             :src="candidateImgUrl"
             style="min-width:128px;min-height:128px;max-width:128px;max-height:128px;margin:5px;border-radius:10px;"
             alt
-          /> -->
-          <div class="candidateLayer" :style="{backgroundImage:`url(${candidateImgUrl})`}" ></div>
+          />-->
+          <div class="candidateLayer" :style="{backgroundImage:`url(${candidateImgUrl})`}"></div>
           <!-- <div class="layer"></div> -->
         </div>
         <div class="col-lg-6">
-          <p class="text-left" style="margin-bottom:0;padding-top:25px;padding-left:10px;"><strong>Tiempo transcurrido</strong></p>
+          <p class="text-left" style="margin-bottom:0;padding-top:25px;padding-left:10px;">
+            <strong>Tiempo transcurrido</strong>
+          </p>
           <p class="text-left" style="margin-top:0;padding-left:10px;">{{daysPassed}} días</p>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-12">
-          <p class="text-left no-margin" style="font-weight:bold;text-size:large;"><strong> {{candidateName}}</strong></p>
+          <p class="text-left no-margin" style="font-weight:bold;text-size:large;">
+            <strong>{{candidateName}}</strong>
+          </p>
 
           <p class="text-left no-margin">Partido {{party}}</p>
           <br />
           <p class="text-left">{{promise}}</p>
 
           <h4 class="no-margin">
-            <span class="badge badge-thumbs-up"> <a href="#" class="link-no-decoration">{{upvotes}} <i class="fa fa-thumbs-up" style="color:white;"></i></a> </span>
+            <span class="badge badge-thumbs-up">
+              <a @click="processSavePromiseReaction(upvoteTypeLink,1)" class="link-no-decoration">
+                {{upvotes}}
+                <i class="fa fa-thumbs-up" style="color:white;"></i>
+              </a>
+            </span>
             &nbsp;
-            <span class="badge badge-thumbs-down"> <a href="#" class="link-no-decoration"> {{upvotes}} <i class="fa fa-thumbs-down" style="color:white;"></i> </a></span>
+            <span class="badge badge-thumbs-down">
+              <a @click="processSavePromiseReaction(downvoteTypeLink,-1)" class="link-no-decoration">
+                {{downvotes}}
+                <i class="fa fa-thumbs-down" style="color:white;"></i>
+              </a>
+            </span>
           </h4>
         </div>
       </div>
     </div>
 
-    <div class="card-footer" v-if="displayPromiseLink===true" v-on:click="goToPromise(`${promiseId}`)" >  <strong>Ver promesa</strong>   </div>
+    <div
+      class="card-footer"
+      v-if="displayPromiseLink===true"
+      v-on:click="goToPromise(`${promiseId}`)"
+    >
+      <strong>Ver promesa</strong>
+    </div>
   </div>
 </template>
 
@@ -42,6 +62,8 @@ export default {
   name: 'PromiseCandidate',
   props: {
     promiseId: Number,
+    promiseLink: String,
+    userEmail: String,
     party: String,
     candidateName: String,
     candidateImgUrl: String,
@@ -49,13 +71,84 @@ export default {
     promise: String,
     daysPassed: Number,
     upvotes: Number,
+    downvotes: Number,
+    upvoteTypeLink: String,
+    downvoteTypeLink: String,
     displayPromiseLink: Boolean
   },
   inject: ['eventBus', 'restDataSource'],
   methods: {
     goToPromise (id) {
       this.$router.push('/promesas/' + id)
+    },
+    async getUserEmail () {
+      let c = await this.$Amplify.Auth.currentSession()
+      return c.idToken.payload.email
+    },
+    async processSavePromiseReaction (reactionTypeLink, vote) {
+      let reaction = {
+        reactionType: reactionTypeLink,
+        promise: this.promiseLink,
+        userEmail: this.userEmail
+      }
+      this.saveReaction(reaction, reactionTypeLink, vote, this.userEmail, this.promiseId)
+    },
+    async saveReaction (reaction, reactionTypeLink, vote, userEmail, promiseId) {
+      if (userEmail === undefined) {
+        userEmail = await this.getUserEmail()
+      }
+      let rrr = await this.restDataSource.findReaction(userEmail, promiseId)
+      if (rrr) {
+        reaction.idReaction = rrr.data.id
+        let oldReactionLink = rrr.data._links.reactionType.href
+        let oldReactionTypeData = await this.restDataSource.sendRequest('GET', oldReactionLink)
+        let oldReactionType = oldReactionTypeData.data.reactionType
+        if (oldReactionType === 'like') {
+          if (vote > 0) {
+            await this.restDataSource.deleteReaction(reaction)
+            this.$set(this, 'upvotes', this.upvotes - 1)
+          } else if (vote < 0) {
+            await this.restDataSource.updateReaction(reaction)
+            this.$set(this, 'upvotes', this.upvotes - 1)
+            this.$set(this, 'downvotes', this.downvotes + 1)
+          }
+        } else if (oldReactionType === 'dislike') {
+          if (vote > 0) {
+            await this.restDataSource.updateReaction(reaction)
+            this.$set(this, 'upvotes', this.upvotes + 1)
+            this.$set(this, 'downvotes', this.downvotes - 1)
+          } else if (vote < 0) {
+            await this.restDataSource.deleteReaction(reaction)
+            this.$set(this, 'downvotes', this.downvotes - 1)
+          }
+        }
+      } else {
+        let res = await this.restDataSource.saveReaction(reaction)
+        if (vote > 0) {
+          this.$set(this, 'upvotes', this.upvotes + 1)
+        } else if (vote < 0) {
+          this.$set(this, 'downvotes', this.downvotes + 1)
+        }
+      }
     }
+  },
+  async created () {
+    this.eventBus.$on('savePromiseReaction', this.processSavePromiseReaction)
+    if (this.upvoteTypeLink === undefined) {
+      let newReactionTypes = await this.restDataSource.getAllReactionTypes()
+      for (let i = 0; i < newReactionTypes.length; i++) { // ugly fix for spring
+        newReactionTypes[i].idReactionType = newReactionTypes[i].id
+        newReactionTypes[i].id = undefined
+        if (newReactionTypes[i].reactionType === 'like') {
+          this.upvoteTypeLink = newReactionTypes[i]._links.self.href
+        } else if (newReactionTypes[i].reactionType === 'dislike') {
+          this.downvoteTypeLink = newReactionTypes[i]._links.self.href
+        }
+      }
+    }
+  },
+  async mounted () {
+
   }
 }
 </script>
@@ -106,26 +199,32 @@ li {
   margin-right: 15px;
 }
 
-.candidateLayer{
-  min-width:128px;min-height:128px;max-width:128px;max-height:128px;margin:5px;border-radius:10px;
+.candidateLayer {
+  min-width: 128px;
+  min-height: 128px;
+  max-width: 128px;
+  max-height: 128px;
+  margin: 5px;
+  border-radius: 10px;
   background-repeat: no-repeat;
   background-color: rgb(160, 128, 179);
   background-blend-mode: luminosity;
 }
 
-.link-no-decoration{
-  color:white;
+.link-no-decoration {
+  color: white;
   text-decoration: none;
 }
 
-.badge-thumbs-up{
-  background-color:rgb(160, 52, 160);
-  color:white;
+.badge-thumbs-up {
+  cursor: pointer;
+  background-color: rgb(160, 52, 160);
+  color: white;
 }
 
-.badge-thumbs-down{
-  background-color:rgb(47, 12, 143);
-  color:white;
+.badge-thumbs-down {
+  cursor: pointer;
+  background-color: rgb(47, 12, 143);
+  color: white;
 }
-
 </style>

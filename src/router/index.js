@@ -39,15 +39,12 @@ router.beforeResolve(async (to, from, next) => {
       if (to.matched.some(record => record.meta.adminOnly)) {
         let c = await Vue.prototype.$Amplify.Auth.currentSession()
         let d = c.idToken.payload['cognito:roles']
-        if (d && d.length > 0) {
-          if (!d[0].includes('webadmins')) {
-            throw new Exception('Admin only')
-          }
+        if (!d || (d && d.length > 0 && !d[0].includes('webadmins'))) {
+          throw Error('Admin only')
         }
       }
       next()
     } catch (e) {
-      console.log(e)
       next({
         path: '/ingresar',
         query: {

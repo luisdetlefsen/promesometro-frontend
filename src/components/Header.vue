@@ -7,7 +7,7 @@
     <router-link v-if="!signedIn" class="btn btn-primary signup" to="/registrar">Registrarse</router-link>
 
     <router-link v-if="isAdmin" class="btn btn-primary login" to="/admin">Admin</router-link>
-    <amplify-sign-out v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
+    <amplify-sign-out class="btn btn-primary login" v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
   </nav>
 </template>
 

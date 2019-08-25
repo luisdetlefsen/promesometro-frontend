@@ -19,11 +19,16 @@
         v-for="p in promises"
         v-bind:key="p.idPromise"
         :promiseId="p.idPromise"
+        :promiseLink="p._links.self.href"
+        :userEmail="userEmailAddress"
         :party="p._embedded.party.shortName"
         :candidateName="p._embedded.candidate.candidateName"
         :promise="p.promiseText"
         :candidateImgUrl="p._embedded.candidate.imgUrl"
-        :upvotes="p.FEEL_SUM"
+        :upvotes="p.upvotes"
+        :downvotes="p.downvotes"
+        :upvoteTypeLink="upvoteTypeLink"
+        :downvoteTypeLink="downvoteTypeLink"
         :daysPassed="p.daysPassedSinceCreation"
         :displayPromiseLink="true"
       />
@@ -48,6 +53,10 @@ export default {
   data: function () {
     return {
       promises: [],
+      reactionTypes: [],
+      upvoteTypeLink: '',
+      downvoteTypeLink: '',
+      userEmailAddress: '',
       paginatorOptions: {
         texts: { count: 'Mostrando de {from} a {to} de {count} promesas|{count} promesas|Una promesa' },
         first: 'Primera',
@@ -79,6 +88,20 @@ export default {
       this.promises.push(...newPromises._embedded.promises)
       $('#spinnerPromises').hide()
     },
+    getAllReactionTypes (newReactionTypes) {
+      this.reactionTypes.splice(0)
+      for (let i = 0; i < newReactionTypes.length; i++) { // ugly fix for spring
+        newReactionTypes[i].idReactionType = newReactionTypes[i].id
+        newReactionTypes[i].id = undefined
+        if (newReactionTypes[i].reactionType === 'like') {
+          this.upvoteTypeLink = newReactionTypes[i]._links.self.href
+        } else if (newReactionTypes[i].reactionType === 'dislike') {
+          this.downvoteTypeLink = newReactionTypes[i]._links.self.href
+        }
+      }
+
+      this.reactionTypes.push(...newReactionTypes)
+    },
     async callbackPagination (page) {
       let pagedPromises = await this.getPagedPromises(page)
       this.promises.splice(0)
@@ -95,6 +118,10 @@ export default {
         if (d[0].includes('webadmins')) { return true }
       }
       return false
+    },
+    async getUserEmail () {
+      let c = await this.$Amplify.Auth.currentSession()
+      return c.idToken.payload.email
     }
   },
   inject: ['eventBus', 'restDataSource'],
@@ -103,8 +130,8 @@ export default {
     // this.eventBus.$on('completeCandidate', this.processCompleteCandidate)
     window.scrollTo(0, 0)
     this.getAllPromises(await this.restDataSource.getAllPromises())
-
-    console.log(await this.isAdmin())
+    this.getAllReactionTypes(await this.restDataSource.getAllReactionTypes())
+    this.userEmailAddress = await this.getUserEmail()
   }
 }
 </script>

@@ -18,94 +18,132 @@ export class RestDataSource {
   constructor (bus) {
     this.eventBus = bus
   }
-  // migrated
+
   async getParties () {
     let res = (await this.sendRequest('GET', partiesUrl))
 
     return res.data._embedded.parties
   }
-  // migrated
+
   async deleteParty (party) {
     await this.sendRequest('DELETE', `${partiesUrl}${party.idParty}`, party)
   }
-  // migrated
+
   async saveParty (party) {
     await this.sendRequest('POST', partiesUrl, party)
   }
-  // migrated
+
   async updateParty (party) {
     await this.sendRequest('PUT', `${partiesUrl}${party.idParty}`, party)
   }
-  // migrated
+
   async getAllCandidates () {
     return (await this.sendRequest('GET', candidatesUrl)).data._embedded.candidates
   }
-  // migrated
+
   async deleteCandidate (candidate) {
     await this.sendRequest('DELETE', `${candidatesUrl}${candidate.idCandidate}`, candidate)
   }
-  // migrated
+
   async updateCandidate (candidate) {
     await this.sendRequest('PUT', `${candidatesUrl}${candidate.idCandidate}`, candidate)
   }
-  // migrated
+
   async saveCandidate (candidate) {
     await this.sendRequest('POST', candidatesUrl, candidate)
   }
-  // migrated
+
   async getAllCandidateRoles () {
     let res = (await this.sendRequest('GET', candidateRolesUrl))
     return res.data._embedded.candidateTypes
   }
-  // migrated
+
   async deleteCandidateRole (candidateRole) {
     await this.sendRequest('DELETE', `${candidateRolesUrl}${candidateRole.idCandidateType}`, candidateRole)
   }
-  // migrated
+
   async updateCandidateRole (candidateRole) {
     await this.sendRequest('PUT', `${candidateRolesUrl}${candidateRole.idCandidateType}`, candidateRole)
   }
-  // migrated
+
   async saveCandidateRole (candidateRole) {
     await this.sendRequest('POST', candidateRolesUrl, candidateRole)
   }
 
-  // migrated
   async savePromiseMediaContent (pmc) {
     let res = await this.sendRequest('POST', promiseMediaUrl, pmc)
     return res.data
   }
 
-  // migrated
   async savePromise (promise) {
-    await this.sendRequest('POST', promisesUrl, promise)
+    return await this.sendRequest('POST', promisesUrl, promise)
   }
-  // migrated
+
+  async updatePromise (promise) {
+    await this.sendRequest('PUT', `${promisesUrl}${promise.idPromise}`, promise)
+  }
+
   async getAllPromises () {
     return (await this.sendRequest('GET', promisesUrl)).data
   }
-  // migrated
+
   async getPagedPromises (page) {
-    return (await this.sendRequest('GET', promisesUrl + 'page=' + page)).data._embedded.promises
+    return (await this.sendRequest('GET', promisesUrl + '?page=' + page)).data._embedded.promises
+  }
+
+  async getPromise (promiseId) {
+    return (await this.sendRequest('GET', promisesUrl + promiseId)).data
   }
 
   async getPromiseComments (promiseId) {
-    return (await this.sendRequest('GET', commentsUrl + 'promise/' + promiseId)).data
+    return (await this.sendRequest('GET', commentsUrl + 'search/findAllByPromise?promiseId=' + promiseId)).data
   }
 
   async saveComment (commentData) {
     await this.sendRequest('POST', commentsUrl, commentData)
   }
 
+  async getAllReactionTypes () {
+    return (await this.sendRequest('GET', reactionTypesUrl)).data._embedded.reactionTypes
+  }
+
+  async saveReaction (reaction) {
+    return await this.sendRequest('POST', reactionsUrl, reaction)
+  }
+
+  async updateReaction (reaction) {
+    await this.sendRequest('PUT', `${reactionsUrl}${reaction.idReaction}`, reaction)
+  }
+
+  async deleteReaction (reaction) {
+    await this.sendRequest('DELETE', `${reactionsUrl}${reaction.idReaction}`)
+  }
+
+  async findReaction (email, promiseId) {
+    let res
+    try {
+      res = await Axios.request({
+        method: 'GET',
+        url: reactionsUrl + 'search/findReactionByUserEmailIsAndPromise?emailAddress=' + email + '&promiseId=' + promiseId,
+        withCredentials: false,
+        maxRedirects: 1
+      })
+    } catch { // it will throw a 404 if it is not found. We don't care}
+
+    }
+    return res
+  }
+
   async sendRequest (httpMethod, url, party) {
     try {
-      return await Axios.request({
+      let res = await Axios.request({
         method: httpMethod,
         url: url,
         data: party,
         withCredentials: false,
         maxRedirects: 1
       })
+      return res
     } catch (err) {
       window.swal('Error', err.message, 'error')
       throw err

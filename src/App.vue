@@ -27,7 +27,8 @@ export default {
     }
   },
   mounted () {
-    this.l = this.hashCode(prompt('Codigo')) === -1335479917
+    // this.l = this.hashCode(prompt('Codigo')) === -1335479917
+    this.l = true
   }
 }
 </script>

@@ -10,12 +10,14 @@
       <div class="col-lg-4"></div>
       <div class="col-lg-4 center-block" align="center">
         <promise-candidate
-          :party="promise.PARTY"
-          :candidateName="promise.NAME"
-          :promise="promise.PROMISE"
-          :candidateImgUrl="promise.PIC_URL"
-          :upvotes="promise.FEEL_SUM"
+          :party="promise.party"
+          :candidateName="promise.candidateName"
+          :promise="promise.promise"
+          :candidateImgUrl="promise.picUrl"
+          :upvotes="promise.upvotes"
+          :downvotes="promise.downvotes"
           :displayPromiseLink="false"
+          :daysPassed="promise.daysPassedSinceCreation"
         />
       </div>
       <div class="col-lg-4"></div>
@@ -23,10 +25,10 @@
 
       <comment
         v-for="c in comments"
-        v-bind:key="c.COMMENT_ID"
-        :datePosted="c.COMMENT_DATE"
-        :commentText="c.COMMENT"
-        :userName="c.USER"
+        v-bind:key="c.idComment"
+        :datePosted="c.creationDate"
+        :commentText="c.text"
+        :userName="c.userEmail"
       />
 
     <div class="row">
@@ -57,47 +59,60 @@ export default {
   inject: ['eventBus', 'restDataSource'],
   methods: {
     async postComment () {
-      let today = new Date()
-      let payload = {
-        PROMISE_ID_V: this.$route.params.id,
-        USER_ID_V: '2',
-        DATE_V: today.toISOString(),
-        LAT_V: '',
-        LONG_V: '',
-        COMMENT_V: this.userComment
-      }
-      await this.restDataSource.saveComment(payload)
+      let userEmail = await this.getUserEmail()
+
       let comment = {
-        COMMENT_DATE: 'now',
-        COMMENT: payload.COMMENT_V,
-        USER: 'test user'
+        text: this.userComment,
+        userEmail: userEmail,
+        promise: this.promise.promiseLink
       }
+      await this.restDataSource.saveComment(comment)
       this.comments.push(comment)
+      this.userComment = ''
+    },
+    async getUserEmail () {
+      let c = await this.$Amplify.Auth.currentSession()
+      return c.idToken.payload.email
     }
   },
   data: function () {
     return {
       promise: {
-        id: 0,
-        PARTY: '',
-        NAME: '',
-        PROMISE: '',
-        PIC_URL: ''
+        idPromise: 0,
+        party: '',
+        candidateName: '',
+        promise: '',
+        picUrl: '',
+        upvotes: 0,
+        downvotes: 0,
+        daysPassedSinceCreation: 0,
+        promiseLink: ''
       },
       userComment: '',
       comments: []
     }
   },
   async mounted () {
-    let promise = await this.restDataSource.getPagedPromises(
-      this.$route.params.id,
-      1
-    )
-    let comments = await this.restDataSource.getPromiseComments(
-      this.$route.params.id
-    )
-    this.promise = promise[0]
+    let promisetmp = await this.restDataSource.getPromise(this.$route.params.id)
+    this.promise.party = promisetmp._embedded.party.party
+    this.promise.candidateName = promisetmp._embedded.candidate.candidateName
+    this.promise.idPromise = promisetmp.id
+    this.promise.promise = promisetmp.promiseText
+    this.promise.picUrl = promisetmp.url
+    this.promise.upvotes = promisetmp.upvotes
+    this.promise.downvotes = promisetmp.downvotes
+    this.promise.daysPassedSinceCreation = promisetmp.daysPassedSinceCreation
+    let comments = await this.restDataSource.getPromiseComments(this.$route.params.id)
+    comments = comments._embedded.comments
+    for (let i = 0; i < comments.length; i++) { // ugly fix for spring
+      comments[i].idComment = comments[i].id
+      comments[i].id = undefined
+    }
+    // this.promise = promise[0]
     this.comments.push(...comments)
+
+    let promiseLink = await this.restDataSource.getPromise(this.promise.idPromise)
+    this.promise.promiseLink = promiseLink._links.self.href
   },
   async created () {
     window.scrollTo(0, 0)

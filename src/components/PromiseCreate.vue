@@ -192,20 +192,6 @@ export default {
       }
       //  this.promise.filesUploaded.push(s3ObjectLocation)
     },
-    determineCurrentPosition () {
-      navigator.geolocation.getCurrentPosition(
-        this.setCurrenPosition,
-        this.setDefaultPosition
-      )
-    },
-    setCurrenPosition (position) {
-      this.promise.LATITUDE = position.coords.latitude
-      this.promise.LONGITUDE = position.coords.longitude
-    },
-    setDefaultPosition () {
-      this.promise.LATITUDE = 0
-      this.promise.LONGITUDE = 0
-    },
     getUserAgent () {
       return navigator.userAgent
     },
@@ -251,27 +237,19 @@ export default {
         this.promise.party = this.parties[this.$refs.partyCarousel.currentIndex]._links.self.href
         this.promise.idCandidate = this.candidates[this.$refs.candidatesCarousel.currentIndex].idCandidate
         this.promise.candidate = this.candidates[this.$refs.candidatesCarousel.currentIndex]._links.self.href
-        if (this.promise.LATITUDE === undefined) {
-          this.promise.LATITUDE = 0
-        }
-        if (this.promise.LONGITUDE === undefined) {
-          this.promise.LONGITUDE = 0
-        }
-        // this.promise.LATITUDE = 1.2; //TODO:
-        // this.promise.LONGITUDE = 1.2;
         this.promise.userAgent = this.getUserAgent()
-        this.promise.USER_ID = 2
-        this.promise.promiseMediaContentList = []
+        this.promise.filesUploaded = []
+        let promiseCreationResult = (await this.restDataSource.savePromise(this.promise))
+        let newPromiseLink = promiseCreationResult.data._links.self.href
 
         for (let i = 0; i < this.promise.filesUploaded.length; i++) {
-          let pmc = {
-            contentUrl: this.promise.filesUploaded[i]
+          let promiseContent = {
+            contentUrl: this.promise.filesUploaded[i].contentUrl,
+            promise: newPromiseLink
           }
-          let res = await this.restDataSource.savePromiseMediaContent(pmc)
-          this.promise.promiseMediaContentList.push(res._links.self.href)
+          let res = await this.restDataSource.savePromiseMediaContent(promiseContent)
         }
 
-        await this.restDataSource.savePromise(this.promise)
         this.$swal(
           'Promesa agregada',
           'La promesa fue agregada. Gracias por contribuir!',
@@ -336,7 +314,10 @@ export default {
       this.$swal('Error', errorMessage, 'error')
     },
     s3UploadSuccess (s3ObjectLocation) {
-      this.promise.filesUploaded.push(decodeURIComponent(s3ObjectLocation))
+      let promiseMediaContent = {
+        contentUrl: decodeURIComponent(s3ObjectLocation)
+      }
+      this.promise.filesUploaded.push(promiseMediaContent)
     }
     // sendingEvent: function (file, xhr, formData) {
     //   const idx = file.name.lastIndexOf('.')
@@ -396,7 +377,6 @@ export default {
   },
 
   async mounted () {
-    this.determineCurrentPosition()
     this.getAllParties(await this.restDataSource.getParties())
     this.getAllCandidates(await this.restDataSource.getAllCandidates())
     $('#spinnerSubmit').hide()
