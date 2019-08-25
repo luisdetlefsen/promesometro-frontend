@@ -5,9 +5,8 @@
     </a>
     <router-link v-if="!signedIn" class="btn btn-primary login" to="/ingresar">Ingresar</router-link>
     <router-link v-if="!signedIn" class="btn btn-primary signup" to="/registrar">Registrarse</router-link>
-
     <router-link v-if="isAdmin" class="btn btn-primary login" to="/admin">Admin</router-link>
-    <amplify-sign-out class="btn btn-primary login" v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
+    <amplify-sign-out class="wtf-amplify" v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>    
   </nav>
 </template>
 
@@ -28,19 +27,21 @@ export default {
   methods: {
     goHome () {
       this.$router.push('/')
-    }
-  },
-  async beforeCreate () {
-    try {
-      await this.$Amplify.Auth.currentAuthenticatedUser()
+    },
+    async validateAdmin() {
       let c = await this.$Amplify.Auth.currentSession()
       let d = c.idToken.payload['cognito:roles']
       if (d && d.length > 0) {
         if (d[0].includes('webadmins')) {
           this.isAdmin = true
-          // console.log(this.isAdmin)
         }
       }
+    }
+  },
+  async beforeCreate () {
+    try {
+      await this.$Amplify.Auth.currentAuthenticatedUser()
+      await validateAdmin()
       this.signedIn = true
     } catch (err) {
       this.signedIn = false
@@ -49,20 +50,22 @@ export default {
       this.signedIn = info === 'signedIn'
     })
   },
-  mounted () {
-    AmplifyEventBus.$on('authState', info => {
+  async mounted () {
+    AmplifyEventBus.$on('authState', async  info => {
       if (info === 'signedOut') {
         this.signedIn = false
+        this.isAdmin = false
         this.$router.replace('/')
       } else if (info === 'signedIn') {
         this.signedIn = true
+        await this.validateAdmin()
       }
     })
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 .signup {
   margin-left: 16px;
 }
@@ -94,6 +97,40 @@ export default {
 }
 nav {
   margin-bottom: 10px;
+}
+//redefine the rules. Customizing UI is not supported ATM.
+.wtf-amplify>div{
+  margin-bottom:0!important;
+}
+
+.wtf-amplify>div>div{
+  color: white;
+  margin-bottom:0!important;
+}
+
+.wtf-amplify button{
+  margin-left: 5px!important;
+  border-radius: 10px !important;
+  color: #f2dd3d;
+  background-color: #b212b2;
+  border-color: #b212b2;
+  letter-spacing: unset;
+  text-transform: unset;
+  padding: 0.375rem 0.75rem;
+  border: unset;
+  min-width: unset;
+  line-height: unset;
+  font-size: unset;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.wtf-amplify button:hover{
+  color: #212529;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+
+background-color: #f0d719;
+
+border-color: #ecd310;
 }
 
 @media only screen and (max-width: 768px) {

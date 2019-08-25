@@ -54,6 +54,8 @@ router.beforeResolve(async (to, from, next) => {
     }
   }
   next()
+
+
 })
 
 export default router
