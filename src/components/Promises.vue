@@ -120,8 +120,12 @@ export default {
       return false
     },
     async getUserEmail () {
-      let c = await this.$Amplify.Auth.currentSession()
-      return c.idToken.payload.email
+      try {
+        let c = await this.$Amplify.Auth.currentSession()
+        return c.idToken.payload.email
+      } catch (err) {
+
+      }
     }
   },
   inject: ['eventBus', 'restDataSource'],

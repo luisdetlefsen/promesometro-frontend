@@ -59,8 +59,12 @@ export default {
   inject: ['eventBus', 'restDataSource'],
   methods: {
     async postComment () {
+      if (this.userComment.length === 0 || !this.userComment.trim()) {
+        this.$swal('Error', 'Debes de ingresar un comentario', 'error')
+        return
+      }
       let userEmail = await this.getUserEmail()
-
+      if (userEmail === undefined) { return }
       let comment = {
         text: this.userComment,
         userEmail: userEmail,
@@ -71,8 +75,12 @@ export default {
       this.userComment = ''
     },
     async getUserEmail () {
-      let c = await this.$Amplify.Auth.currentSession()
-      return c.idToken.payload.email
+      try {
+        let c = await this.$Amplify.Auth.currentSession()
+        return c.idToken.payload.email
+      } catch (err) {
+        this.$swal('Error', 'Debes de iniciar sesión para poder ingresar un comentario', 'error')
+      }
     }
   },
   data: function () {

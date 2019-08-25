@@ -28,7 +28,7 @@
           <br />
           <p class="text-left">{{promise}}</p>
 
-          <h4 class="no-margin">
+          <h4 class="no-margin" v-if="displayPromiseLink===true">
             <span class="badge badge-thumbs-up">
               <a @click="processSavePromiseReaction(upvoteTypeLink,1)" class="link-no-decoration">
                 {{upvotes}}
@@ -38,6 +38,21 @@
             &nbsp;
             <span class="badge badge-thumbs-down">
               <a @click="processSavePromiseReaction(downvoteTypeLink,-1)" class="link-no-decoration">
+                {{downvotes}}
+                <i class="fa fa-thumbs-down" style="color:white;"></i>
+              </a>
+            </span>
+          </h4>
+          <h4 class="no-margin" v-if="displayPromiseLink===false">
+            <span class="badge badge-thumbs-up">
+              <a class="link-no-decoration">
+                {{upvotes}}
+                <i class="fa fa-thumbs-up" style="color:white;"></i>
+              </a>
+            </span>
+            &nbsp;
+            <span class="badge badge-thumbs-down">
+              <a class="link-no-decoration">
                 {{downvotes}}
                 <i class="fa fa-thumbs-down" style="color:white;"></i>
               </a>
@@ -82,8 +97,12 @@ export default {
       this.$router.push('/promesas/' + id)
     },
     async getUserEmail () {
-      let c = await this.$Amplify.Auth.currentSession()
-      return c.idToken.payload.email
+      try {
+        let c = await this.$Amplify.Auth.currentSession()
+        return c.idToken.payload.email
+      } catch (err) {
+        return null
+      }
     },
     async processSavePromiseReaction (reactionTypeLink, vote) {
       let reaction = {
@@ -96,6 +115,9 @@ export default {
     async saveReaction (reaction, reactionTypeLink, vote, userEmail, promiseId) {
       if (userEmail === undefined) {
         userEmail = await this.getUserEmail()
+        if (!userEmail) {
+          return
+        }
       }
       let rrr = await this.restDataSource.findReaction(userEmail, promiseId)
       if (rrr) {
@@ -103,22 +125,25 @@ export default {
         let oldReactionLink = rrr.data._links.reactionType.href
         let oldReactionTypeData = await this.restDataSource.sendRequest('GET', oldReactionLink)
         let oldReactionType = oldReactionTypeData.data.reactionType
+        await this.restDataSource.deleteReaction(reaction)
         if (oldReactionType === 'like') {
           if (vote > 0) {
-            await this.restDataSource.deleteReaction(reaction)
+            // await this.restDataSource.deleteReaction(reaction)
             this.$set(this, 'upvotes', this.upvotes - 1)
           } else if (vote < 0) {
-            await this.restDataSource.updateReaction(reaction)
+            reaction.reactionType = this.downvoteTypeLink
+            await this.restDataSource.saveReaction(reaction)
             this.$set(this, 'upvotes', this.upvotes - 1)
             this.$set(this, 'downvotes', this.downvotes + 1)
           }
         } else if (oldReactionType === 'dislike') {
           if (vote > 0) {
-            await this.restDataSource.updateReaction(reaction)
+            reaction.reactionType = this.upvoteTypeLink
+            await this.restDataSource.saveReaction(reaction)
             this.$set(this, 'upvotes', this.upvotes + 1)
             this.$set(this, 'downvotes', this.downvotes - 1)
           } else if (vote < 0) {
-            await this.restDataSource.deleteReaction(reaction)
+            // await this.restDataSource.deleteReaction(reaction)
             this.$set(this, 'downvotes', this.downvotes - 1)
           }
         }
@@ -149,6 +174,9 @@ export default {
   },
   async mounted () {
 
+  },
+  beforeDestroy () {
+    this.eventBus.$off('savePromiseReaction')
   }
 }
 </script>
