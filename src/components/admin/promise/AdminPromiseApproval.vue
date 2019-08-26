@@ -1,11 +1,10 @@
 <template>
-    <div class="container">
-
-          <div class="col-xl-12 mx-auto">
+  <div class="container">
+    <div class="col-xl-12 mx-auto">
       <h1 class="mb-5 section-title">Promesas</h1>
     </div>
 
-     <table class="table table-sm table-striped table-bordered">
+    <table class="table table-sm table-striped table-bordered">
       <tr>
         <th>Id</th>
         <th>Partido</th>
@@ -15,19 +14,23 @@
         <th></th>
       </tr>
       <tbody>
-<tr v-for="p in promises" v-bind:key="p.idPromise">
-    <td><a :href='`${p.promiseLink}`' target="_blank" style="color:purple;"> {{p.idPromise}}</a>   </td>
-    <td>{{p._embedded.party.party}}</td>
-    <td>{{p._embedded.candidate.candidateName}}</td>
-    <td>{{p.promiseText}}</td>
-    <td><span v-if="p.approved">Aprobado</span><span v-if="!p.approved">No aprobado</span> </td>
-    <td>
-        <button class="btn btn-sm btn-primary" v-on:click="updatePromiseStatus(p.idPromise,true)">Aprobar</button>
-        <button class="btn btn-sm btn-danger" v-on:click="updatePromiseStatus(p.idPromise,false)">Quitar aprobación</button>
-    </td>
-
-</tr>
-<tr v-if="promises.length===0">
+        <tr v-for="p in promises" v-bind:key="p.idPromise">
+          <td>
+            <a :href="`${p.promiseLink}`" target="_blank" style="color:purple;">{{p.idPromise}}</a>
+          </td>
+          <td>{{p._embedded.party.party}}</td>
+          <td>{{p._embedded.candidate.candidateName}}</td>
+          <td>{{p.promiseText}}</td>
+          <td>
+            <span v-if="p.approved">Aprobado</span>
+            <span v-if="!p.approved">No aprobado</span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-primary" v-on:click="updatePromiseStatus(p.idPromise,true)">Aprobar</button>
+            <button class="btn btn-sm btn-danger" v-on:click="updatePromiseStatus(p.idPromise,false)">Quitar aprobación</button>
+          </td>
+        </tr>
+        <tr v-if="promises.length===0">
           <td colspan="4" class="text-center">No hay promesas registradas</td>
         </tr>
         <tr id="spinnerPromises">
@@ -37,16 +40,19 @@
             </div>
           </td>
         </tr>
-
       </tbody>
-     </table>
+    </table>
 
-     <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;">
-    <pagination :records="paginatorData.totalPromisesCount" v-model="paginatorData.currentPage" :per-page="paginatorData.itemsPerPage" @paginate="callbackPagination" :options="paginatorOptions">
-  </pagination>
-  </div>
-
+    <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;">
+      <pagination
+        :records="paginatorData.totalPromisesCount"
+        v-model="paginatorData.currentPage"
+        :per-page="paginatorData.itemsPerPage"
+        @paginate="callbackPagination"
+        :options="paginatorOptions"
+      ></pagination>
     </div>
+  </div>
 </template>
 
 <script>
@@ -60,7 +66,10 @@ export default {
     return {
       promises: [],
       paginatorOptions: {
-        texts: { count: 'Mostrando de {from} a {to} de {count} promesas|{count} promesas|Una promesa' },
+        texts: {
+          count:
+            'Mostrando de {from} a {to} de {count} promesas|{count} promesas|Una promesa'
+        },
         first: 'Primera',
         last: 'Última'
       },
@@ -78,7 +87,8 @@ export default {
     async callbackPagination (page) {
       let pagedPromises = await this.getPagedPromises(page)
       this.promises.splice(0)
-      for (let i = 0; i < pagedPromises.length; i++) { // ugly fix for spring
+      for (let i = 0; i < pagedPromises.length; i++) {
+        // ugly fix for spring
         pagedPromises[i].idPromise = pagedPromises[i].id
         pagedPromises[i].promiseLink = '/#/promesas/' + pagedPromises[i].idPromise
       }
@@ -119,7 +129,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 .btn {
