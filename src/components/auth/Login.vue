@@ -89,14 +89,12 @@ export default {
   },
   mounted () {
     AmplifyEventBus.$on('localUser', info => {
-      console.log(info)
       if (info.username) {
         this.username = info.username
       }
     })
 
     AmplifyEventBus.$on('authState', info => {
-      console.log('wtf', info)
       if (info === 'signedIn') {
         this.$router.replace('promesas')
         this.displayConfimSignup = false
@@ -113,7 +111,6 @@ export default {
       } else if (info === 'confirmSignUp') {
         this.displayConfimSignup = true
         this.confirmSignUpConfig.username = this.username
-        console.log('Username ' + this.username)
         // this.$router.replace({ name: 'confirmSignUp', params: { username: this.username } })
       }
     })

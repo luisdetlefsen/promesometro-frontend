@@ -18,6 +18,7 @@
           :downvotes="promise.downvotes"
           :displayPromiseLink="false"
           :daysPassed="promise.daysPassedSinceCreation"
+          :commentsCount="promise.approvedCommentsCount"
         />
       </div>
       <div class="col-lg-4"></div>
@@ -26,7 +27,7 @@
     <div style="margin-top:15px;">
       <ul>
         <li v-for="pmc in promise.mediaLinks" v-bind:key="pmc.id">
-          <a :href="`${pmc.contentUrl}`" target="_blank" download style="color:purple;">Descargar archivo</a>
+          <a :href="`${pmc.contentUrl}`" target="_blank" download style="color:purple;">Ver archivo</a>
         </li>
       </ul>
     </div>
@@ -126,6 +127,7 @@ export default {
     this.promise.maskedEmail = promisetmp.maskedEmail
     this.promise.daysPassedSinceCreation = promisetmp.daysPassedSinceCreation
     this.promise.formattedDate = promisetmp.formattedDate
+    this.promise.approvedCommentsCount = promisetmp.approvedCommentsCount
     let comments = await this.restDataSource.getPromiseComments(this.$route.params.id)
     comments = comments._embedded.comments
     for (let i = 0; i < comments.length; i++) { // ugly fix for spring
@@ -138,7 +140,7 @@ export default {
     this.promise.promiseLink = promiseLink._links.self.href
 
     let mediaLinks = await this.restDataSource.getAllPromiseMediaForPromise(this.promise.idPromise)
-    this.promise.mediaLinks = mediaLinks._embedded.promiseMedia    
+    this.promise.mediaLinks = mediaLinks._embedded.promiseMedia
   },
   async created () {
     window.scrollTo(0, 0)

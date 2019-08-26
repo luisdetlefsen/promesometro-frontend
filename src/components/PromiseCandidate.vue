@@ -60,6 +60,11 @@
           </h4>
         </div>
       </div>
+      <div class="row" v-if="approvedCommentsCount>0" style="margin-top:10px;">
+        <div class="col-lg-12">
+          <a v-on:click="goToPromise(`${promiseId}`)" style="color:purple;cursor:pointer;">{{approvedCommentsCount}} comentarios</a>
+        </div>
+      </div>
     </div>
 
     <div
@@ -89,7 +94,8 @@ export default {
     downvotes: Number,
     upvoteTypeLink: String,
     downvoteTypeLink: String,
-    displayPromiseLink: Boolean
+    displayPromiseLink: Boolean,
+    approvedCommentsCount: Number
   },
   inject: ['eventBus', 'restDataSource'],
   methods: {

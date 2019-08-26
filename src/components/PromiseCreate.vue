@@ -237,7 +237,7 @@ export default {
     async callSwalWithHTML (elementToAppend) {
       const wrapper = document.createElement('div')
       wrapper.appendChild(elementToAppend)
-      return swal({
+      return this.$swal({
         title: 'Atención!',
         content: wrapper,
         icon: 'warning',

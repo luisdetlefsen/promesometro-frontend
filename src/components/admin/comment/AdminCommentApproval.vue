@@ -46,6 +46,7 @@
 
 <script>
 import Pagination from 'vue-pagination-2'
+import $ from 'jquery'
 export default {
   components: {
     Pagination

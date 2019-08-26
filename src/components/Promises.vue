@@ -31,6 +31,7 @@
         :downvoteTypeLink="downvoteTypeLink"
         :daysPassed="p.daysPassedSinceCreation"
         :displayPromiseLink="true"
+        :approvedCommentsCount="p.approvedCommentsCount"
       />
     </div>
     <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;margin-top:35px;">
