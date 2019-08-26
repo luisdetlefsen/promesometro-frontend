@@ -11,6 +11,7 @@ import AdminCandidatesList from '../components/admin/candidate/AdminCandidatesLi
 import PromiseDetail from '../components/PromiseDetail.vue'
 import ConfirmSignUp from '../components/auth/ConfirmSignUp.vue'
 import AdminPromiseApproval from '../components/admin/promise/AdminPromiseApproval.vue'
+import AdminCommentApproval from '../components/admin/comment/AdminCommentApproval.vue'
 import Login from '../components/auth/Login.vue'
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -26,7 +27,7 @@ const router = new VueRouter({
     { path: '/admin/candidatos', component: AdminCandidatesList, meta: { requiresAuth: true, adminOnly: true } },
     { path: '/admin/candidatos/roles', component: AdminCandidateRolesList, meta: { requiresAuth: true, adminOnly: true } },
     { path: '/admin/promesas', component: AdminPromiseApproval, meta: { requiresAuth: true, adminOnly: true } },
-    { path: '/admin/comentarios', component: AdminPromiseApproval, meta: { requiresAuth: true, adminOnly: true } },
+    { path: '/admin/comentarios', component: AdminCommentApproval, meta: { requiresAuth: true, adminOnly: true } },
     { path: '*', redirect: '/' }
   ]
 })

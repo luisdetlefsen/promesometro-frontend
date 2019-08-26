@@ -228,7 +228,7 @@ export default {
 
       this.$swal(
         'Promesa agregada',
-        'La promesa fue agregada. Gracias por contribuir!',
+        'La promesa fue agregada. La promesa estará disponible después de que sea aprobada. Gracias por contribuir!',
         'success'
       ).then(val => {
         this.resetForm()

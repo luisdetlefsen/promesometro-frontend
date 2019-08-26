@@ -118,6 +118,18 @@ export class RestDataSource {
     return result.data
   }
 
+  async getAllComments () {
+    return (await this.sendRequest('GET', commentsUrl)).data
+  }
+
+  async getPagedComments (page) {
+    return (await this.sendRequest('GET', commentsUrl + '?page=' + page)).data._embedded.comments
+  }
+
+  async updateComment (comment) {
+    await this.sendRequest('PATCH', `${commentsUrl}${comment.idComment}`, comment)
+  }
+
   async getAllReactionTypes () {
     return (await this.sendRequest('GET', reactionTypesUrl)).data._embedded.reactionTypes
   }
