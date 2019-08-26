@@ -23,7 +23,9 @@
       <tbody>
         <tr v-for="p in parties" v-bind:key="p.idParty">
           <td>{{p.party}}</td>
-          <td> <img :src=p.logoUrl alt="" class="partySmall"></td>
+          <td>
+            <img :src="p.logoUrl" alt class="partySmall" />
+          </td>
 
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editParty(p)">Editar</button>
@@ -43,7 +45,16 @@
       </tbody>
     </table>
 
-<div
+    <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;">
+      <pagination
+        :records="paginatorData.totalPartiesCount"
+        v-model="paginatorData.currentPage"
+        :per-page="paginatorData.itemsPerPage"
+        @paginate="callbackPagination"
+        :options="paginatorOptions"
+      ></pagination>
+    </div>
+    <div
       class="modal fade"
       id="exampleModal"
       tabindex="-1"
@@ -60,15 +71,12 @@
             </button>
           </div>
           <div class="modal-body">
-            <admin-party-editor/>
+            <admin-party-editor />
           </div>
-          <div class="modal-footer">
-
-          </div>
+          <div class="modal-footer"></div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -77,18 +85,45 @@ import $ from 'jquery'
 import Vue from 'vue'
 import 'bootstrap'
 import AdminPartyEditor from './AdminPartyEditor.vue'
+import Pagination from 'vue-pagination-2'
 
 export default {
   props: {},
   components: {
-    AdminPartyEditor
+    AdminPartyEditor,
+    Pagination
   },
   data: function () {
     return {
-      parties: []
+      parties: [],
+      paginatorOptions: {
+        texts: {
+          count:
+            'Mostrando de {from} a {to} de {count} partidos|{count} partidos|Un partido'
+        },
+        first: 'Primera',
+        last: 'Última'
+      },
+      paginatorData: {
+        currentPage: 0,
+        totalPromisesCount: 0,
+        itemsPerPage: 20
+      }
     }
   },
   methods: {
+    async getPagedParties (page) {
+      return this.restDataSource.getPagedParties(page - 1)
+    },
+    async callbackPagination (page) {
+      let pagedParties = await this.getPagedParties(page)
+      this.parties.splice(0)
+      for (let i = 0; i < pagedParties.length; i++) {
+        // ugly fix for spring
+        pagedParties[i].idParty = pagedParties[i].id
+      }
+      this.parties.push(...pagedParties)
+    },
     dissmissPartyEditor () {
       $('#exampleModal').modal('hide')
     },
@@ -109,9 +144,7 @@ export default {
       }).then(willDelete => {
         if (willDelete) {
           this.restDataSource.deleteParty(party)
-          let index = this.parties.findIndex(
-            p => p.idParty === party.idParty
-          )
+          let index = this.parties.findIndex(p => p.idParty === party.idParty)
           this.parties.splice(index, 1)
           this.$swal('Partido eliminiado: ' + party.party, {
             icon: 'success'
@@ -121,7 +154,8 @@ export default {
     },
     getAllParties (newParties) {
       this.parties.splice(0)
-      for (let i = 0; i < newParties.length; i++) { // ugly fix for spring
+      for (let i = 0; i < newParties.length; i++) {
+        // ugly fix for spring
         newParties[i].idParty = newParties[i].id
         newParties[i].id = undefined
       }
@@ -146,7 +180,14 @@ export default {
   },
   inject: ['eventBus', 'restDataSource'],
   async created () {
-    this.getAllParties(await this.restDataSource.getParties())
+    let partiesResponse = await this.restDataSource.getAllParties()
+    this.getAllParties(partiesResponse._embedded.parties)
+
+    this.paginatorData = {
+      currentPage: 1,
+      totalPartiesCount: partiesResponse.page.totalElements,
+      itemsPerPage: 20
+    }
     this.eventBus.$on('completeParty', this.processCompleteParty)
     this.eventBus.$on('dissmissPartyEditor', this.dissmissPartyEditor)
   },
@@ -162,7 +203,7 @@ export default {
   margin-left: 1rem;
 }
 
-.partySmall{
+.partySmall {
   max-width: 64px;
   max-height: 64px;
 }

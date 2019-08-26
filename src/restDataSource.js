@@ -27,6 +27,11 @@ export class RestDataSource {
     return res.data._embedded.parties
   }
 
+  async getAllParties () {
+    let res = (await this.sendRequest('GET', partiesUrl))
+    return res.data
+  }
+
   async deleteParty (party) {
     await this.sendRequest('DELETE', `${partiesUrl}${party.idParty}`, party)
   }
@@ -109,6 +114,10 @@ export class RestDataSource {
 
   async getPagedPromises (page) {
     return (await this.sendRequest('GET', promisesUrl + '?page=' + page)).data._embedded.promises
+  }
+
+  async getPagedParties (page) {
+    return (await this.sendRequest('GET', partiesUrl + '?page=' + page)).data._embedded.parties
   }
 
   async getPromise (promiseId) {
