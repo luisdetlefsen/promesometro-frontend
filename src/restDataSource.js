@@ -13,6 +13,7 @@ const promiseMediaUrl = baseUrl + 'promiseMediaContent/'
 const commentsUrl = baseUrl + 'comments/'
 const reactionsUrl = baseUrl + 'reactions/'
 const reactionTypesUrl = baseUrl + 'reactionTypes/'
+const similarPromisesUrl = baseUrl + 'searchSimilar'
 
 export class RestDataSource {
   constructor (bus) {
@@ -104,7 +105,8 @@ export class RestDataSource {
   }
 
   async saveComment (commentData) {
-    await this.sendRequest('POST', commentsUrl, commentData)
+    let result = await this.sendRequest('POST', commentsUrl, commentData)
+    return result.data
   }
 
   async getAllReactionTypes () {
@@ -137,6 +139,16 @@ export class RestDataSource {
 
     }
     return res
+  }
+
+  async searchSimilarPromises (promiseText, candidateId) {
+    console.log('actual request to search similar')
+    let data = {
+      promiseText: promiseText,
+      idCandidate: candidateId
+    }
+    let res = await this.sendRequest('POST', similarPromisesUrl, data)
+    return res.data
   }
 
   async sendRequest (httpMethod, url, party) {

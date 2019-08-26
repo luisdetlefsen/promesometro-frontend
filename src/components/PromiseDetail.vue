@@ -26,9 +26,9 @@
       <comment
         v-for="c in comments"
         v-bind:key="c.idComment"
-        :datePosted="c.creationDate"
+        :datePosted="c.formattedDate"
         :commentText="c.text"
-        :userName="c.userEmail"
+        :userName="c.maskedEmail"
       />
 
     <div class="row">
@@ -70,7 +70,10 @@ export default {
         userEmail: userEmail,
         promise: this.promise.promiseLink
       }
-      await this.restDataSource.saveComment(comment)
+      let commentResult = await this.restDataSource.saveComment(comment)
+      comment.maskedEmail = commentResult.maskedEmail
+      comment.formattedDate = commentResult.formattedDate
+      console.log('comment result', commentResult)
       this.comments.push(comment)
       this.userComment = ''
     },
@@ -94,7 +97,9 @@ export default {
         upvotes: 0,
         downvotes: 0,
         daysPassedSinceCreation: 0,
-        promiseLink: ''
+        promiseLink: '',
+        formattedDate: '',
+        maskedEmail: ''
       },
       userComment: '',
       comments: []
@@ -106,10 +111,12 @@ export default {
     this.promise.candidateName = promisetmp._embedded.candidate.candidateName
     this.promise.idPromise = promisetmp.id
     this.promise.promise = promisetmp.promiseText
-    this.promise.picUrl = promisetmp.url
+    this.promise.picUrl = promisetmp._embedded.candidate.imgUrl
     this.promise.upvotes = promisetmp.upvotes
     this.promise.downvotes = promisetmp.downvotes
+    this.promise.maskedEmail = promisetmp.maskedEmail
     this.promise.daysPassedSinceCreation = promisetmp.daysPassedSinceCreation
+    this.promise.formattedDate = promisetmp.formattedDate
     let comments = await this.restDataSource.getPromiseComments(this.$route.params.id)
     comments = comments._embedded.comments
     for (let i = 0; i < comments.length; i++) { // ugly fix for spring

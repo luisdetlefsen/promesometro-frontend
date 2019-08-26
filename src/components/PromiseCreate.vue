@@ -214,6 +214,35 @@ export default {
       let randomParty = Math.floor(Math.random() * this.parties.length)
       this.$refs.partyCarousel.goSlide(randomParty)
     },
+    async finishSave () {
+      let promiseCreationResult = (await this.restDataSource.savePromise(this.promise))
+      let newPromiseLink = promiseCreationResult.data._links.self.href
+
+      for (let i = 0; i < this.promise.filesUploaded.length; i++) {
+        let promiseContent = {
+          contentUrl: this.promise.filesUploaded[i].contentUrl,
+          promise: newPromiseLink
+        }
+        let res = await this.restDataSource.savePromiseMediaContent(promiseContent)
+      }
+
+      this.$swal(
+        'Promesa agregada',
+        'La promesa fue agregada. Gracias por contribuir!',
+        'success'
+      ).then(val => {
+        this.resetForm()
+      })
+    },
+    callSwalWithHTML (elementToAppend) {
+      const wrapper = document.createElement('div')
+      wrapper.appendChild(elementToAppend)
+      swal({
+        title: 'Error!',
+        content: wrapper,
+        icon: 'error'
+      })
+    },
     async save () {
       if (this.filesUploading > 0) {
         this.$swal('Error', 'Espera a que terminen de subir los archivos seleccionados.', 'error')
@@ -239,24 +268,24 @@ export default {
         this.promise.candidate = this.candidates[this.$refs.candidatesCarousel.currentIndex]._links.self.href
         this.promise.userAgent = this.getUserAgent()
         this.promise.filesUploaded = []
-        let promiseCreationResult = (await this.restDataSource.savePromise(this.promise))
-        let newPromiseLink = promiseCreationResult.data._links.self.href
 
-        for (let i = 0; i < this.promise.filesUploaded.length; i++) {
-          let promiseContent = {
-            contentUrl: this.promise.filesUploaded[i].contentUrl,
-            promise: newPromiseLink
+        console.log('searchgin for similar')
+        let similarPromises = await this.restDataSource.searchSimilarPromises(this.promise.promiseText, this.promise.idCandidate)
+        if (similarPromises.length > 0) {
+          let rootNodePromises = document.createElement('div')
+          let listNode = document.createElement('ul')
+          for (let i = 0; i < similarPromises.length; i++) {
+            let liNode = document.createElement('li')
+            liNode.innerHTML = similarPromises[i].promiseText
+            listNode.appendChild(liNode)
           }
-          let res = await this.restDataSource.savePromiseMediaContent(promiseContent)
+          rootNodePromises.appendChild(listNode)
+          this.callSwalWithHTML(rootNodePromises)
+          return
         }
+        console.log('similar promises', similarPromises)
 
-        this.$swal(
-          'Promesa agregada',
-          'La promesa fue agregada. Gracias por contribuir!',
-          'success'
-        ).then(val => {
-          this.resetForm()
-        })
+        await this.finishSave()
       } catch (err) {
         this.$swal(
           'Error',

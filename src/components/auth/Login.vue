@@ -1,8 +1,9 @@
 <template>
   <div class="login-page">
     <div class="form">
-      <form class="register-form">
-        <input type="text" placeholder="nombre de usuario" />
+      <form class="register-form" v-if="!displayConfimSignup">
+        <amplify-sign-up v-bind:signUpConfig="signUpConfig" v-bind:usernameAttributes="usernameAttributes"></amplify-sign-up>
+        <!-- <input type="text" placeholder="nombre de usuario" />
         <input type="password" placeholder="contraseña" />
         <input type="password" placeholder="confirmar contraseña" />
         <input type="email" placeholder="dirección de correo" />
@@ -10,27 +11,116 @@
         <p class="message">
           Ya tienes cuenta?
           <a href="#" @click="toggleCreateAccount">Iniciar sesión</a>
-        </p>
+        </p> -->
       </form>
-      <form class="login-form">
-        <input type="text" placeholder="nombre de usuario" />
+      <form class="login-form" v-if="!displayConfimSignup">
+        <amplify-sign-in v-if="!forgotPassword" v-bind:signInConfig="signInConfig" v-bind:usernameAttributes="usernameAttributes"></amplify-sign-in>
+        <amplify-forgot-password v-if="forgotPassword" v-bind:forgotPasswordConfig="forgotPasswordConfig" v-bind:usernameAttributes="usernameAttributes"></amplify-forgot-password>
+
+        <!-- <input type="text" placeholder="nombre de usuario" />
         <input type="password" placeholder="contraseña" />
         <button>iniciar sesión</button>
         <p class="message">
           Not registered?
           <a href="#" @click="toggleCreateAccount">Crear cuenta</a>
-        </p>
+        </p> -->
+      </form>
+      <form class="confirm-signup" v-if="displayConfimSignup">
+        <amplify-confirm-sign-up v-bind:confirmSignUpConfig="confirmSignUpConfig" v-bind:usernameAttributes="usernameAttributes"></amplify-confirm-sign-up>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
+import { AmplifyEventBus } from 'aws-amplify-vue'
 export default {
+  data () {
+    return {
+      confirmSignUpConfig: {
+        header: 'Confirma tu cuenta'
+      },
+      usernameAttributes: 'Correo Electronico',
+      signInConfig: {
+        header: 'Ingresa a tu cuenta'
+      },
+      forgotPasswordConfig: {
+        header: 'Reinicia tu contraseÃ±a'
+      },
+      forgotPassword: false,
+      displayConfimSignup: false,
+      username: null,
+      signUpConfig: {
+        header: 'Crea tu cuenta',
+        defaultCountryCode: '502',
+        hideAllDefaults: true,
+        signUpFields: [
+          {
+            label: 'Correo Electronico',
+            key: 'email',
+            required: true,
+            displayOrder: 1,
+            type: 'email',
+            signUpWith: true
+          },
+          {
+            label: 'Contraseña',
+            key: 'password',
+            required: true,
+            displayOrder: 2,
+            type: 'password'
+          },
+          {
+            label: 'Nombre',
+            key: 'name',
+            required: true,
+            displayOrder: 3,
+            type: 'text'
+          }
+        ]
+      }
+    }
+  },
   methods: {
     toggleCreateAccount () {
       $('form').animate({ height: 'toggle', opacity: 'toggle' }, 'slow')
     }
+  },
+  mounted () {
+    AmplifyEventBus.$on('localUser', info => {
+      console.log(info)
+      if (info.username) {
+        this.username = info.username
+      }
+    })
+
+    AmplifyEventBus.$on('authState', info => {
+      console.log('wtf', info)
+      if (info === 'signedIn') {
+        this.$router.replace('promesas')
+        this.displayConfimSignup = false
+      } else if (info === 'signUp') {
+        this.displayConfimSignup = false
+        this.toggleCreateAccount()
+      } else if (info === 'forgotPassword') {
+        this.forgotPassword = true
+        this.displayConfimSignup = false
+      } else if (info === 'signIn') {
+        this.forgotPassword = false
+        this.displayConfimSignup = false
+        this.toggleCreateAccount()
+      } else if (info === 'confirmSignUp') {
+        this.displayConfimSignup = true
+        this.confirmSignUpConfig.username = this.username
+        console.log('Username ' + this.username)
+        // this.$router.replace({ name: 'confirmSignUp', params: { username: this.username } })
+      }
+    })
+  },
+  beforeDestroy () {
+    AmplifyEventBus.$off('localUser')
+    AmplifyEventBus.$off('authState')
   }
 }
 </script>

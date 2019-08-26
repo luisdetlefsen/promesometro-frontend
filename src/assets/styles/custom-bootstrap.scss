@@ -9,6 +9,7 @@ $theme-colors: (
 
 $purple: #b212b2;
 $body-bg: rgb(245, 248, 252);
+$yellow: #f2dd3d;
 
 .container{
   max-width: 100%!important;
@@ -30,6 +31,9 @@ $body-bg: rgb(245, 248, 252);
 
 .spinner-border{
   vertical-align: inherit !important;
+}
+.modal-dialog{
+  min-width: 80%;
 }
 
 .section-title{
@@ -119,3 +123,279 @@ a.page-link {
   z-index: 2;
   opacity: 1;
 }
+
+// Begin customization of Amplify login form
+//signin
+form.login-form>div[data-test="sign-in-section"]{
+min-width: unset;
+padding: unset;
+margin: unset;
+box-shadow: unset;
+}
+
+form.login-form [data-test="sign-in-header-section"]{
+  display:none;
+}
+
+form.login-form [data-test="sign-in-body-section"]>div>div>div{
+  display:none;
+}
+
+form.login-form [data-test="sign-in-body-section"] div[class*='inputLabel']{
+  display:none;
+}
+
+form.login-form [data-test="sign-in-sign-in-button"]{
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: rgb(217, 76, 196);
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+form.login-form [data-test="sign-in-sign-in-button"]:hover{
+  background: $yellow;
+  color: black;
+}
+
+form.login-form [data-test="sign-in-body-section"] input[class*='input']{
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+form.login-form [data-test="sign-in-section"] [data-test='sign-in-create-account-link']{
+  color: #4CAF50;
+  text-decoration: none;
+}
+form.login-form [data-test="sign-in-section"] [data-test='sign-in-create-account-link']:hover{
+  font-weight: bolder;
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+form.login-form [data-test="sign-in-body-section"] [data-test='sign-in-forgot-password-link']{
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+form.login-form [data-test="sign-in-body-section"] [data-test='sign-in-forgot-password-link']:hover{
+  font-weight: bolder;
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+form.login-form [data-test='sign-in-footer-section']{
+  display:unset;
+}
+form.login-form [data-test='sign-in-sign-in-button']{
+  margin-bottom:15px;
+}
+
+
+//signup
+form.register-form>div[data-test="sign-up-section"]{
+  min-width: unset;
+  padding: unset;
+  margin: unset;
+  box-shadow: unset;
+  }
+  
+  form.register-form [data-test="sign-up-header-section"]{
+    display:none;
+  }
+  
+  form.register-form [data-test="sign-up-body-section"]>div>div>div{
+    display:none;
+  }
+  
+  form.register-form [data-test="sign-up-create-account-button"]{
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: rgb(217, 76, 196);
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+  }
+  
+  form.register-form [data-test="sign-up-create-account-button"]:hover{
+    background: $yellow;
+    color: black;
+  }
+  
+  form.register-form [data-test="sign-up-body-section"] input[class*='input']{
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  
+  form.register-form [data-test="sign-up-section"] [data-test='sign-up-sign-in-link']{
+    color: #4CAF50;
+    text-decoration: none;
+  }
+  form.register-form [data-test="sign-up-section"] [data-test='sign-up-sign-in-link']:hover{
+    font-weight: bolder;
+    color: #4CAF50;
+    text-decoration: none;
+  }
+  form.register-form [data-test='sign-up-footer-section']{
+    display:unset;
+  }
+  form.register-form [data-test='sign-up-create-account-button']{
+    margin-bottom:15px;
+  }
+
+  //forgot password
+  form.login-form>div[data-test="forgot-password-section"]{
+    min-width: unset;
+    padding: unset;
+    margin: unset;
+    box-shadow: unset;
+    }
+    
+    form.login-form [data-test="forgot-password-header-section"]{
+      display:none;
+    }
+
+    form.login-form [data-test="forgot-password-body-section"]>div>div>div{
+      display:none;
+    }
+    
+    form.login-form [data-test="forgot-password-send-code-button"]{
+      font-family: "Roboto", sans-serif;
+      text-transform: uppercase;
+      outline: 0;
+      background: rgb(217, 76, 196);
+      width: 100%;
+      border: 0;
+      padding: 15px;
+      color: #FFFFFF;
+      font-size: 14px;
+      -webkit-transition: all 0.3 ease;
+      transition: all 0.3 ease;
+      cursor: pointer;
+    }
+    
+    form.login-form [data-test="forgot-password-send-code-button"]:hover{
+      background: $yellow;
+      color: black;
+    }
+    
+    form.login-form [data-test="forgot-password-body-section"] input[class*='input']{
+      font-family: "Roboto", sans-serif;
+      outline: 0;
+      background: #f2f2f2;
+      width: 100%;
+      border: 0;
+      margin: 0 0 15px;
+      padding: 15px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    
+    form.login-form [data-test="forgot-password-section"] [data-test='forgot-password-back-to-sign-in-link']{
+      color: #4CAF50;
+      text-decoration: none;
+    }
+    form.login-form [data-test="forgot-password-section"] [data-test='forgot-password-back-to-sign-in-link']:hover{
+      font-weight: bolder;
+      color: #4CAF50;
+      text-decoration: none;
+    }
+    form.login-form div[data-test='forgot-password-section'] div:last-child{
+      display:unset;
+    }
+    form.login-form [data-test='forgot-password-send-code-button']{
+      margin-bottom:15px;
+    }
+
+    //confirm signup
+    form.confirm-signup>div[data-test="confirm-sign-up-section"]{
+      min-width: unset;
+      padding: unset;
+      margin: unset;
+      box-shadow: unset;
+      }
+      
+      form.confirm-signup [data-test="confirm-sign-up-header-section"]{
+        display:none;
+      }
+  
+      form.confirm-signup [data-test="confirm-sign-up-body-section"]>div>div{
+        display:none;
+      }
+      
+      form.confirm-signup [data-test="confirm-sign-up-confirm-button"]{
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        outline: 0;
+        background: rgb(217, 76, 196);
+        width: 100%;
+        border: 0;
+        padding: 15px;
+        color: #FFFFFF;
+        font-size: 14px;
+        -webkit-transition: all 0.3 ease;
+        transition: all 0.3 ease;
+        cursor: pointer;
+      }
+      
+      form.confirm-signup [data-test="confirm-sign-up-confirm-button"]:hover{
+        background: $yellow;
+        color: black;
+      }
+      
+      form.confirm-signup [data-test="confirm-sign-up-body-section"] input[class*='input']{
+        font-family: "Roboto", sans-serif;
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+      
+      form.confirm-signup [data-test='confirm-sign-up-back-to-sign-in-link']{
+        color: #4CAF50!important;
+        text-decoration: none;
+      }
+      form.confirm-signup [data-test='confirm-sign-up-back-to-sign-in-link']:hover{
+        font-weight: bolder;
+        color: #4CAF50;
+        text-decoration: none;
+      }
+      form.confirm-signup div[data-test='confirm-sign-up-section'] > div:nth-child(3){
+        display:unset;
+      }
+      form.confirm-signup [data-test='confirm-sign-up-confirm-button']{
+        margin-bottom:15px;
+      }
+
+// End customization of Amplify login

@@ -3,16 +3,17 @@
     <a class="navbar-brand-text" href="#" v-on:click="goHome">
       <img class="logo" src="../assets/img/promesometro1.svg" alt="Promesometro">
     </a>
-    <router-link v-if="!signedIn" class="btn btn-primary login" to="/ingresar">Ingresar</router-link>
-    <router-link v-if="!signedIn" class="btn btn-primary signup" to="/registrar">Registrarse</router-link>
-    <router-link v-if="isAdmin" class="btn btn-primary login" to="/admin">Admin</router-link>
-    <amplify-sign-out class="wtf-amplify" v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
+    <router-link v-if="!signedIn" class="btn btn-primary login" to="/login">Ingresar</router-link>
+    <router-link v-if="!signedIn" class="btn btn-primary signup" to="/login">Registrarse</router-link>
+    <router-link v-if="isAdmin" class="btn btn-primary login admin" to="/admin">Admin</router-link>
+    <button class="btn btn-primary login signout" v-if="signedIn" @click="signout">Cerrar sesión</button>
+    <!-- <amplify-sign-out class="wtf-amplify" v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out> -->
   </nav>
 </template>
 
 <script>
 import { AmplifyEventBus } from 'aws-amplify-vue'
-
+import { Auth } from 'aws-amplify'
 export default {
   props: {},
   data () {
@@ -36,7 +37,16 @@ export default {
           this.isAdmin = true
         }
       }
+    },
+    signout () {
+      Auth.signOut()
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+      this.signedIn = false
+      this.isAdmin = false
+      this.$router.push('/')
     }
+
   },
   async beforeCreate () {
     try {
@@ -53,6 +63,7 @@ export default {
   },
   async mounted () {
     AmplifyEventBus.$on('authState', async info => {
+      console.log('event from header amplify bus', info)
       if (info === 'signedOut') {
         this.signedIn = false
         this.isAdmin = false
@@ -62,6 +73,9 @@ export default {
         await this.validateAdmin()
       }
     })
+  },
+  beforeDestroy () {
+    AmplifyEventBus.$off('authState')
   }
 }
 </script>
@@ -77,6 +91,15 @@ export default {
   margin-bottom: auto;
   font-weight: bold;
   z-index: 42;
+}
+
+.admin{
+  margin-left: auto !important;
+  margin-right: 10px !important;
+}
+
+.signout{
+  margin-left: 0!important;
 }
 
 .navbar-brand {

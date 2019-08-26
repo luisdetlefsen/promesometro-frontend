@@ -18,9 +18,9 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: LandingPage, meta: { requiresAuth: false } },
     { path: '/login', component: Login }, // This should be the login
-    { path: '/registrar', component: SignUp, meta: { requiresAuth: false } },
-    { path: '/confirmar', name: 'confirmSignUp', component: ConfirmSignUp, props: true, meta: { requiresAuth: false } },
-    { path: '/ingresar', component: SignIn, meta: { requiresAuth: false } },
+    // { path: '/registrar', component: Login, meta: { requiresAuth: false } },
+    { path: '/confirmar', name: 'confirmSignUp', component: Login, props: true, meta: { requiresAuth: false } },
+    // { path: '/ingresar', component: Login, meta: { requiresAuth: false } },
     { path: '/promesas/agregar', component: PromiseCreate, meta: { requiresAuth: false } },
     { path: '/promesas', component: Promises, meta: { requiresAuth: false } },
     { path: '/promesas/:id', component: PromiseDetail, meta: { requiresAuth: false } },

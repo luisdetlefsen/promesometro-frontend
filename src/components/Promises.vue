@@ -64,7 +64,6 @@ export default {
       },
       paginatorData: {
         currentPage: 0,
-        promiseMinId: 0,
         totalPromisesCount: 0,
         itemsPerPage: 20
 
@@ -73,12 +72,19 @@ export default {
   },
   methods: {
     async getPagedPromises (page) {
-      return this.restDataSource.getPagedPromises(page)
+      console.log('get paged promises ', page)
+      return this.restDataSource.getPagedPromises(page - 1)
     },
     getAllPromises (newPromises) {
       this.paginatorData.itemsPerPage = newPromises.page.size
-      this.paginatorData.currentPage = newPromises.page.number
+      if (newPromises.page.number) {
+        this.paginatorData.currentPage = newPromises.page.number
+      } else {
+        this.paginatorData.currentPage = 1
+      }
+
       this.paginatorData.totalPromisesCount = newPromises.page.totalElements
+      console.log('paginator data ', this.paginatorData)
       this.promises.splice(0)
       for (let i = 0; i < newPromises._embedded.promises.length; i++) { // ugly fix for spring
         newPromises._embedded.promises[i].idPromise = newPromises._embedded.promises[i].id
