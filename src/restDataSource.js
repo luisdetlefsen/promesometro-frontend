@@ -14,6 +14,7 @@ const commentsUrl = baseUrl + 'comments/'
 const reactionsUrl = baseUrl + 'reactions/'
 const reactionTypesUrl = baseUrl + 'reactionTypes/'
 const similarPromisesUrl = baseUrl + 'searchSimilar'
+const promisesApprovedUrl = promisesUrl + 'search/findAllByApproved'
 
 export class RestDataSource {
   constructor (bus) {
@@ -85,11 +86,19 @@ export class RestDataSource {
   }
 
   async updatePromise (promise) {
-    await this.sendRequest('PUT', `${promisesUrl}${promise.idPromise}`, promise)
+    await this.sendRequest('PATCH', `${promisesUrl}${promise.idPromise}`, promise)
   }
 
   async getAllPromises () {
     return (await this.sendRequest('GET', promisesUrl)).data
+  }
+
+  async getAllApprovedPromises () {
+    return (await this.sendRequest('GET', promisesApprovedUrl)).data
+  }
+
+  async getPagedApprovedPromises (page) {
+    return (await this.sendRequest('GET', promisesApprovedUrl + '?page=' + page)).data._embedded.promises
   }
 
   async getPagedPromises (page) {

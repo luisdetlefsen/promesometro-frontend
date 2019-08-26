@@ -66,13 +66,12 @@ export default {
         currentPage: 0,
         totalPromisesCount: 0,
         itemsPerPage: 20
-
       }
     }
   },
   methods: {
     async getPagedPromises (page) {
-      return this.restDataSource.getPagedPromises(page - 1)
+      return this.restDataSource.getPagedApprovedPromises(page - 1)
     },
     getAllPromises (newPromises) {
       this.paginatorData.itemsPerPage = newPromises.page.size
@@ -137,7 +136,7 @@ export default {
     // this.getAllPromises(await this.restDataSource.getAllPromises())
     // this.eventBus.$on('completeCandidate', this.processCompleteCandidate)
     window.scrollTo(0, 0)
-    this.getAllPromises(await this.restDataSource.getAllPromises())
+    this.getAllPromises(await this.restDataSource.getAllApprovedPromises())
     this.getAllReactionTypes(await this.restDataSource.getAllReactionTypes())
     this.userEmailAddress = await this.getUserEmail()
   }

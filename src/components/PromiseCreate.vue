@@ -398,7 +398,7 @@ export default {
         thumbnailWidth: 150,
         maxFilesize: 5,
         addRemoveLinks: true,
-        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Agregar foto, video, grabación, o archivo",
+        dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Presiona aquí o arrastra para agregar fotos, videos, grabaciones, o archivos",
         dictRemoveFile: 'Remover archivo',
         dictCancelUpload: 'Cancelar carga',
         dictCancelUploadConfirmation: 'Estas seguro que deseas cancelar la carga de este archivo?',

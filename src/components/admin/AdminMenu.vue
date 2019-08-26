@@ -20,6 +20,18 @@
                 <h5>Tipos de candidato</h5>
             </div>
         </a>
+
+        <a  href="" class="card" v-on:click.prevent="goPromiseAdmin">
+            <div class="card-body">
+                <h5>Aprobar promesas</h5>
+            </div>
+        </a>
+
+        <a  href="" class="card" v-on:click.prevent="goCommentsAdmin">
+            <div class="card-body">
+                <h5>Aprobar comentarios</h5>
+            </div>
+        </a>
     </div>
 </template>
 
@@ -34,6 +46,12 @@ export default {
     },
     goCandidateRoleAdmin () {
       this.$router.push('/admin/candidatos/roles')
+    },
+    goPromiseAdmin () {
+      this.$router.push('/admin/promesas')
+    },
+    goCommentsAdmin () {
+      this.$router.push('/admin/comentarios')
     }
   }
 }

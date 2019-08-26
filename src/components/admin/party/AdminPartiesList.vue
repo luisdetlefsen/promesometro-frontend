@@ -36,7 +36,7 @@
         <tr id="spinnerParties">
           <td colspan="4" class="text-center">
             <div class="sub-section-title spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
+              <span class="sr-only">Cargando...</span>
             </div>
           </td>
         </tr>
@@ -129,18 +129,15 @@ export default {
       $('#spinnerParties').hide()
     },
     async processCompleteParty (party) {
-      console.log('saving party', party)
       let index = this.parties.findIndex(p => p.idParty === party.idParty)
       if (index === -1) {
         let result = await this.restDataSource.saveParty(party)
-        console.log(result)
         party.idParty = result.id
         party.id = result.id
         this.parties.push(party)
         this.party = {}
         this.$swal('Partido agregado', party.party, 'success')
       } else {
-        console.log(this.parties, party)
         await this.restDataSource.updateParty(party)
         Vue.set(this.parties, index, party)
         this.$swal('Partido actualizado', party.party, 'success')

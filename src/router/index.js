@@ -9,18 +9,15 @@ import AdminPartiesList from '../components/admin/party/AdminPartiesList.vue'
 import AdminCandidateRolesList from '../components/admin/candidateRole/AdminCandidateRolesList.vue'
 import AdminCandidatesList from '../components/admin/candidate/AdminCandidatesList.vue'
 import PromiseDetail from '../components/PromiseDetail.vue'
-import SignUp from '../components/auth/SignUp.vue'
 import ConfirmSignUp from '../components/auth/ConfirmSignUp.vue'
-import SignIn from '../components/auth/SignIn.vue'
+import AdminPromiseApproval from '../components/admin/promise/AdminPromiseApproval.vue'
 import Login from '../components/auth/Login.vue'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
     { path: '/', component: LandingPage, meta: { requiresAuth: false } },
-    { path: '/login', component: Login }, // This should be the login
-    // { path: '/registrar', component: Login, meta: { requiresAuth: false } },
+    { path: '/login', component: Login },
     { path: '/confirmar', name: 'confirmSignUp', component: Login, props: true, meta: { requiresAuth: false } },
-    // { path: '/ingresar', component: Login, meta: { requiresAuth: false } },
     { path: '/promesas/agregar', component: PromiseCreate, meta: { requiresAuth: false } },
     { path: '/promesas', component: Promises, meta: { requiresAuth: false } },
     { path: '/promesas/:id', component: PromiseDetail, meta: { requiresAuth: false } },
@@ -28,6 +25,8 @@ const router = new VueRouter({
     { path: '/admin/partidos', component: AdminPartiesList, meta: { requiresAuth: true, adminOnly: true } },
     { path: '/admin/candidatos', component: AdminCandidatesList, meta: { requiresAuth: true, adminOnly: true } },
     { path: '/admin/candidatos/roles', component: AdminCandidateRolesList, meta: { requiresAuth: true, adminOnly: true } },
+    { path: '/admin/promesas', component: AdminPromiseApproval, meta: { requiresAuth: true, adminOnly: true } },
+    { path: '/admin/comentarios', component: AdminPromiseApproval, meta: { requiresAuth: true, adminOnly: true } },
     { path: '*', redirect: '/' }
   ]
 })
