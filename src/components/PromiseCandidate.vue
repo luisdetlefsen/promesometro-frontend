@@ -1,14 +1,14 @@
 <template>
   <div class="card" style="min-width: 18rem;max-width: 18rem;min-height:28rem;">
     <div class="card-body">
-      <div class="row">
+      <div class="row" style="margin-bottom:25px;">
         <div class="col-lg-6">
           <!-- <img
             :src="candidateImgUrl"
             style="min-width:128px;min-height:128px;max-width:128px;max-height:128px;margin:5px;border-radius:10px;"
             alt
           />-->
-          <div class="candidateLayer" :style="{backgroundImage:`url(${candidateImgUrl})`}"></div>
+          <div class="candidateLayer partyLogo" :style="{backgroundImage:`url(${candidateImgUrl})`}"></div>
           <!-- <div class="layer"></div> -->
         </div>
         <div class="col-lg-6">
@@ -260,5 +260,18 @@ li {
   cursor: pointer;
   background-color: rgb(47, 12, 143);
   color: white;
+}
+
+.partyLogo{
+   position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  /* Maintain aspect ratio */
+  max-height: 128px;
+  max-width: 128px;
+  background-size: contain;
+  // filter: grayscale(100%);
 }
 </style>

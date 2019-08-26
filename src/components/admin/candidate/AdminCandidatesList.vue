@@ -27,7 +27,7 @@
           <td>{{c.candidateName}}</td>
           <td>{{c._embedded.party.shortName}}</td>
           <td>{{c._embedded.candidateType.position}}</td>
-          <td> <img :src=c.PIC_URL alt="" class="candidateSmall"> </td>
+          <td> <img :src=c.imgUrl alt="" class="candidateSmall"> </td>
 
           <td>
             <button class="btn btn-sm btn-primary" v-on:click="editCandidate(c)">Editar</button>
