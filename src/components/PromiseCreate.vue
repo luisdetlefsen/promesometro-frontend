@@ -234,13 +234,31 @@ export default {
         this.resetForm()
       })
     },
-    callSwalWithHTML (elementToAppend) {
+    async callSwalWithHTML (elementToAppend) {
       const wrapper = document.createElement('div')
       wrapper.appendChild(elementToAppend)
-      swal({
-        title: 'Error!',
+      return swal({
+        title: 'Atención!',
         content: wrapper,
-        icon: 'error'
+        icon: 'warning',
+        buttons: {
+          cancel: {
+            text: 'Cancelar',
+            value: null,
+            visible: true,
+            closeModal: true,
+            className: ''
+          },
+          confirm: {
+            text: 'Agregar',
+            value: true,
+            visible: true,
+            className: '',
+            closeModal: true
+
+          }
+        },
+        dangerMode: true
       })
     },
     async save () {
@@ -269,10 +287,12 @@ export default {
         this.promise.userAgent = this.getUserAgent()
         this.promise.filesUploaded = []
 
-        console.log('searchgin for similar')
         let similarPromises = await this.restDataSource.searchSimilarPromises(this.promise.promiseText, this.promise.idCandidate)
         if (similarPromises.length > 0) {
           let rootNodePromises = document.createElement('div')
+          let msgNode = document.createElement('span')
+          msgNode.innerHTML = 'La promesa que quieres ingresar es similar a las siguientes promesas de el candidato seleccionado. Estás seguro de que quieres agregar esta promesa?'
+          rootNodePromises.appendChild(msgNode)
           let listNode = document.createElement('ul')
           for (let i = 0; i < similarPromises.length; i++) {
             let liNode = document.createElement('li')
@@ -280,10 +300,11 @@ export default {
             listNode.appendChild(liNode)
           }
           rootNodePromises.appendChild(listNode)
-          this.callSwalWithHTML(rootNodePromises)
-          return
+          let shouldAddPromise = await this.callSwalWithHTML(rootNodePromises)
+          if (!shouldAddPromise) {
+            return
+          }
         }
-        console.log('similar promises', similarPromises)
 
         await this.finishSave()
       } catch (err) {

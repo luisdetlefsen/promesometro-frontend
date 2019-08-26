@@ -73,7 +73,7 @@ export default {
       let commentResult = await this.restDataSource.saveComment(comment)
       comment.maskedEmail = commentResult.maskedEmail
       comment.formattedDate = commentResult.formattedDate
-      console.log('comment result', commentResult)
+
       this.comments.push(comment)
       this.userComment = ''
     },

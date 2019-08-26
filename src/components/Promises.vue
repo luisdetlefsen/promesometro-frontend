@@ -72,7 +72,6 @@ export default {
   },
   methods: {
     async getPagedPromises (page) {
-      console.log('get paged promises ', page)
       return this.restDataSource.getPagedPromises(page - 1)
     },
     getAllPromises (newPromises) {
@@ -84,7 +83,6 @@ export default {
       }
 
       this.paginatorData.totalPromisesCount = newPromises.page.totalElements
-      console.log('paginator data ', this.paginatorData)
       this.promises.splice(0)
       for (let i = 0; i < newPromises._embedded.promises.length; i++) { // ugly fix for spring
         newPromises._embedded.promises[i].idPromise = newPromises._embedded.promises[i].id

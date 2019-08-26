@@ -142,7 +142,6 @@ export class RestDataSource {
   }
 
   async searchSimilarPromises (promiseText, candidateId) {
-    console.log('actual request to search similar')
     let data = {
       promiseText: promiseText,
       idCandidate: candidateId
