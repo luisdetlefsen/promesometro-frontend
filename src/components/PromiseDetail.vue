@@ -82,7 +82,7 @@ export default {
       let commentResult = await this.restDataSource.saveComment(comment)
       comment.maskedEmail = commentResult.maskedEmail
       comment.formattedDate = commentResult.formattedDate
-
+      this.$swal('Comentario agregado', 'Gracias por tu comentario. Tu comentario estará visible después de que sea aprobado.', 'success')
       this.comments.push(comment)
       this.userComment = ''
     },

@@ -290,7 +290,7 @@ export default {
         if (similarPromises.length > 0) {
           let rootNodePromises = document.createElement('div')
           let msgNode = document.createElement('span')
-          msgNode.innerHTML = 'La promesa que quieres ingresar es similar a las siguientes promesas de el candidato seleccionado. Estás seguro de que quieres agregar esta promesa?'
+          msgNode.innerHTML = 'La promesa que quieres ingresar es similar a las siguientes promesas de el candidato seleccionado. Estás seguro de que quieres agregar esta promesa?<br/><br/>'
           rootNodePromises.appendChild(msgNode)
           let listNode = document.createElement('ul')
           for (let i = 0; i < similarPromises.length; i++) {
@@ -395,7 +395,7 @@ export default {
         // The URL will be changed for each new file being processing
         url: '/',
         thumbnailWidth: 150,
-        maxFilesize: 5,
+        maxFilesize: 10,
         addRemoveLinks: true,
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i> Presiona aquí o arrastra para agregar fotos, videos, grabaciones, o archivos",
         dictRemoveFile: 'Remover archivo',

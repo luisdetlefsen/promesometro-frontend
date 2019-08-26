@@ -114,3 +114,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.btn {
+  margin-left: 1rem;
+}
+</style>

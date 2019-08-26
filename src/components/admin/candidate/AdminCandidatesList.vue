@@ -20,6 +20,7 @@
         <th>Partido</th>
         <th>Puesto</th>
         <th>Foto</th>
+        <th></th>
       </tr>
       <tbody>
         <tr v-for="c in candidates" v-bind:key="c.idCandidate">
