@@ -48,6 +48,14 @@ export class RestDataSource {
     return (await this.sendRequest('GET', candidatesUrl)).data._embedded.candidates
   }
 
+  async getAllCandidates2 () {
+    return (await this.sendRequest('GET', candidatesUrl)).data
+  }
+
+  async getPagedCandidates (page) {
+    return (await this.sendRequest('GET', candidatesUrl + '?page=' + page)).data._embedded.candidates
+  }
+
   async deleteCandidate (candidate) {
     await this.sendRequest('DELETE', `${candidatesUrl}${candidate.idCandidate}`, candidate)
   }
