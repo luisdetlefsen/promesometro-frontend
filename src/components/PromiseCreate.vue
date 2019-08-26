@@ -217,7 +217,6 @@ export default {
     async finishSave () {
       let promiseCreationResult = (await this.restDataSource.savePromise(this.promise))
       let newPromiseLink = promiseCreationResult.data._links.self.href
-
       for (let i = 0; i < this.promise.filesUploaded.length; i++) {
         let promiseContent = {
           contentUrl: this.promise.filesUploaded[i].contentUrl,
@@ -232,6 +231,7 @@ export default {
         'success'
       ).then(val => {
         this.resetForm()
+        this.promise.filesUploaded = []
       })
     },
     async callSwalWithHTML (elementToAppend) {
@@ -285,7 +285,6 @@ export default {
         this.promise.idCandidate = this.candidates[this.$refs.candidatesCarousel.currentIndex].idCandidate
         this.promise.candidate = this.candidates[this.$refs.candidatesCarousel.currentIndex]._links.self.href
         this.promise.userAgent = this.getUserAgent()
-        this.promise.filesUploaded = []
 
         let similarPromises = await this.restDataSource.searchSimilarPromises(this.promise.promiseText, this.promise.idCandidate)
         if (similarPromises.length > 0) {

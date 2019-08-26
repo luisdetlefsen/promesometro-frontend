@@ -15,6 +15,7 @@ const reactionsUrl = baseUrl + 'reactions/'
 const reactionTypesUrl = baseUrl + 'reactionTypes/'
 const similarPromisesUrl = baseUrl + 'searchSimilar'
 const promisesApprovedUrl = promisesUrl + 'search/findAllByApproved'
+const promiseMediaForPromiseUrl = promiseMediaUrl + 'search/findAllByPromise'
 
 export class RestDataSource {
   constructor (bus) {
@@ -77,6 +78,11 @@ export class RestDataSource {
 
   async savePromiseMediaContent (pmc) {
     let res = await this.sendRequest('POST', promiseMediaUrl, pmc)
+    return res.data
+  }
+
+  async getAllPromiseMediaForPromise (promiseId) {
+    let res = await this.sendRequest('GET', promiseMediaForPromiseUrl + '?idPromise=' + promiseId)
     return res.data
   }
 

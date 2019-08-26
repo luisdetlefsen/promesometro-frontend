@@ -23,6 +23,14 @@
       <div class="col-lg-4"></div>
     </div>
 
+    <div style="margin-top:15px;">
+      <ul>
+        <li v-for="pmc in promise.mediaLinks" v-bind:key="pmc.id">
+          <a :href="`${pmc.contentUrl}`" target="_blank" download style="color:purple;">Descargar archivo</a>
+        </li>
+      </ul>
+    </div>
+
       <comment
         v-for="c in comments"
         v-bind:key="c.idComment"
@@ -99,7 +107,8 @@ export default {
         daysPassedSinceCreation: 0,
         promiseLink: '',
         formattedDate: '',
-        maskedEmail: ''
+        maskedEmail: '',
+        mediaLinks: []
       },
       userComment: '',
       comments: []
@@ -123,11 +132,13 @@ export default {
       comments[i].idComment = comments[i].id
       comments[i].id = undefined
     }
-    // this.promise = promise[0]
     this.comments.push(...comments)
 
     let promiseLink = await this.restDataSource.getPromise(this.promise.idPromise)
     this.promise.promiseLink = promiseLink._links.self.href
+
+    let mediaLinks = await this.restDataSource.getAllPromiseMediaForPromise(this.promise.idPromise)
+    this.promise.mediaLinks = mediaLinks._embedded.promiseMedia    
   },
   async created () {
     window.scrollTo(0, 0)

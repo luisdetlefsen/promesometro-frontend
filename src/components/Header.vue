@@ -4,10 +4,8 @@
       <img class="logo" src="../assets/img/promesometro1.svg" alt="Promesometro">
     </a>
     <router-link v-if="!signedIn" class="btn btn-primary login" to="/login">Ingresar</router-link>
-    <router-link v-if="!signedIn" class="btn btn-primary signup" to="/login">Registrarse</router-link>
     <router-link v-if="isAdmin" class="btn btn-primary login admin" to="/admin">Admin</router-link>
     <button class="btn btn-primary login signout" v-if="signedIn" @click="signout">Cerrar sesión</button>
-    <!-- <amplify-sign-out class="wtf-amplify" v-if="signedIn" v-bind:signOutConfig="signOutConfig"></amplify-sign-out> -->
   </nav>
 </template>
 
@@ -63,7 +61,6 @@ export default {
   },
   async mounted () {
     AmplifyEventBus.$on('authState', async info => {
-      console.log('event from header amplify bus', info)
       if (info === 'signedOut') {
         this.signedIn = false
         this.isAdmin = false
