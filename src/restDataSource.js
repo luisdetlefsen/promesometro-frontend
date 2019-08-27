@@ -16,6 +16,7 @@ const reactionTypesUrl = baseUrl + 'reactionTypes/'
 const similarPromisesUrl = baseUrl + 'searchSimilar'
 const promisesApprovedUrl = promisesUrl + 'search/findAllByApproved'
 const promiseMediaForPromiseUrl = promiseMediaUrl + 'search/findAllByPromise'
+const promisesByCandidateUrl = promisesUrl + 'search/findAllByCandidatePage'
 
 export class RestDataSource {
   constructor (bus) {
@@ -122,6 +123,10 @@ export class RestDataSource {
 
   async getPagedPromises (page) {
     return (await this.sendRequest('GET', promisesUrl + '?page=' + page)).data._embedded.promises
+  }
+
+  async getPagedPromisesByCandidate (page, idCandidate) {
+    return (await this.sendRequest('GET', promisesByCandidateUrl + '?page=' + page + '&idCandidate=' + idCandidate)).data
   }
 
   async getPagedParties (page) {

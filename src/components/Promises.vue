@@ -6,12 +6,28 @@
       </div>
     </div>
 
-  <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;">
-    <pagination :records="paginatorData.totalPromisesCount" v-model="paginatorData.currentPage" :per-page="paginatorData.itemsPerPage" @paginate="callbackPagination" :options="paginatorOptions">
-  </pagination>
+    <div class="row">
+      <div style="margin-right:auto;margin-left:auto;margin-bottom:10px;">
+        <span>Mostrar candidato&nbsp;</span>
+        <select name="" v-model="selectedCandidate" id="" class="pull-right" v-on:change="filterCandidate()">
+          <option value="-1">Todos</option>
+          <option v-for="c in candidates" v-bind:key="c.id" :value="c.id">{{c.candidateName}}</option>
+        </select>
+      </div>
+
     </div>
     <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;">
+      <pagination
+        :records="paginatorData.totalPromisesCount"
+        v-model="paginatorData.currentPage"
+        :per-page="paginatorData.itemsPerPage"
+        @paginate="callbackPagination"
+        :options="paginatorOptions"
+      ></pagination>
 
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;">
       <div class="sub-section-title spinner-border" role="status" id="spinnerPromises">
         <span class="sr-only">Loading...</span>
       </div>
@@ -35,8 +51,13 @@
       />
     </div>
     <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;margin-top:35px;">
-    <pagination :records="paginatorData.totalPromisesCount" v-model="paginatorData.currentPage" :per-page="paginatorData.itemsPerPage" @paginate="callbackPagination" :options="paginatorOptions">
-  </pagination>
+      <pagination
+        :records="paginatorData.totalPromisesCount"
+        v-model="paginatorData.currentPage"
+        :per-page="paginatorData.itemsPerPage"
+        @paginate="callbackPagination"
+        :options="paginatorOptions"
+      ></pagination>
     </div>
   </div>
 </template>
@@ -59,7 +80,10 @@ export default {
       downvoteTypeLink: '',
       userEmailAddress: '',
       paginatorOptions: {
-        texts: { count: 'Mostrando de {from} a {to} de {count} promesas|{count} promesas|Una promesa' },
+        texts: {
+          count:
+            'Mostrando de {from} a {to} de {count} promesas|{count} promesas|Una promesa'
+        },
         first: 'Primera',
         last: 'Última'
       },
@@ -67,10 +91,40 @@ export default {
         currentPage: 0,
         totalPromisesCount: 0,
         itemsPerPage: 20
-      }
+      },
+      candidates: [],
+      selectedCandidate: -1
     }
   },
   methods: {
+    async filterCandidate () {
+      if (this.selectedCandidate < 0) {
+        this.getAllPromises(await this.restDataSource.getAllApprovedPromises())
+        return
+      }
+      let res = await this.restDataSource.getPagedPromisesByCandidate(0, this.selectedCandidate)
+
+      this.paginatorData.itemsPerPage = res.page.size
+      if (res.page.number) {
+        this.paginatorData.currentPage = res.page.number
+      } else {
+        this.paginatorData.currentPage = 1
+      }
+
+      this.paginatorData.totalPromisesCount = res.page.totalElements
+      this.promises.splice(0)
+      for (let i = 0; i < res._embedded.promises.length; i++) {
+        // ugly fix for spring
+        res._embedded.promises[i].idPromise = res._embedded.promises[i].id
+      }
+
+      this.promises.push(...res._embedded.promises)
+      $('#spinnerPromises').hide()
+    },
+    async getAllCandidates (newCandidates) {
+      this.candidates.splice(0)
+      this.candidates.push(...newCandidates)
+    },
     async getPagedPromises (page) {
       return this.restDataSource.getPagedApprovedPromises(page - 1)
     },
@@ -84,8 +138,10 @@ export default {
 
       this.paginatorData.totalPromisesCount = newPromises.page.totalElements
       this.promises.splice(0)
-      for (let i = 0; i < newPromises._embedded.promises.length; i++) { // ugly fix for spring
-        newPromises._embedded.promises[i].idPromise = newPromises._embedded.promises[i].id
+      for (let i = 0; i < newPromises._embedded.promises.length; i++) {
+        // ugly fix for spring
+        newPromises._embedded.promises[i].idPromise =
+          newPromises._embedded.promises[i].id
         newPromises._embedded.promises[i].id = undefined
       }
 
@@ -94,7 +150,8 @@ export default {
     },
     getAllReactionTypes (newReactionTypes) {
       this.reactionTypes.splice(0)
-      for (let i = 0; i < newReactionTypes.length; i++) { // ugly fix for spring
+      for (let i = 0; i < newReactionTypes.length; i++) {
+        // ugly fix for spring
         newReactionTypes[i].idReactionType = newReactionTypes[i].id
         newReactionTypes[i].id = undefined
         if (newReactionTypes[i].reactionType === 'like') {
@@ -109,7 +166,8 @@ export default {
     async callbackPagination (page) {
       let pagedPromises = await this.getPagedPromises(page)
       this.promises.splice(0)
-      for (let i = 0; i < pagedPromises.length; i++) { // ugly fix for spring
+      for (let i = 0; i < pagedPromises.length; i++) {
+        // ugly fix for spring
         pagedPromises[i].idPromise = pagedPromises[i].id
         pagedPromises[i].id = undefined
       }
@@ -119,7 +177,9 @@ export default {
       let c = await this.$Amplify.Auth.currentSession()
       let d = c.idToken.payload['cognito:roles']
       if (d && d.length > 0) {
-        if (d[0].includes('webadmins')) { return true }
+        if (d[0].includes('webadmins')) {
+          return true
+        }
       }
       return false
     },
@@ -127,9 +187,7 @@ export default {
       try {
         let c = await this.$Amplify.Auth.currentSession()
         return c.idToken.payload.email
-      } catch (err) {
-
-      }
+      } catch (err) {}
     }
   },
   inject: ['eventBus', 'restDataSource'],
@@ -139,6 +197,7 @@ export default {
     window.scrollTo(0, 0)
     this.getAllPromises(await this.restDataSource.getAllApprovedPromises())
     this.getAllReactionTypes(await this.restDataSource.getAllReactionTypes())
+    this.getAllCandidates(await this.restDataSource.getAllCandidates())
     this.userEmailAddress = await this.getUserEmail()
   }
 }
