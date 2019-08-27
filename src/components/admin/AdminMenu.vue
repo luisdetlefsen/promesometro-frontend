@@ -3,30 +3,26 @@
       <div class="col-xl-12 mx-auto">
         <h1 class="mb-5 section-title">Administración</h1>
       </div>
+        <a href="" class="card" v-on:click.prevent="goCandidateRoleAdmin">
+            <div class="card-body">
+                <h5>Tipos de candidato</h5>
+            </div>
+        </a>
         <a href="" class="card" v-on:click.prevent="goPartyAdmin">
             <div class="card-body">
                 <h5>Partidos</h5>
             </div>
         </a>
-
         <a href="" class="card" v-on:click.prevent="goCandidateAdmin">
             <div class="card-body">
                 <h5>Candidatos</h5>
             </div>
         </a>
-
-        <a  href="" class="card" v-on:click.prevent="goCandidateRoleAdmin">
-            <div class="card-body">
-                <h5>Tipos de candidato</h5>
-            </div>
-        </a>
-
         <a  href="" class="card" v-on:click.prevent="goPromiseAdmin">
             <div class="card-body">
                 <h5>Aprobar promesas</h5>
             </div>
         </a>
-
         <a  href="" class="card" v-on:click.prevent="goCommentsAdmin">
             <div class="card-body">
                 <h5>Aprobar comentarios</h5>

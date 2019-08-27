@@ -26,7 +26,7 @@
                     </td>
                 </tr>
                 <tr v-if="comments.length===0">
-                    <td colspan="4" class="text-center">No hay comentarios registrados</td>
+                    <td colspan="6" class="text-center">No hay comentarios registrados</td>
                 </tr>
                 <tr id="spinnerComments">
                     <td colspan="4" class="text-center">

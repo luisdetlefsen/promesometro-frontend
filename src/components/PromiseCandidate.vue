@@ -60,14 +60,10 @@
           </h4>
         </div>
       </div>
-      <div class="row" v-if="approvedCommentsCount>0" style="margin-top:10px;">
+      <div class="row" style="margin-top:10px;color:gray;">
         <div class="col-lg-12">
-          <a v-on:click="goToPromise(`${promiseId}`)" style="color:purple;cursor:pointer;">{{approvedCommentsCount}} comentarios</a>
-        </div>
-      </div>
-      <div class="row" v-if="attachmentsCount>0" style="margin-top:10px;">
-        <div class="col-lg-12">
-          <a v-on:click="goToPromise(`${promiseId}`)" style="color:purple;cursor:pointer;">{{attachmentsCount}} archivos</a>
+          <span v-if="approvedCommentsCount>0" class="pull-left"><a v-on:click="goToPromise(`${promiseId}`)" style="color:gray;cursor:pointer;font-size:14px;">{{approvedCommentsCount}} comentarios</a></span>
+          <span v-if="attachmentsCount>0" class="pull-right"><a v-on:click="goToPromise(`${promiseId}`)" style="color:gray;cursor:pointer;font-size:14px;">{{attachmentsCount}} archivos</a></span>
         </div>
       </div>
     </div>
@@ -269,13 +265,13 @@ li {
 }
 
 .partyLogo{
-   position: absolute;
+  //  position: absolute;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
   /* Maintain aspect ratio */
-  max-height: 128px;
+  max-height: 128px; //Ideal size of picture
   max-width: 128px;
   background-size: contain;
   // filter: grayscale(100%);

@@ -31,7 +31,7 @@
           </td>
         </tr>
         <tr v-if="promises.length===0">
-          <td colspan="4" class="text-center">No hay promesas registradas</td>
+          <td colspan="6" class="text-center">No hay promesas registradas</td>
         </tr>
         <tr id="spinnerPromises">
           <td colspan="4" class="text-center">
