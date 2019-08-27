@@ -48,6 +48,7 @@
         :daysPassed="p.daysPassedSinceCreation"
         :displayPromiseLink="true"
         :approvedCommentsCount="p.approvedCommentsCount"
+        :attachmentsCount="p.attachmentsCount"
       />
     </div>
     <div style="display:flex;flex-wrap:wrap;margin:auto;align-items: center;justify-content: center;margin-top:35px;">
@@ -140,8 +141,7 @@ export default {
       this.promises.splice(0)
       for (let i = 0; i < newPromises._embedded.promises.length; i++) {
         // ugly fix for spring
-        newPromises._embedded.promises[i].idPromise =
-          newPromises._embedded.promises[i].id
+        newPromises._embedded.promises[i].idPromise = newPromises._embedded.promises[i].id
         newPromises._embedded.promises[i].id = undefined
       }
 

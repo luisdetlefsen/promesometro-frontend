@@ -65,6 +65,11 @@
           <a v-on:click="goToPromise(`${promiseId}`)" style="color:purple;cursor:pointer;">{{approvedCommentsCount}} comentarios</a>
         </div>
       </div>
+      <div class="row" v-if="attachmentsCount>0" style="margin-top:10px;">
+        <div class="col-lg-12">
+          <a v-on:click="goToPromise(`${promiseId}`)" style="color:purple;cursor:pointer;">{{attachmentsCount}} archivos</a>
+        </div>
+      </div>
     </div>
 
     <div
@@ -95,7 +100,8 @@ export default {
     upvoteTypeLink: String,
     downvoteTypeLink: String,
     displayPromiseLink: Boolean,
-    approvedCommentsCount: Number
+    approvedCommentsCount: Number,
+    attachmentsCount: Number
   },
   inject: ['eventBus', 'restDataSource'],
   methods: {
