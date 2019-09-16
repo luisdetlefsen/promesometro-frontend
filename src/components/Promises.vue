@@ -39,7 +39,7 @@
         :userEmail="userEmailAddress"
         :party="p._embedded.party.shortName"
         :candidateName="p._embedded.candidate.candidateName"
-        :promise="p.promiseText"
+        :promise="shortenPromise(p.promiseText)"
         :candidateImgUrl="p._embedded.candidate.imgUrl"
         :upvotes="p.upvotes"
         :downvotes="p.downvotes"
@@ -121,6 +121,13 @@ export default {
 
       this.promises.push(...res._embedded.promises)
       $('#spinnerPromises').hide()
+    },
+    shortenPromise (str) {
+      let res = str
+      if (str.length > 50) {
+        res = str.substr(0, 50) + '...'
+      }
+      return res
     },
     async getAllCandidates (newCandidates) {
       this.candidates.splice(0)

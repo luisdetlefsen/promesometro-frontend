@@ -181,7 +181,6 @@ export default {
     }
   },
   async mounted () {
-
   },
   beforeDestroy () {
     this.eventBus.$off('savePromiseReaction')
