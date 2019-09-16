@@ -16,7 +16,7 @@
 
         <p
           class="short-description justify-content-center"
-        >Surge como una idea de sistematizar las promesas que los candidatos realizan en campaña. De esta forma cuando queden electos, verificar el cumplimiento o incumplimiento de las mismas, y así exigir que cumplan con lo prometido. Esta plataforma es un esfuerzo por parte de Guatemala Visible y el Observatorio Económico Sostenible –OES- para que cualquier ciudadano pueda ingresar y revisar el avance del cumplimiento de las promesas.</p>
+        >Surge como una idea de sistematizar las promesas que los candidatos realizan en campaÃ±a. De esta forma cuando queden electos, verificar el cumplimiento o incumplimiento de las mismas, y asÃ­ exigir que cumplan con lo prometido. Esta plataforma es un esfuerzo por parte de Guatemala Visible y el Observatorio EconÃ³mico Sostenible -OES- para que cualquier ciudadano pueda ingresar y revisar el avance del cumplimiento de las promesas.</p>
       </div>
     </div>
     <div class="row">
